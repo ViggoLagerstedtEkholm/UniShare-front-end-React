@@ -1,0 +1,24 @@
+.footer {
+  position:relative;
+  width:100%;
+  height:auto;
+  background-color:#423F3E;
+}
+
+.footer-content{
+  display: flex;
+  color: white;
+  justify-content: space-around;
+}
+
+.footer-links{
+  display: flex;
+  justify-content: space-around;
+  width: 60%;
+}
+
+@media screen and (max-width: 480px) {
+  .footer-links{
+    flex-direction: column;
+  }
+}
