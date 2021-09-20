@@ -11,6 +11,8 @@ const FilterContent = ({APIEndPoint, startFilter, optionFilter, displayBox, show
     const [hasLoaded, setHasLoaded] = useState(false);
     const [page, setPage] = useState(1);
 
+    const [update, setUpdate] = useState(1);
+
     const [number_of_pages, setNumber_of_pages] = useState(1);
     const [results_per_page_count, setResults_per_page_count] = useState(1);
     const [start_page_first_result, setStart_page_first_result] = useState(1);
@@ -22,14 +24,18 @@ const FilterContent = ({APIEndPoint, startFilter, optionFilter, displayBox, show
 
     useEffect(() => {
         doSearch();
-        console.log("Page: " + page);
-    }, [page, filter, result.data])
+    }, [page, filter, result.data, update])
 
     const onSetFilters = (filter) => {
         setHasLoaded(false);
         setFilter(filter);
         setPage(1);
         doSearch();
+    }
+
+    const doUpdate = () =>{
+        console.log("Updated!");
+        setUpdate(update + 1);
     }
 
     const onGoToPage = (page) => {
@@ -81,7 +87,7 @@ const FilterContent = ({APIEndPoint, startFilter, optionFilter, displayBox, show
                               total={total}
                         />
 
-                        <DisplayBox results={result}/>
+                        <DisplayBox results={result} doUpdate={doUpdate}/>
                     </div>
             ) : <div className="display-result-box">
                 <h4>Loading...</h4>

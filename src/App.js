@@ -27,6 +27,8 @@ import Fallback from "./Pages/Shared/Error/Fallback";
 import axios from "axios";
 import {DisplayForum} from "./Pages/Forums/DisplayForum";
 import {PostAdd} from "./Pages/Forums/Post/PostAdd";
+import {AddReview} from "./Pages/Courses/Review/AddReview";
+import {Friend} from "./Pages/Friends/Friend";
 
 function App() {
     const [user, setUser] = useState(null);
@@ -91,6 +93,7 @@ function App() {
                                 <Route exact path="/degree/add" component={AddDegree}/>
                                 <Route exact path="/degree/edit/:degreeID" component={EditDegree}/>
                                 <Route exact path="/courses/:courseID" component={Course}/>
+                                <Route exact path="/courses/review/add" component={AddReview}/>
                                 <Route exact path="/settings" component={Settings}/>
                                 <Route exact path="/search/people" component={People}/>
                                 <Route exact path="/search/courses" component={Courses}/>
@@ -99,6 +102,7 @@ function App() {
                                 <Route exact path="/forum/:forumID" component={DisplayForum}/>
                                 <Route exact path="/forum/post/:forumID" component={PostBox}/>
                                 <Route exact path="/forum/post/:forumID/add" component={PostAdd}/>
+                                <Route exact path="/friends" component={Friend}/>
 
                                 <Route component={NotFound}/>
                             </Switch>

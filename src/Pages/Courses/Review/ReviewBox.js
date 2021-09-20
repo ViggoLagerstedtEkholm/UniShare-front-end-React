@@ -1,5 +1,6 @@
 import {useContext} from "react";
 import {UserContext} from "../../Shared/Context/UserContext";
+import axios from "axios";
 
 export const ReviewBox = (results) => {
     const {user} = useContext(UserContext);
@@ -22,6 +23,8 @@ export const ReviewBox = (results) => {
         const litterature = data['litterature'];
         const overall = data['overall'];
         const helpful = data['helpful'];
+        const added = data['added'];
+        const updated = data['updated'];
 
         let canSeeProfileEdits = false;
         if(userID === parseInt(user['userID'])){
@@ -34,6 +37,28 @@ export const ReviewBox = (results) => {
             image = 'data:image/jpeg;base64,' + image;
         }
 
+        const onDelete = async (e) => {
+            e.preventDefault();
+
+            const formData = new FormData();
+            formData.append('userID', userID);
+            formData.append('courseID', courseID);
+
+            const config = {
+                headers: {
+                    'Accept': 'application/json'
+                }
+            };
+
+            await axios.post("/review/delete", formData, config).then(() => {
+                window.location.reload();
+            }).catch(error => {
+                console.log(error);
+            });
+
+            document.getElementById(userID + "," + courseID).remove();
+        }
+
         return (
             <div id={userID + "," + courseID} className="review">
                 <div className="comment-image">
@@ -44,7 +69,7 @@ export const ReviewBox = (results) => {
                 </p>
 
                 {canSeeProfileEdits ?
-                    <input className="button-style-2" type="button" value="Delete comment" onClick="return deleteComment(---ID---);"/>
+                    <input className="button-style-2" type="button" value="Delete comment" onClick={onDelete}/>
                     :
                     <form action={"/profile/" + courseID} >
                         <button className="button-style-1" type="submit">Visit</button>
@@ -75,6 +100,16 @@ export const ReviewBox = (results) => {
                 <br/>
                 <br/>
                 Helpful: {helpful}
+
+                <hr/>
+
+                <p>
+                    Updated: {updated}
+                </p>
+
+                <p>
+                    Added: {added}
+                </p>
             </div>
         )
     });

@@ -6,7 +6,7 @@ function UserNavigation() {
         <div>
             <ul className="nav-links">
                 <li><Link to="/">Home</Link></li>
-                <li><Link to="/">Friends</Link></li>
+                <li><Link to="/friends">Friends</Link></li>
                 <li><Link to={'/profile/' + JSON.parse(localStorage.getItem('USER'))['userID']}>Profile</Link></li>
                 <li><Link to="/logout">Logout</Link></li>
             </ul>

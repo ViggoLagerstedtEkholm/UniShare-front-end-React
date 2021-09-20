@@ -4,6 +4,9 @@ import {CourseContext} from "../Shared/Context/CourseContext";
 import {Main} from "./Main/Main";
 import {ReviewBox} from "./Review/ReviewBox";
 import FilterContent from "../Shared/Search/FilterContent";
+import {Link} from "react-router-dom";
+import {AddReview} from "./Review/AddReview";
+import {AddReviewForm} from "./Review/AddReviewForm";
 
 function Courses(props) {
     const [courseID, setCourseID] = useState(props.match.params.courseID);
@@ -33,6 +36,15 @@ function Courses(props) {
                     </CourseContext.Provider>
                 </div>
             </div>
+
+            <hr/>
+
+            <div className="button-box">
+                <CourseContext.Provider value={value}>
+                    <AddReview/>
+                </CourseContext.Provider>
+            </div>
+
             <div class="course-sections">
                 <FilterContent
                     APIEndPoint={"/search/reviews"}

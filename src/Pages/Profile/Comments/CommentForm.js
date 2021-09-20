@@ -22,7 +22,6 @@ function CommentForm() {
        };
 
          axios.post("/profile/add/comment", querystring.stringify(params), config).then(response => {
-             console.log(response);
              window.location.reload();
              alert('Added comment!');
          }).catch(error =>{
@@ -37,7 +36,7 @@ function CommentForm() {
     return (
         <div className="profile-comment-form">
             <form onSubmit={submit} id="addCommentForm">
-                <h2>PostBox comment</h2>
+                <h2>Post comment</h2>
                 <textarea id="commentText" name="text"/>
                 <button className="button-style-1" type="submit" id="addComment" value="PostBox comment">Add comment</button>
             </form>

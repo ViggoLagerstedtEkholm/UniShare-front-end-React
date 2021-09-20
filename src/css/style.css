@@ -45,6 +45,20 @@ li{
   font-size: 16px;
 }
 
+.friend-pending{
+  background-color: #4b5357;
+  border-radius: 5px;
+  padding: 5px;
+  margin: 5px;
+}
+
+.friend-columns {
+  padding: 10px;
+  background-color: #403f3f;
+  border-radius: 5px;
+  margin: 5px;
+}
+
 .degree-courses-buttons{
   display: flex;
   justify-content: space-evenly;
@@ -86,7 +100,6 @@ li{
 }
 
 .column {
-  display: flex;
   flex-direction: column;
   padding: 10px;
   flex: 1;
@@ -422,12 +435,12 @@ select {
 }
 
 .button-style-4:hover{
-  background-color: #263b87;
+  background-color: #3d5ec9;
   color: white;
 }
 
 .button-style-5:hover{
-  background-color: #165e7d;
+  background-color: #242828;
   color: white;
 }
 
@@ -508,7 +521,7 @@ form .text_field{
   display:flex;
   height:auto;
   padding: 10px;
-  min-height: 1000px;
+  width: 100%;
   flex-direction: column;
 }
 

@@ -2,6 +2,7 @@ import {useEffect, useState} from "react";
 import axios from "axios";
 import FilterContent from "../Shared/Search/FilterContent";
 import {PostBox} from "./Post/PostBox";
+import {PostAdd} from "./Post/PostAdd";
 
 export const DisplayForum = (props) => {
     const [forum, setForum] = useState(null);
@@ -53,9 +54,7 @@ export const DisplayForum = (props) => {
 
                             <br/>
 
-                            <form action={"/forum/post/" + forumID +"/add"}>
-                                <input className="button-style-4" type="submit" value="Add forum post"/>
-                            </form>
+                            <PostAdd forumID={forumID}/>
 
                             <div className="display-result-box filter-background-box">
                                 <FilterContent

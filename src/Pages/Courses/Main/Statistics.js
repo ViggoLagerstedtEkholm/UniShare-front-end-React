@@ -41,7 +41,7 @@ export const Statistics = () => {
             </div>
 
             <div className="course-info">
-                <p>Amount of reviews ( {courseStatistics['review_count']})</p>
+                <p>Amount of reviews ( {courseStatistics['review_count']} )</p>
             </div>
             <hr/>
         </div>
