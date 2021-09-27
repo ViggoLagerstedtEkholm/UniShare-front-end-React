@@ -16,9 +16,9 @@ function Home() {
     }, [isLoaded])
 
     const fetchData = () => {
-        const profile = axios.get("/getCurrentUser");
-        const courses = axios.get("/getTOP10Courses");
-        const forums = axios.get("/getTOP10Forums");
+        const profile = axios.get("/api/getCurrentUser");
+        const courses = axios.get("/api/getTOP10Courses");
+        const forums = axios.get("/api/getTOP10Forums");
 
 
         Promise.all([profile, courses, forums]).then(function (values) {
