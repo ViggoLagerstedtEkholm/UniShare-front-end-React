@@ -1,7 +1,3 @@
 /*    /index.html    200
 
-[[redirects]]
-from = "/*"
-to = "http://localhost/UniShare/:splat"
-status = 200
-force = true
+/*    /http://localhost/UniShare/:splat
