@@ -15,7 +15,7 @@ export const HUD = (attributes) => {
         <div>
             <div className="user-profile">
                 <div className="user-image">
-                    <img src={courseImage} alt="USER IMAGE"/>
+                    <img src={courseImage} alt="USER"/>
                 </div>
 
                 <hr/>

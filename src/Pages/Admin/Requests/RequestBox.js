@@ -56,7 +56,7 @@ export const RequestBox = (results) => {
                 <div id={requestID} className="content-card-body">
                     <div className="content-user">
                         <div className="content-card-image">
-                            <img src="images/books.png" alt="USER IMAGE"/>
+                            <img src="images/books.png" alt="USER"/>
                         </div>
 
                         <div className="content-card-info">
