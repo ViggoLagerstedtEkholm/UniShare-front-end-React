@@ -1,2 +1,7 @@
 /*    /index.html    200
-/  http://localhost/UniShare/ 200
+
+[[redirects]]
+from = "/*"
+to = "http://localhost/UniShare/:splat"
+status = 200
+force = true
