@@ -1,21 +1,17 @@
 import '../../../css/header.css';
-import React, {useEffect} from "react";
+import React, {useContext, useEffect} from "react";
 import Navigation from "./Navigation";
 import {Link} from "react-router-dom";
+import {UserContext} from "../Context/UserContext";
 
 function Header() {
+    const {user} = useContext(UserContext);
+
     return (
         <div>
             <nav>
-                <div className="logo">
-                    <h4>UniShare</h4>
-                </div>
+                <Link className="logo" to="/"><b>UniShare</b></Link>
 
-                <Navigation/>
-
-            </nav>
-
-            <div id="header2">
                 <ul className="nav-links">
                     <li>
                         <Link to="/search/people">People</Link>
@@ -27,14 +23,20 @@ function Header() {
                         <Link to="/search/forums">Forums</Link>
                     </li>
                 </ul>
-            </div>
-            <div id="adminHeader">
-                <ul className="nav-links">
-                    <li>
-                        <a href='/UniShare/admin'>Administer website content</a>
-                    </li>
-                </ul>
-            </div>
+
+                <Navigation/>
+            </nav>
+
+            {user !== null ? <>
+                {
+                    user['privilege'] === "Admin" ?
+                        <div id="adminHeader">
+                            <Link  className="admin-text" to="/admin"><b>Administer website content</b></Link>
+                        </div> : null
+                }
+            </>: null
+            }
+
         </div>
     );
 }

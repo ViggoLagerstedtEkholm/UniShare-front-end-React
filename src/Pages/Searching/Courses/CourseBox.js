@@ -1,7 +1,12 @@
 import axios from "axios";
 import querystring from "querystring";
+import {useContext} from "react";
+import {UserContext} from "../../Shared/Context/UserContext";
+import courseImage from '../../../images/books.png';
 
 export const CourseBox = (results) => {
+    console.log(results);
+    const {user} = useContext(UserContext);
     const path = results.results['courses'];
     if(path.length === 0){
         return (<div><h4 className="review">No course results!</h4></div>)
@@ -18,6 +23,19 @@ export const CourseBox = (results) => {
         const added = data['added'];
         const courseID = data['courseID'];
         let isInActiveDegree = data['isInActiveDegree'];
+        const code = data['code'];
+
+        let canSeeLoggedInFeatures = true;
+        if(user == null){
+            canSeeLoggedInFeatures = false;
+        }
+
+        let isAdmin = false;
+        if (user != null) {
+            if (user.privilege === 'Admin') {
+                isAdmin = true;
+            }
+        }
 
         const toggleToActiveDegree = async (e) => {
             e.preventDefault();
@@ -60,7 +78,7 @@ export const CourseBox = (results) => {
             <div className="content-card-body">
                 <div className="content-user">
                     <div className="content-card-image">
-                        <img src="/images/books.png" alt="USER IMAGE"/>
+                        <img src={courseImage} alt="USER IMAGE"/>
                     </div>
 
                     <div className="content-card-info">
@@ -69,6 +87,8 @@ export const CourseBox = (results) => {
                         <p><b>Credits:</b> {credits}</p>
                         <p><b>Duration: </b> {duration}</p>
                         <p><b>University: </b> {university}</p>
+                        <p><b>Code: </b> {code}</p>
+
                     </div>
 
                     <div className="content-card-info">
@@ -80,16 +100,26 @@ export const CourseBox = (results) => {
                     </div>
 
                     <div className="content-card-info-buttons">
-                        <form onSubmit={toggleToActiveDegree}>
-                            {isInActiveDegree ?
-                                <button id={courseID} className="button-style-2" type="submit">REMOVE from active degree</button>
-                                : <button id={courseID} className="button-style-3" type="submit">ADD to active degree</button>
-                            }
-                        </form>
+                        {
+                            canSeeLoggedInFeatures ?
+                                <form onSubmit={toggleToActiveDegree}>
+                                    {isInActiveDegree ?
+                                        <button id={courseID} className="button-style-2" type="submit">REMOVE from active degree</button>
+                                        : <button id={courseID} className="button-style-3" type="submit">ADD to active degree</button>
+                                    }
+                                </form>
 
+                                : null
+
+                        }
                         <form action={"/courses/" + courseID} >
                             <button className="button-style-1" type="submit">Go to course</button>
                         </form>
+
+                        {isAdmin ? <form action={"/courses/" + courseID} >
+                            <button className="button-style-4" type="submit">Update</button>
+                        </form> : null}
+
                     </div>
                 </div>
             </div>

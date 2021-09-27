@@ -1,22 +1,25 @@
+import forumImage from '../../images/pencil.jpg';
+
 export const TopTrendingDiscussion = (data) => {
     return data.data.map(function (data) {
         const created = data['created'];
         const title = data['title'];
         const topic = data['topic'];
         const views = data['views'];
+        const forumID = data['forumID'];
 
-        console.log(created);
         return (
             <div className="content-card-body">
                 <div className="content-user">
                     <div className="content-card-image">
-                        <img src="images/books.png" alt="USER IMAGE"/>
+                        <img src={forumImage} alt="USER IMAGE"/>
                     </div>
 
                     <div className="content-card-info">
                         <h4><b>Course information</b></h4>
                         <p><b>Name:</b> {title}</p>
                         <p><b>Created: </b>{created}</p>
+                        <p><b>Topic: </b>{topic}</p>
                     </div>
 
                     <div className="content-card-info">
@@ -24,8 +27,7 @@ export const TopTrendingDiscussion = (data) => {
                     </div>
 
                     <div className="content-card-info-buttons">
-                        <form action="/UniShare/forum" method="get">
-                            <input type="hidden" name="ID" value="---ID---"/>
+                        <form action={'/forum/' + forumID}>
                             <button className="button-style-1" type="submit">Visit</button>
                         </form>
                     </div>

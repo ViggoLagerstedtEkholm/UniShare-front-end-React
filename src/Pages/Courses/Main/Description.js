@@ -15,7 +15,6 @@ export const Description = () => {
         const params = {
             params:{
                 courseID: courseID
-
             }
         }
 
@@ -42,6 +41,9 @@ export const Description = () => {
                     </div>
 
                     <div className="review-text">
+                        {
+                            description.length === 0 ? <h4>No description set!</h4> : null
+                        }
                         {description}
                     </div>
                 </div>

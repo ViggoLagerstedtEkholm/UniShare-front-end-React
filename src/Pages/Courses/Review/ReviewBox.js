@@ -1,6 +1,7 @@
 import {useContext} from "react";
 import {UserContext} from "../../Shared/Context/UserContext";
 import axios from "axios";
+import userImage from '../../../images/user.png';
 
 export const ReviewBox = (results) => {
     const {user} = useContext(UserContext);
@@ -32,7 +33,7 @@ export const ReviewBox = (results) => {
         }
 
         if(image === ""){
-            image = "/images/user.png";
+            image = userImage;
         }else{
             image = 'data:image/jpeg;base64,' + image;
         }

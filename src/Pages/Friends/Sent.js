@@ -1,12 +1,28 @@
-export function Sent ({sent}) {
+import {RejectRequest} from "../Shared/Friends/FriendsFunctions";
+import userImage from '../../images/user.png'
+
+export function Sent ({sent, onUpdate}) {
+    console.log(sent);
     return sent.map(function (data) {
         const username = data['userDisplayName'];
-        const userImage = data['userImage'];
-        const userID = data['sender'];
+        const receiverID = data['receiver'];
+
+        let image = 'data:image/jpeg;base64,' + data['userImage'];
+        if (data['userImage'] === "") {
+            image = userImage;
+        }
+
+        const onRemoveRequest = () =>{
+            RejectRequest(receiverID).then(() => onUpdate());
+        }
 
         return (
             <div className="friend-pending">
                 <div className="row">
+                    <div className="content-card-image">
+                        <img src={image} alt="User"/>
+                    </div>
+
                     <div className="column friend-columns">
                         <p>Username: {username}</p>
                     </div>
@@ -14,13 +30,13 @@ export function Sent ({sent}) {
                 </div>
                 <div className="row">
                     <div className="column friend-columns">
-                        <form action={"/profile/" +userID}>
+                        <form action={"/profile/" +receiverID}>
                             <button className="button-style-4" type="submit" id="addComment" value="PostBox comment">Profile</button>
                         </form>
                     </div>
 
                     <div className="column friend-columns">
-                        <button className="button-style-4" type="submit" id="addComment" value="PostBox comment">Remove</button>
+                        <button className="button-style-2" onClick={onRemoveRequest}>Remove</button>
                     </div>
                 </div>
             </div>

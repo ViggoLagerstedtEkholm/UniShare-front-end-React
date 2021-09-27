@@ -16,7 +16,10 @@ function ShowcaseComments() {
         ID: profileID
     }
 
-    const optionFilter = ['text', 'date', 'userDisplayName'];
+    const selectOptions = new Map();
+    selectOptions.set('Text', 'text');
+    selectOptions.set('Date', 'date');
+    selectOptions.set('Username', 'userDisplayName');
 
     return (
         <div >
@@ -24,7 +27,7 @@ function ShowcaseComments() {
             <FilterContent
                 APIEndPoint={"/search/comments"}
                 startFilter={startFilter}
-                optionFilter={optionFilter}
+                options={selectOptions}
                 displayBox={CommentBox}
                 showFilterBox={false}
             />

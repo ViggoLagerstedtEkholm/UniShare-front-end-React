@@ -41,6 +41,10 @@ li{
   list-style-type: none;
 }
 
+.warning{
+  color: red;
+}
+
 .degree-text-name{
   font-size: 16px;
 }
@@ -387,7 +391,8 @@ select {
 .button-style-5{
   color: white;
   margin: auto;
-  padding: 20px;
+  padding-top: 20px;
+  padding-bottom: 20px;
   border-radius: 5px;
   text-align: center;
   text-decoration: none;
@@ -486,15 +491,7 @@ form .text_field{
   outline: none;
 }
 
-.text_field input:focus ~ label,
-.text_field input:valid ~ label{
-  top: -20px;
-  color: #2691d9;
-}
-
 .text_field label{
-  position: absolute;
-  left: 5px;
   color: #adadad;
   font-size: 16px;
   pointer-events: none;

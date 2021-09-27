@@ -1,8 +1,9 @@
-import axios from "axios";
-import querystring from "querystring";
 import {useContext} from "react";
 import {UserContext} from "../../Shared/Context/UserContext";
 import {AcceptRequest, FriendRemove, FriendRequestSend, RejectRequest} from "../../Shared/Friends/FriendsFunctions";
+import {enable, suspend} from "../../Service/Admin";
+import {Link} from "react-router-dom";
+import userImage from '../../../images/user.png';
 
 export const PeopleBox = ({results, doUpdate}) => {
     console.log(results);
@@ -13,24 +14,48 @@ export const PeopleBox = ({results, doUpdate}) => {
         return (<div><h4 className="review">No people results!</h4></div>)
     }
 
+    let canSeeLoggedInFeatures = true;
+    if (user == null) {
+        canSeeLoggedInFeatures = false;
+    }
+
+    let isAdmin = false;
+    if (user != null) {
+        if (user.privilege === 'Admin') {
+            isAdmin = true;
+        }
+    }
+
     return path.map(function (data) {
+        console.log(data);
         const firstname = data['userFirstName'];
         const lastname = data['userLastName'];
         const username = data['userDisplayName'];
         const visits = data['visits'];
+        const joined = data['joined'];
         let image = data['userImage'];
         const usersID = data['usersID'];
         const lastOnline = data['lastOnline'];
-        const currentUserID = user['userID'];
+        const isSuspended = data['isSuspended'];
 
-        const isFriend = data['isFriend'];
-        const isSent = data['isSent'];
-        const isReceived = data['isReceived'];
+        const currentUserID = user != null ? user['userID'] : null;
+        const isFriend = user != null ? data['isFriend'] : null;
+        const isSent = user != null ? data['isSent'] : null;
+        const isReceived = user != null ? data['isReceived'] : null;
 
         if (image === "") {
-            image = "/images/user.png";
+            image = userImage;
         } else {
             image = 'data:image/jpeg;base64,' + image;
+        }
+
+
+        function onSuspendUser() {
+            suspend(usersID).then(() => window.location.reload());
+        }
+
+        function onEnableUser() {
+            enable(usersID).then(() => window.location.reload());
         }
 
         function onFriendRemove() {
@@ -50,7 +75,7 @@ export const PeopleBox = ({results, doUpdate}) => {
         }
 
         return (
-            <div className="content-card-body">
+            <div id={usersID} className="content-card-body">
                 <div className="content-user">
                     <div className="content-card-image">
                         <img src={image} alt="USER IMAGE"/>
@@ -67,36 +92,65 @@ export const PeopleBox = ({results, doUpdate}) => {
                         <h4><b>Personal information</b></h4>
                         <p><b>Visits:</b> {visits}</p>
                         <p><b>Last online:</b> {lastOnline}</p>
+                        <p><b>Joined:</b> {joined}</p>
                     </div>
 
-                    <div className="content-card-info-buttons">
-                        <form action={'/profile/' + usersID}>
-                            <button className="button-style-1" type="submit">Profile</button>
-                        </form>
+                    {
+                        isSuspended === 1 ? <div className="content-card-info-buttons">
+                                                <p className="warning"><b>Suspended</b></p>
+                                                <button id={usersID} className="button-style-3" onClick={onEnableUser}>Enable user
+                                                </button>
+                                            </div>
+                            :
+                            <div className="content-card-info-buttons">
 
-                        {usersID == currentUserID ? null :
-                            <div>
-                                {
-                                    isFriend ? <button id={usersID} className="button-style-2" onClick={onFriendRemove}>Remove friend</button> : null
-                                }
-
-                                {
-                                    isReceived && !isFriend ? <button id={usersID} className="button-style-3" onClick={onAcceptRequest}>Accept request</button> : null
-                                }
+                                <Link to={'/profile/' + usersID} className="button-style-1" type="submit">Profile</Link>
 
                                 {
-                                    isSent && !isFriend ? <button id={usersID} className="button-style-5" onClick={onRejectRequest}>Remove request</button> : null
+                                    isAdmin ?
+                                        <button className="button-style-2" onClick={onSuspendUser}>
+                                            Suspend
+                                        user</button> : null
                                 }
 
-                                {!isFriend && !isReceived && !isSent ?
-                                    <button id={usersID} className="button-style-4" onClick={onFriendRequestSend}>
-                                        Send friend request
-                                    </button> : null
-                                }
+                                {
+                                    canSeeLoggedInFeatures ?
+                                        <>
+                                            {usersID == currentUserID ? null :
+                                                <>
+                                                    {
+                                                        isFriend ? <button id={usersID} className="button-style-2"
+                                                                           onClick={onFriendRemove}>Remove
+                                                            friend</button> : null
+                                                    }
 
+                                                    {
+                                                        isReceived && !isFriend ?
+                                                            <button id={usersID} className="button-style-3"
+                                                                    onClick={onAcceptRequest}>Accept
+                                                                request</button> : null
+                                                    }
+
+                                                    {
+                                                        isSent && !isFriend ?
+                                                            <button id={usersID} className="button-style-5"
+                                                                    onClick={onRejectRequest}>Remove
+                                                                request</button> : null
+                                                    }
+
+                                                    {!isFriend && !isReceived && !isSent ?
+                                                        <button className="button-style-4"
+                                                                onClick={onFriendRequestSend}>
+                                                            Send friend request
+                                                        </button> : null
+                                                    }
+
+                                                </>
+                                            }
+                                        </> : null
+                                }
                             </div>
-                        }
-                    </div>
+                    }
                 </div>
             </div>
         )

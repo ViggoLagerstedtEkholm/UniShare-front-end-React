@@ -43,12 +43,14 @@ function Home() {
 
     return (
         <div className="container">
-            <div className="content-container">
-                {isLoaded ?
+            {isLoaded ?
+                <div className="content-container">
                     <div className="startpage-flex-item">
-                        <h1>Your profile</h1>
-                            {(profile ? <ShowcaseUser data={profile} /> : <h1>No records!</h1>)}
-                        <hr/>
+                        {(profile ? <div>
+                                        <h1>Your profile</h1> <ShowcaseUser data={profile} />
+                                        <hr/>
+                                    </div> : null)}
+
 
                         <h1>Top ranked courses</h1>
                         <div className="display-result-box">
@@ -60,9 +62,9 @@ function Home() {
                             {(trendingDiscussions ? <TopTrendingDiscussion data={trendingDiscussions} /> : <h1>No records!</h1>)}
                         </div>
                     </div>
-                    : <h1>Loading...</h1>
-                }
             </div>
+                : <h4>Loading home page...</h4>
+            }
         </div>
     );
 }

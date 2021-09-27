@@ -1,3 +1,5 @@
+import forumImage from '../../../images/pencil.jpg';
+
 export const ForumBox = (results) => {
     const path = results.results['forums'];
     if(path.length === 0){
@@ -15,7 +17,7 @@ export const ForumBox = (results) => {
             <div className="content-card-body">
                 <div className="content-user">
                     <div className="content-card-image">
-                        <img src="/images/pencil.jpg" alt="FORUM IMAGE"/>
+                        <img src={forumImage} alt="FORUM IMAGE"/>
                     </div>
 
                     <div className="content-card-forum">

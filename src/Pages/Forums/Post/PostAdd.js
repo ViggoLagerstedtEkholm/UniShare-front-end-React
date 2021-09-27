@@ -33,7 +33,7 @@ export const PostAdd = ({forumID}) => {
         <div className="user-input-form-box">
             <form onSubmit={onSubmit}>
                 <h4>
-                    Add post : {forumID}
+                    Add post
                 </h4>
 
                 <textarea className="user-input-text" type="text" value={text} onChange={onTextChange}

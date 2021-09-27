@@ -12,7 +12,6 @@ import Forums from "./Pages/Searching/Forums/Forums";
 import Footer from "./Pages/Shared/Header/Footer";
 import {useEffect, useMemo, useState} from "react";
 import {UserContext} from "./Pages/Shared/Context/UserContext";
-import {logout} from "./Pages/Service/AuthService";
 import Settings from "./Pages/Settings/Settings";
 import People from "./Pages/Searching/People/People";
 import AddProject from "./Pages/Profile/Projects/Add";
@@ -29,21 +28,22 @@ import {DisplayForum} from "./Pages/Forums/DisplayForum";
 import {PostAdd} from "./Pages/Forums/Post/PostAdd";
 import {AddReview} from "./Pages/Courses/Review/AddReview";
 import {Friend} from "./Pages/Friends/Friend";
+import Request from "./Pages/Courses/Request/Request";
+import Overview from "./Pages/Admin/Overview";
+import {Update} from "./Pages/Courses/Update/Update";
+import {PrivateRoute} from "./Pages/Shared/Route/PrivateRoute";
 
 function App() {
     const [user, setUser] = useState(null);
     const value = useMemo(() => ({user, setUser}), [user, setUser]);
-
     const [isLoaded, setIsLoaded] = useState(false);
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
     useEffect(() => {
         checkIfLoggedIn().then(response => {
-            console.log("Is logged in: " + response);
             if (response) {
                 const user = localStorage.getItem('USER');
                 const initialValue = JSON.parse(user);
-                console.log("User" + initialValue);
                 setUser(initialValue);
             } else {
                 setUser(null);
@@ -53,7 +53,7 @@ function App() {
 
         })
 
-    }, []);
+    }, [isLoaded]);
 
     const checkIfLoggedIn = async () => {
         let isLoggedIn = false;
@@ -79,19 +79,20 @@ function App() {
         <div>
             {isLoaded ?
                 <Router>
-                    <Header/>
                     <ErrorBoundary FallbackComponent={Fallback}>
                         <UserContext.Provider value={value}>
+                            <Header/>
+
                             <Switch>
                                 <Route exact path="/" component={Home}/>
                                 <Route exact path="/login" component={Login}/>
                                 <Route exact path="/register" component={Register}/>
-                                <Route exact path="/logout" component={logout}/>
                                 <Route exact path="/profile/:profileID" component={Profile}/>
                                 <Route exact path="/project/add" component={AddProject}/>
                                 <Route exact path="/project/edit/:projectID" component={Edit}/>
                                 <Route exact path="/degree/add" component={AddDegree}/>
                                 <Route exact path="/degree/edit/:degreeID" component={EditDegree}/>
+                                <Route exact path="/courses/:courseID/update" component={Update}/>
                                 <Route exact path="/courses/:courseID" component={Course}/>
                                 <Route exact path="/courses/review/add" component={AddReview}/>
                                 <Route exact path="/settings" component={Settings}/>
@@ -103,6 +104,9 @@ function App() {
                                 <Route exact path="/forum/post/:forumID" component={PostBox}/>
                                 <Route exact path="/forum/post/:forumID/add" component={PostAdd}/>
                                 <Route exact path="/friends" component={Friend}/>
+                                <Route exact path="/request" component={Request}/>
+
+                                <PrivateRoute path='/admin' component={Overview} />
 
                                 <Route component={NotFound}/>
                             </Switch>
@@ -111,9 +115,7 @@ function App() {
                     <Footer/>
                 </Router>
                 :
-                <div className="container">
-                    <h1>Loading in page...</h1>
-                </div>
+                null
             }
         </div>
     );

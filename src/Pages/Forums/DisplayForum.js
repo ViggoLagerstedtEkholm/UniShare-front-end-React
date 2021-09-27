@@ -38,14 +38,15 @@ export const DisplayForum = (props) => {
         ID: forumID
     }
 
-    const optionFilter = ['date', 'userDisplayName'];
+    const selectOptions = new Map();
+    selectOptions.set('Date', 'date');
+    selectOptions.set('Username', 'userDisplayName');
 
     return (
         <div className="container">
-            <div className="content-container">
                 {
                     isLoaded ?
-                        <div className="startpage-flex-item">
+                        <div>
                             <div className="forum-display-info">
                                 <h3>Title: {forum['title']}</h3>
                                 <h3>Created: {forum['created']}</h3>
@@ -56,11 +57,11 @@ export const DisplayForum = (props) => {
 
                             <PostAdd forumID={forumID}/>
 
-                            <div className="display-result-box filter-background-box">
+                            <div>
                                 <FilterContent
                                     APIEndPoint={"/search/posts"}
                                     startFilter={startFilter}
-                                    optionFilter={optionFilter}
+                                    options={selectOptions}
                                     displayBox={PostBox}
                                     showFilterBox={false}
                                 />
@@ -68,7 +69,6 @@ export const DisplayForum = (props) => {
                     </div> : <h1>Loading...</h1>
                 }
 
-            </div>
         </div>
 
     );

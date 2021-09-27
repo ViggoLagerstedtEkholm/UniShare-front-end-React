@@ -1,5 +1,6 @@
 import FilterContent from "../../Shared/Search/FilterContent";
 import {ForumBox} from "./ForumBox";
+import {Link} from "react-router-dom";
 
 const Forums = () => {
     const startFilter = {
@@ -10,14 +11,21 @@ const Forums = () => {
         results_per_page_count: 7,
         ID: null
     }
-    const optionFilter = ['title', 'topic', 'views', 'created'];
+
+    const selectOptions = new Map();
+    selectOptions.set('Title', 'title');
+    selectOptions.set('Topic', 'topic');
+    selectOptions.set('Views', 'views');
+    selectOptions.set('Created', 'created');
 
     return (
         <div className="container">
+            <Link to="/forum/add" className="button-style-1">Add forum</Link>
+
             <FilterContent
                 APIEndPoint={"/search/forums"}
                 startFilter={startFilter}
-                optionFilter={optionFilter}
+                options={selectOptions}
                 displayBox={ForumBox}
                 showFilterBox={true}
             />

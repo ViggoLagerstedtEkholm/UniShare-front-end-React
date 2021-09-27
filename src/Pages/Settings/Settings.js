@@ -35,7 +35,7 @@ function Settings() {
     return (
         <div className="container">
             {
-                isLoaded ?<SettingsForm settings={settings} degrees={degrees} activeID={activeID}/> : <h1>Loading settings...</h1>
+                isLoaded ?<SettingsForm settings={settings} degrees={degrees} activeID={activeID}/> : <h4>Loading settings...</h4>
             }
         </div>
     );

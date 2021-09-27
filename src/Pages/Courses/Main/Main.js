@@ -5,6 +5,7 @@ import {Graph} from '../../Shared/Graph/Graph';
 import {Statistics} from "./Statistics";
 import {Rating} from "./Rating";
 import {Description} from "./Description";
+import {UserContext} from "../../Shared/Context/UserContext";
 
 export const Main = () => {
     const [courseStatistics, setCourseStatistics] = useState(null);
@@ -12,6 +13,12 @@ export const Main = () => {
     const [message, setMessage] = useState('');
     const [data, setData] = useState(null);
     const {courseID} = useContext(CourseContext);
+    const {user} = useContext(UserContext);
+
+    let canSeeLoggedInFeatures = true;
+    if(user == null){
+        canSeeLoggedInFeatures = false;
+    }
 
     const labels = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
@@ -53,7 +60,10 @@ export const Main = () => {
                 {isLoaded ?
                     <div>
                         <Statistics courseStatistics={courseStatistics}/>
-                        <Rating/>
+
+                        {
+                            canSeeLoggedInFeatures ? <Rating/> : null
+                        }
                         <Description/>
 
                         <div className="graph-box">

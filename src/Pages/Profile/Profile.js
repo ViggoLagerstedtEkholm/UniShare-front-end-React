@@ -108,11 +108,9 @@ function Profile(props) {
 
                                 {canSeeProfileEdits ?
                                     <div>
-                                        <form method="get" action="./publications">
-                                            <input className="button-style-1" type='submit' name='add publication'
-                                                   value='Upload new publication'/>
-                                        </form>
-
+                                        <div className="button-box">
+                                            <Link to="/degree/add" className="button-style-4">Add publication</Link>
+                                        </div>
                                         <hr/>
 
                                         <h1>~ Coming soon!</h1>

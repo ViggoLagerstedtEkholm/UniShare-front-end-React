@@ -2,6 +2,7 @@ import {useContext} from "react";
 import {ProfileContext} from "../../Shared/Context/ProfileContext";
 import {UserContext} from "../../Shared/Context/UserContext";
 import FileUpload from "../../Shared/Files/FileUpload";
+import userImage from '../../../images/user.png';
 
 export const HUD = (attributes) => {
     const {profileID} = useContext(ProfileContext);
@@ -12,7 +13,7 @@ export const HUD = (attributes) => {
 
     let image = 'data:image/jpeg;base64,' + dataArray['image'];
     if (dataArray['image'] === "") {
-        image = '../images/user.png';
+        image = userImage;
     }
     const firstname = dataArray['firstname'];
     const username = dataArray['username'];
@@ -114,16 +115,6 @@ export const HUD = (attributes) => {
 
             <p>
                 {visits}
-            </p>
-
-            <div>
-                <h3>
-                    Added projects
-                </h3>
-            </div>
-
-            <p>
-                TODO
             </p>
 
             <div>

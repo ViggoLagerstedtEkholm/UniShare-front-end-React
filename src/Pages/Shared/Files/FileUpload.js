@@ -22,9 +22,12 @@ const FileUpload = ({URL}) => {
                 headers: {
                     'Content-Type': 'multipart/form-data'
                 }
+            }).then(response => {
+                console.log(response);
+                window.location.reload();
             });
-            window.location.reload();
         } catch (err) {
+            console.log(err);
             setMessage("Could not upload file.");
         }
     }

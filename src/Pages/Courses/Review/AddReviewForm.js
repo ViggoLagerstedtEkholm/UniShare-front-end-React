@@ -1,19 +1,17 @@
 import axios from "axios";
-import {useContext, useEffect, useState} from "react";
+import {useContext, useState} from "react";
 import {CourseContext} from "../../Shared/Context/CourseContext";
-import Form from "react-validation/build/form";
-import {Redirect} from "react-router-dom";
 
 export const AddReviewForm = ({review}) => {
-    const result = review.data.data['result'];
+    const doNotHaveExistingReview = review === null || review.data.data['result'] === null;
     const {courseID} = useContext(CourseContext);
-    const [fulfilling, setFulfilling] = useState(result === null ? 1 : result['fulfilling']);
-    const [environment, setEnvironment] = useState(result=== null ? 1 : result['environment']);
-    const [difficulty, setDifficulty] = useState(result === null ? 1 : result['difficulty']);
-    const [grading, setGrading] = useState(result === null ? 1 : result['grading']);
-    const [literature, setLiterature] = useState(result === null ? 1 : result['litterature']);
-    const [overall, setOverall] = useState(result === null ? 1 : result['overall']);
-    const [text, setText] = useState(result === null ? "" : result['text']);
+    const [fulfilling, setFulfilling] = useState( doNotHaveExistingReview ? 1 : review.data.data['result']['fulfilling']);
+    const [environment, setEnvironment] = useState(doNotHaveExistingReview ? 1 : review.data.data['result']['environment']);
+    const [difficulty, setDifficulty] = useState(doNotHaveExistingReview? 1 : review.data.data['result']['difficulty']);
+    const [grading, setGrading] = useState(doNotHaveExistingReview ? 1 : review.data.data['result']['grading']);
+    const [literature, setLiterature] = useState(doNotHaveExistingReview ? 1 : review.data.data['result']['litterature']);
+    const [overall, setOverall] = useState(doNotHaveExistingReview ? 1  : review.data.data['result']['overall']);
+    const [text, setText] = useState(doNotHaveExistingReview ? "" : review.data.data['result']['text']);
 
     const onFulfillingChanged = (e) => {
         const fulfilling = e.target.value;
@@ -180,7 +178,9 @@ export const AddReviewForm = ({review}) => {
                     <h4>
                         Write a review
                     </h4>
-                    <textarea className="user-input-text" value={text} onChange={onTextChanged} placeholder="Text"/>
+
+                    <p>Word left to limit <b>{5000 - text.length}</b></p>
+                    <textarea className="user-input-text" value={text} onChange={onTextChanged} maxLength={5000} placeholder="Text"/>
                     <p>
                         <input className="button-style-1" type="submit" name="submit_project" value="Upload"/>
                     </p>

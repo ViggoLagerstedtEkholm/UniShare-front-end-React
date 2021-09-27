@@ -1,9 +1,8 @@
-function FilteringInfo({filterOption, filterOrder, search, results_per_page_count}) {
+function FilteringInfo({filterOption, filterOrder, search, results_per_page_count, doUpdate}) {
     return (
         <div className="search-terms-container">
             <h1>Search terms</h1>
             <ul>
-
                 {filterOption !== "" ?
                     <li>
                         <p><b>Filter option:</b> {filterOption}</p>
@@ -17,7 +16,6 @@ function FilteringInfo({filterOption, filterOrder, search, results_per_page_coun
                     </li>
                     : <p><b>Filter order:</b> DESC </p>
                 }
-
 
                 {search !== "" ?
                     <li>

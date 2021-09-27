@@ -8,12 +8,13 @@ function FilterBox({options, onSetFilters, showFilterBox}) {
     const[filterOption, setFilterOption] = useState("");
     const[search, setSearch] = useState("");
     const[results_per_page_count, setResults_per_page_count] = useState(7);
+    const[refresh, setRefresh] = useState(1);
 
     useEffect(() => {
        if(!showFilterBox){
            toggle();
        }
-    }, [])
+    }, [refresh])
 
     const toggle = () =>{
         if(state){
@@ -24,7 +25,6 @@ function FilterBox({options, onSetFilters, showFilterBox}) {
             setShowInfoFiltering(false);
         }
     }
-
 
     const onSubmit = e =>{
         e.preventDefault();
@@ -46,9 +46,9 @@ function FilterBox({options, onSetFilters, showFilterBox}) {
     }
 
     function renderOptions(){
-        return options.map(function (data) {
+        return Array.from(options).map(([key, value]) => {
             return (
-                <option value={data}>{data}</option>
+                <option value={value}>{key}</option>
             )
         });
     }

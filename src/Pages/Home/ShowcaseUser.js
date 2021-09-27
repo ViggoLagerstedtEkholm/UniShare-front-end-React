@@ -1,19 +1,27 @@
+import userImage from "../../images/user.png";
+
 export const ShowcaseUser = (data) => {
     const arrayData = data['data']['data'];
-
     const firstname = arrayData['firstName'];
     const lastname = arrayData['lastName'];
     const email = arrayData['email'];
     const visits = arrayData['visits'];
     const lastOnline = arrayData['lastOnline'];
-    const image = arrayData['image'];
+    let image = arrayData['image'];
+    const ID = arrayData['userID'];
+
+    if (image === "") {
+        image = userImage;
+    } else {
+        image = 'data:image/jpeg;base64,' + image;
+    }
 
     return (
         <div className="startpage-display-user">
             <div className="content-card-body">
                 <div className="content-user">
                     <div className="content-card-image">
-                        <img src={'data:image/jpeg;base64,' + image} alt="USER IMAGE"/>
+                        <img src={image} alt="USER IMAGE"/>
                     </div>
 
                     <span className="vertical-line"/>
@@ -35,8 +43,7 @@ export const ShowcaseUser = (data) => {
                     <span className="vertical-line"/>
 
                     <div className="content-card-info-buttons">
-                        <form action="./profile" method="get">
-                            <input type="hidden" name="ID" value="---ID---"/>
+                        <form action={'/profile/' + ID}>
                             <button className="button-style-4" type="submit">Profile</button>
                         </form>
                     </div>

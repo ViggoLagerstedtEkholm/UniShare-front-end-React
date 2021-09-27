@@ -10,14 +10,21 @@ const People = () => {
         results_per_page_count: 7,
         ID: null
     }
-    const optionFilter = ['userDisplayName', 'visits', 'lastOnline'];
+
+    const selectOptions = new Map();
+    selectOptions.set('Username', 'userDisplayName');
+    selectOptions.set('Visits', 'visits');
+    selectOptions.set('Last online', 'lastOnline');
+    selectOptions.set('First name', 'userFirstName');
+    selectOptions.set('Last name', 'userLastName');
+    selectOptions.set('Joined', 'joined');
 
     return (
         <div className="container">
             <FilterContent
                 APIEndPoint={"/search/people"}
                 startFilter={startFilter}
-                optionFilter={optionFilter}
+                options={selectOptions}
                 displayBox={PeopleBox}
                 showFilterBox={true}
             />

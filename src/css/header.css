@@ -6,58 +6,42 @@ nav{
   min-height: 5vh;
 }
 
-#header2{
-  display: flex;
-  justify-content: left;
-  background-color: #3e576b;
-  align-items: center;
-  height: auto;
+.admin-text{
+  text-decoration: none;
 }
 
 #adminHeader{
-  display: flex;
-  justify-content: left;
   background-color: #57b4ff;
-  align-items: center;
-
-  height: auto;
+  padding: 1%;
+  text-decoration: none;
 }
 
 .logo{
   color: rgb(226, 226, 226);
   text-transform: uppercase;
-  letter-spacing: 5px;
+  letter-spacing: 6px;
   font-size: 15px;
+  text-decoration: none;
 }
 
 .nav-links{
   display: flex;
-  justify-content: space-evenly;
-  width: 40%;
 }
 
 .nav-links li{
+  padding: 5%;
   list-style: none;
-  margin-left: 10%;
-  margin-right: 10%;
 }
 
 .nav-links a{
   color: rgb(226, 226, 226);
   text-decoration: none;
-  letter-spacing: 2px;
   font-weight: bold;
-  font-size: 14px;
+  font-size: 16px;
 }
 
 .nav-links a:hover{
   color: #5a6359;
-}
-
-@media screen and (max-width: 1250px){
-  .nav-links{
-    width: 60%;
-  }
 }
 
 @media screen and (max-width: 768px){

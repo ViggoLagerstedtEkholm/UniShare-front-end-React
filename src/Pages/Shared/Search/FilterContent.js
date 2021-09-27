@@ -5,7 +5,7 @@ import Search from "./Search";
 import {Info} from "../Pagination/Info";
 import Message from "../Files/Message";
 
-const FilterContent = ({APIEndPoint, startFilter, optionFilter, displayBox, showFilterBox}) => {
+const FilterContent = ({APIEndPoint, startFilter, options, displayBox, showFilterBox}) => {
     const [filter, setFilter] = useState(startFilter);
     const [message, setMessage] = useState("");
     const [hasLoaded, setHasLoaded] = useState(false);
@@ -34,7 +34,6 @@ const FilterContent = ({APIEndPoint, startFilter, optionFilter, displayBox, show
     }
 
     const doUpdate = () =>{
-        console.log("Updated!");
         setUpdate(update + 1);
     }
 
@@ -60,6 +59,7 @@ const FilterContent = ({APIEndPoint, startFilter, optionFilter, displayBox, show
     const doSearch = () => {
         filter['page'] = page;
         filter['ID'] = startFilter['ID'];
+        console.log("ID: " + filter['ID']);
         Search(APIEndPoint, filter, page).then(response => {
             const result = response.data;
             setNumber_of_pages(result['number_of_pages']);
@@ -75,7 +75,7 @@ const FilterContent = ({APIEndPoint, startFilter, optionFilter, displayBox, show
 
     return (
         <div className="container">
-            <FilterBox onSetFilters={onSetFilters} options={optionFilter} showFilterBox={showFilterBox}/>
+            <FilterBox options={options} onSetFilters={onSetFilters} showFilterBox={showFilterBox} doUpdate={doUpdate}/>
 
             {hasLoaded ? (message ? <Message msg={message}/> :
                     <div className="display-result-box">

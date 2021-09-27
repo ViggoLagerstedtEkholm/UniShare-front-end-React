@@ -60,7 +60,7 @@ const Login = () => {
 
     return (
         <div className="container">
-            <div className="form-authentication-container">
+            <div className="user-input-form-box">
                 <h1>Login</h1>
                 <Form onSubmit={doLogin} ref={form}>
                     <div className="text_field">
@@ -101,7 +101,7 @@ const Login = () => {
                     <CheckButton style={{display: "none"}} ref={checkBtn}/>
                 </Form>
 
-                <h4 class="form-authentication-text">Do not have an account? <Link to="/register">Register</Link></h4>
+                <h4 className="form-authentication-text">Do not have an account? <Link to="/register" >Register</Link></h4>
             </div>
         </div>
     );

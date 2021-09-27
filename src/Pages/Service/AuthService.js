@@ -1,5 +1,4 @@
 import axios from "axios";
-import {Redirect} from "react-router-dom";
 import React from "react";
 
 const register = (email, username, password) =>{
@@ -30,15 +29,11 @@ export const login = (email, password, rememberMe) =>{
 };
 
 
-export const logout = () => {
+export const logout = async () => {
     console.log("Logged out!");
 
-    axios.post("/logout").then(() =>{
+    return await axios.post("/logout").then(response => {
+        console.log(response);
         localStorage.clear();
-    })
-    .catch((error) => {
-        console.log(error);
     });
-
-    return <Redirect to="/" />;
 }

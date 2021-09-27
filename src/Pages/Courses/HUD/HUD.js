@@ -1,3 +1,5 @@
+import courseImage from '../../../images/books.png';
+
 export const HUD = (attributes) => {
     const courseInfo = attributes.attributes.data[0];
 
@@ -13,7 +15,7 @@ export const HUD = (attributes) => {
         <div>
             <div className="user-profile">
                 <div className="user-image">
-                    <img src="/images/books.png" alt="USER IMAGE"/>
+                    <img src={courseImage} alt="USER IMAGE"/>
                 </div>
 
                 <hr/>

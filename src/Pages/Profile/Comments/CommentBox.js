@@ -22,13 +22,15 @@ export const CommentBox = (results) => {
 
         const authorID = data['author'];
         const commentID = data['commentID'];
+        console.log(authorID);
 
         let canSeeProfileEdits = false;
-        if (user !== null) {
-            if (profileID === user['userID'] || authorID === user['userID']) {
+        if(user !== null){
+            if (profileID == user['userID'] || authorID == user['userID']) {
                 canSeeProfileEdits = true;
             }
         }
+
 
         const onDelete = async () => {
             const params = {

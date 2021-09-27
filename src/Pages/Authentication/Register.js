@@ -1,25 +1,44 @@
-import {useEffect} from "react";
-import {Link} from "react-router-dom";
+import {Link, Redirect} from "react-router-dom";
+import {useState} from "react";
+import axios from "axios";
 
 function Register() {
+    const [registered, setRegistered] = useState(false);
 
-    useEffect(() => {
-        fetch("http://localhost/UniShare/course/getrate?courseID=13")
-            .then(
-                (result) => {
-                    console.log(result["data"]);
-                },
-                (error) => {
-                    console.log(error);
-                }
-            )
-    }, [])
+    const onSubmit = async (e) => {
+        e.preventDefault();
+
+        const firstName = e.target.first_name.value;
+        const lastName = e.target.last_name.value;
+        const email = e.target.email.value;
+        const username = e.target.display_name.value;
+        const password = e.target.password.value;
+        const passwordRepeat = e.target.password_repeat.value;
+
+        const formData = new FormData();
+        formData.append('first_name', firstName);
+        formData.append('last_name', lastName);
+        formData.append('email', email);
+        formData.append('display_name', username);
+        formData.append('password', password);
+        formData.append('password_repeat', passwordRepeat);
+
+        await axios.post("/register", formData).then(response => {
+            console.log(response);
+            setRegistered(true);
+        }).catch(response => {
+            console.log(response);
+        })
+    }
 
     return (
         <div className="container">
-            <div className="form-authentication-container">
+            <div className="user-input-form-box">
+
+                {registered ? <Redirect to="/"/> : null}
+
                 <h1>Register</h1>
-                <form method="post">
+                <form onSubmit={onSubmit}>
                     <div className="text_field">
                         <label>First name</label>
                         <input type="text" name="first_name" required/>

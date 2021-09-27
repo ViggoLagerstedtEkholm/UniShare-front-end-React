@@ -1,14 +1,17 @@
+import courseImage from '../../images/books.png';
+
 export const TopRankedCourse = (data) => {
     return data.data.map(function (data) {
-        let name = data['name'];
-        let university = data['university'];
-        let average_rating = data['average_rating'];
+        const name = data['name'];
+        const university = data['university'];
+        const average_rating = data['average_rating'];
+        const courseID = data['courseID'];
 
         return (
             <div className="content-card-body">
                 <div className="content-user">
                     <div className="content-card-image">
-                        <img src="images/books.png" alt="USER IMAGE"/>
+                        <img src={courseImage} alt="USER IMAGE"/>
                     </div>
 
                     <div className="content-card-info">
@@ -30,8 +33,7 @@ export const TopRankedCourse = (data) => {
                     </div>
 
                     <div className="content-card-info-buttons">
-                        <form action="/UniShare/courses" method="get">
-                            <input type="hidden" name="ID" value="---ID---"/>
+                        <form action={'/courses/' + courseID}>
                             <button className="button-style-1" type="submit">Visit</button>
                         </form>
                     </div>
