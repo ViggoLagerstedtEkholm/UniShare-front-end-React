@@ -26,16 +26,11 @@ function Add(props) {
         formData.append('city', city);
         formData.append('university', university);
 
-        const config = {
-            headers: {
-                'Accept': 'application/json'
-            },
-            options: {
-                withCredentials: true
-            }
-        };
+        const options = {
+            withCredentials: true
+        }
 
-        axios.post(API + "/degree/upload", formData, config).then(() => {
+        axios.post(API + "/degree/upload", formData, options).then(() => {
             const path = "/profile/" + user["userID"];
             props.history.push(path);
         }).catch(error => {
