@@ -3,6 +3,7 @@ import axios from "axios";
 import {TopRankedCourse} from './TopCourses';
 import {TopTrendingDiscussion} from './TopForums';
 import {ShowcaseUser} from './ShowcaseUser';
+import {API} from "../Shared/Constants";
 
 function Home() {
     const [profile, setProfile] = useState(null);
@@ -16,9 +17,9 @@ function Home() {
     }, [isLoaded])
 
     const fetchData = () => {
-        const profile = axios.get("/getCurrentUser");
-        const courses = axios.get("/getTOP10Courses");
-        const forums = axios.get("/getTOP10Forums");
+        const profile = axios.get(API + '/getCurrentUser');
+        const courses = axios.get(API + "/getTOP10Courses");
+        const forums = axios.get(API + "/getTOP10Forums");
 
 
         Promise.all([profile, courses, forums]).then(function (values) {
