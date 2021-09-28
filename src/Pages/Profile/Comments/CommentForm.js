@@ -2,6 +2,7 @@ import axios from "axios";
 import {useContext} from "react";
 import {ProfileContext} from "../../Shared/Context/ProfileContext";
 import * as querystring from "querystring";
+import {API} from "../../Shared/Constants";
 
 function CommentForm() {
     const {profileID} = useContext(ProfileContext);
@@ -21,7 +22,7 @@ function CommentForm() {
            }
        };
 
-         axios.post("/profile/add/comment", querystring.stringify(params), config).then(response => {
+         axios.post(API + "/profile/add/comment", querystring.stringify(params), config).then(response => {
              window.location.reload();
              alert('Added comment!');
          }).catch(error =>{

@@ -1,5 +1,3 @@
-import {useState} from "react";
-
 function PaginationBox({totalPages, onNextPage, onPreviousPage, onGoToPage, page}) {
     const nextPage = e =>{
         e.preventDefault();

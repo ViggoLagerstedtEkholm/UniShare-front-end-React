@@ -1,5 +1,6 @@
 import {RequestBox} from "./RequestBox";
 import FilterContent from "../../Shared/Search/FilterContent";
+import {API} from "../../Shared/Constants";
 
 export const Request = () => {
 
@@ -22,7 +23,7 @@ export const Request = () => {
 
     return (
         <FilterContent
-            APIEndPoint={"/search/requests"}
+            APIEndPoint={API + "/search/requests"}
             startFilter={startFilter}
             options={selectOptions}
             displayBox={RequestBox}

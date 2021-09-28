@@ -1,6 +1,7 @@
 import FilterContent from "../../Shared/Search/FilterContent";
 import {CourseBox} from "./CourseBox";
 import {Link} from "react-router-dom";
+import {API} from "../../Shared/Constants";
 
 const Courses = () => {
     const startFilter = {
@@ -28,7 +29,7 @@ const Courses = () => {
             <Link to="/request" className="button-style-1">Request course</Link>
 
             <FilterContent
-                APIEndPoint={"/search/courses"}
+                APIEndPoint={API + "/search/courses"}
                 startFilter={startFilter}
                 options={selectOptions}
                 displayBox={CourseBox}

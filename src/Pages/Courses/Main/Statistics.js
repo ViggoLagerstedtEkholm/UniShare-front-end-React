@@ -1,6 +1,7 @@
 import {useContext, useEffect, useState} from "react";
 import axios from "axios";
 import {CourseContext} from "../../Shared/Context/CourseContext";
+import {API} from "../../Shared/Constants";
 
 export const Statistics = () => {
     const [courseStatistics, setCourseStatistics] = useState(0);
@@ -12,7 +13,7 @@ export const Statistics = () => {
 
     async function fetchData() {
         try {
-            const response = await axios.get("/course/statistics", {
+            const response = await axios.get(API + "/course/statistics", {
                 params: {
                     courseID: courseID
                 }

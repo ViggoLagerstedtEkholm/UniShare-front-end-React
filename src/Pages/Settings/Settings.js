@@ -1,6 +1,7 @@
 import {useEffect, useState} from "react";
 import axios from "axios";
 import {SettingsForm} from "./SettingsForm";
+import {API} from "../Shared/Constants";
 
 function Settings() {
     const [isLoaded, setIsLoaded] = useState(false);
@@ -13,19 +14,19 @@ function Settings() {
     }, [])
 
     async function getSettings() {
-        await axios.get('/settings/get').then(response => {
+        await axios.get(API + '/settings/get').then(response => {
             setSettings(response['data']['data']);
         }).catch(error => {
             console.log(error);
         });
 
-        await axios.get("/degree/get/settings").then(response =>{
+        await axios.get(API + "/degree/get/settings").then(response =>{
             setDegrees(response['data']);
         }).catch(error =>{
             console.log(error);
         });
 
-        await axios.get("/degree/get/active").then(response =>{
+        await axios.get(API + "/degree/get/active").then(response =>{
             setActiveID(response['data']);
         }).catch(error =>{
             console.log(error);

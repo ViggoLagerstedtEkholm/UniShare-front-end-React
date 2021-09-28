@@ -2,6 +2,7 @@ import {useContext} from "react";
 import {UserContext} from "../../Shared/Context/UserContext";
 import axios from "axios";
 import userImage from '../../../images/user.png';
+import {API} from "../../Shared/Constants";
 
 export const ReviewBox = (results) => {
     const {user} = useContext(UserContext);
@@ -51,7 +52,7 @@ export const ReviewBox = (results) => {
                 }
             };
 
-            await axios.post("/review/delete", formData, config).then(() => {
+            await axios.post(API + "/review/delete", formData, config).then(() => {
                 window.location.reload();
             }).catch(error => {
                 console.log(error);

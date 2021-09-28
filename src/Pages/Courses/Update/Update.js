@@ -1,4 +1,5 @@
 import axios from "axios";
+import {API} from "../../Shared/Constants";
 
 export function Update() {
 
@@ -28,7 +29,7 @@ export function Update() {
             }
         };
 
-        await axios.post("/request/upload", formData, config).then(response => {
+        await axios.post(API + "/request/upload", formData, config).then(response => {
             window.location.reload();
         }).catch(error => {
             console.log(error);

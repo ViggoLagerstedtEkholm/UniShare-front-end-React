@@ -3,6 +3,7 @@ import {useEffect, useState} from "react";
 import {CourseBox} from "../../Searching/Courses/CourseBox";
 import {RequestBox} from "./RequestBox";
 import {RequestForm} from "./RequestForm";
+import {API} from "../../Shared/Constants";
 
 function Request() {
     const [isLoaded, setIsLoaded] = useState(false);
@@ -10,7 +11,7 @@ function Request() {
 
     useEffect(() => {
         const getForum = async () => {
-            await axios.get("/request/courses").then(
+            await axios.get(API + "/request/courses").then(
                 response => {
                     console.log(response);
                     setRequests(response);

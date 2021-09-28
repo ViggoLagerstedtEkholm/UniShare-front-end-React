@@ -4,6 +4,7 @@ import {useContext, useState} from "react";
 import {UserContext} from "../../Shared/Context/UserContext";
 import {ProfileContext} from "../../Shared/Context/ProfileContext";
 import querystring from "querystring";
+import {API} from "../../Shared/Constants";
 
 function ProjectBox(results) {
     const {user} = useContext(UserContext);
@@ -43,7 +44,7 @@ function ProjectBox(results) {
                 }
             };
 
-            await axios.post("/project/delete", querystring.stringify(params), config).then(response => {
+            await axios.post(API + "/project/delete", querystring.stringify(params), config).then(response => {
                 console.log(response);
                 document.getElementById(projectID).remove();
                 }

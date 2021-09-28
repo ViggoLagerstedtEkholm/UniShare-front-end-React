@@ -3,6 +3,7 @@ import axios from "axios";
 import FilterContent from "../Shared/Search/FilterContent";
 import {PostBox} from "./Post/PostBox";
 import {PostAdd} from "./Post/PostAdd";
+import {API} from "../Shared/Constants";
 
 export const DisplayForum = (props) => {
     const [forum, setForum] = useState(null);
@@ -12,7 +13,7 @@ export const DisplayForum = (props) => {
 
     useEffect(() => {
         const getForum = async () => {
-            await axios.get("/forum/get", {
+            await axios.get(API + "/forum/get", {
                 params: {
                     forumID: forumID
                 }

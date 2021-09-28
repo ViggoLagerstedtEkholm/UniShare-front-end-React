@@ -1,4 +1,5 @@
 import axios from "axios";
+import {API} from "../Shared/Constants";
 
 export const suspend = (userID) =>{
     const data = new FormData();
@@ -9,7 +10,7 @@ export const suspend = (userID) =>{
             'Accept': 'application/json'
         }
     };
-    return axios.post("/admin/users/suspend", data, config)
+    return axios.post(API + "/admin/users/suspend", data, config)
         .catch((error) => {
             console.log(error);
         });
@@ -25,7 +26,7 @@ export const enable = (userID) =>{
             'Accept': 'application/json'
         }
     };
-    return axios.post("/admin/users/enable", data, config)
+    return axios.post(API + "/admin/users/enable", data, config)
         .catch((error) => {
             console.log(error);
         });

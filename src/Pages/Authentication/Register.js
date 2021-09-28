@@ -1,6 +1,7 @@
 import {Link, Redirect} from "react-router-dom";
 import {useState} from "react";
 import axios from "axios";
+import {API} from "../Shared/Constants";
 
 function Register() {
     const [registered, setRegistered] = useState(false);
@@ -23,7 +24,7 @@ function Register() {
         formData.append('password', password);
         formData.append('password_repeat', passwordRepeat);
 
-        await axios.post("/register", formData).then(response => {
+        await axios.post(API + "/register", formData).then(response => {
             console.log(response);
             setRegistered(true);
         }).catch(response => {

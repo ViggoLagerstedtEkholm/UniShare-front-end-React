@@ -4,6 +4,7 @@ import {CourseContext} from "../../Shared/Context/CourseContext";
 
 import Message from "../../Shared/Files/Message";
 import {HUD} from "./HUD";
+import {API} from "../../Shared/Constants";
 
 export const SideHUD = () => {
     const [HUDInfo, setHUDInfo] = useState(null);
@@ -17,7 +18,7 @@ export const SideHUD = () => {
 
     async function fetchData() {
         try {
-            const response = await axios.get("/course/get", {
+            const response = await axios.get(API + "/course/get", {
                 params: {
                     courseID: courseID
                 }

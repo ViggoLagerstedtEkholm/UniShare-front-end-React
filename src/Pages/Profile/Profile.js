@@ -10,6 +10,7 @@ import {UserContext} from "../Shared/Context/UserContext";
 import {Link} from "react-router-dom";
 import axios from "axios";
 import querystring from "querystring";
+import {API} from "../Shared/Constants";
 
 function Profile(props) {
     const [profileID, setProfileID] = useState(props.match.params.profileID);
@@ -27,7 +28,7 @@ function Profile(props) {
             }
         };
 
-        await axios.post("/profile/append/visits", querystring.stringify(params), config).then(response =>{
+        await axios.post(API + "/profile/append/visits", querystring.stringify(params), config).then(response =>{
             console.log(response);
         }).catch(error => {
             console.log(error);

@@ -2,6 +2,7 @@ import axios from "axios";
 import {useContext, useEffect, useState} from "react";
 import ProjectBox from "./ProjectBox";
 import {ProfileContext} from "../../Shared/Context/ProfileContext";
+import {API} from "../../Shared/Constants";
 
 function ShowcaseProjects() {
     const [isLoaded, setIsLoaded] = useState(false);
@@ -10,7 +11,7 @@ function ShowcaseProjects() {
 
     useEffect(() => {
         const getProjects = async () => {
-            await axios.get("/project/get/all",  {
+            await axios.get(API + "/project/get/all",  {
                 params: {
                     profileID: profileID
                 }

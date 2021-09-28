@@ -6,6 +6,7 @@ import {Statistics} from "./Statistics";
 import {Rating} from "./Rating";
 import {Description} from "./Description";
 import {UserContext} from "../../Shared/Context/UserContext";
+import {API} from "../../Shared/Constants";
 
 export const Main = () => {
     const [courseStatistics, setCourseStatistics] = useState(null);
@@ -28,13 +29,13 @@ export const Main = () => {
 
     async function fetchData() {
         try {
-            const response = await axios.get("/course/statistics", {
+            const response = await axios.get(API + "/course/statistics", {
                 params: {
                     courseID: courseID
                 }
             })
 
-            const graphData = await axios.get("/course/getGraphData",{
+            const graphData = await axios.get(API + "/course/getGraphData",{
                 params: {
                     courseID: courseID
                 }

@@ -1,6 +1,7 @@
 import {useContext, useEffect, useState} from "react";
 import axios from "axios";
 import {CourseContext} from "../../Shared/Context/CourseContext";
+import {API} from "../../Shared/Constants";
 
 export const Description = () => {
     const [description, setDescription] = useState(null);
@@ -19,7 +20,7 @@ export const Description = () => {
         }
 
         try{
-            await axios.get("/course/get", params).then(response =>{
+            await axios.get(API + "/course/get", params).then(response =>{
                 console.log(response['data'][0]['description']);
                 const description = response['data'][0]['description'];
                 setDescription(description);

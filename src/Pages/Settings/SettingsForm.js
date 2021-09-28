@@ -2,6 +2,7 @@ import {useContext, useState} from "react";
 import axios from "axios";
 import {Redirect} from "react-router-dom";
 import {UserContext} from "../Shared/Context/UserContext";
+import {API} from "../Shared/Constants";
 
 export function SettingsForm({settings, degrees, activeID}) {
     const [username, setUsername] = useState(settings['display_name']);
@@ -93,7 +94,7 @@ export function SettingsForm({settings, degrees, activeID}) {
             }
         };
 
-        await axios.post("/settings/update", formData, config).then(() => {
+        await axios.post(API + "/settings/update", formData, config).then(() => {
             setUpdate(true);
         }).catch(error => {
             console.log(error);

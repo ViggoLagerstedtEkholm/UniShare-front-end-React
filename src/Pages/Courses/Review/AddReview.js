@@ -2,6 +2,7 @@ import axios from "axios";
 import {useContext, useEffect, useState} from "react";
 import {AddReviewForm} from "./AddReviewForm";
 import {CourseContext} from "../../Shared/Context/CourseContext";
+import {API} from "../../Shared/Constants";
 
 export const AddReview = () => {
     const [isLoaded, setIsLoaded] = useState(false);
@@ -11,7 +12,7 @@ export const AddReview = () => {
     useEffect(() => {
         const getExistingReview = async () => {
             console.log(courseID);
-          await axios.get("/review/get", {
+          await axios.get(API + "/review/get", {
               params: {
                   courseID: courseID
               }

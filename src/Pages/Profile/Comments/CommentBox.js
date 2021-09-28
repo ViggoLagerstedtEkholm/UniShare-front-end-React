@@ -4,6 +4,7 @@ import {UserContext} from "../../Shared/Context/UserContext";
 import {Redirect} from "react-router-dom";
 import axios from "axios";
 import querystring from "querystring";
+import {API} from "../../Shared/Constants";
 
 export const CommentBox = (results) => {
     const {profileID} = useContext(ProfileContext);
@@ -43,7 +44,7 @@ export const CommentBox = (results) => {
                 }
             };
 
-            await axios.post("/profile/delete/comment", querystring.stringify(params), config).then(response => {
+            await axios.post(API + "/profile/delete/comment", querystring.stringify(params), config).then(response => {
                     console.log(response);
                     document.location.reload();
                 }

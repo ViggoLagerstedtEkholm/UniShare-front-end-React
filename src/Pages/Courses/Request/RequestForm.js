@@ -1,5 +1,6 @@
 import Form from "react-validation/build/form";
 import axios from "axios";
+import {API} from "../../Shared/Constants";
 
 export function RequestForm() {
 
@@ -29,7 +30,7 @@ export function RequestForm() {
             }
         };
 
-        await axios.post("/request/upload", formData, config).then(response => {
+        await axios.post(API + "/request/upload", formData, config).then(response => {
             window.location.reload();
         }).catch(error => {
             console.log(error);

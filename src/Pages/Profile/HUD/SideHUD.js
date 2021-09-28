@@ -2,6 +2,7 @@ import {useContext, useEffect, useState} from "react";
 import axios from "axios";
 import {HUD} from "./HUD";
 import {ProfileContext} from "../../Shared/Context/ProfileContext";
+import {API} from "../../Shared/Constants";
 
 function SideHUD() {
     const [HUDInfo, setHUDInfo] = useState(null);
@@ -14,7 +15,7 @@ function SideHUD() {
     }, [])
 
     async function fetchData() {
-        await axios.get("/profile/sideHUD", {
+        await axios.get(API + "/profile/sideHUD", {
             params: {
                 profileID: profileID
             }

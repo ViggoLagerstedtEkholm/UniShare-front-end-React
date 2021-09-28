@@ -1,5 +1,6 @@
 import FilterContent from "../../Shared/Search/FilterContent";
 import {PeopleBox} from "./PeopleBox";
+import {API} from "../../Shared/Constants";
 
 const People = () => {
     const startFilter = {
@@ -22,7 +23,7 @@ const People = () => {
     return (
         <div className="container">
             <FilterContent
-                APIEndPoint={"/search/people"}
+                APIEndPoint={API + "/search/people"}
                 startFilter={startFilter}
                 options={selectOptions}
                 displayBox={PeopleBox}

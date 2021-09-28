@@ -2,6 +2,7 @@ import axios from "axios";
 import {Redirect} from "react-router-dom";
 import {useContext, useEffect, useState} from "react";
 import {UserContext} from "../../Shared/Context/UserContext";
+import {API} from "../../Shared/Constants";
 
 function Edit(props) {
     const [isLoaded, setIsLoaded] = useState(false);
@@ -18,7 +19,7 @@ function Edit(props) {
 
     useEffect(() => {
         const getProject = async () => {
-            await axios.get("/degree/get", {
+            await axios.get(API + "/degree/get", {
                 params: {
                     degreeID: degreeID
                 }

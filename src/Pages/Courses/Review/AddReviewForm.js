@@ -1,6 +1,7 @@
 import axios from "axios";
 import {useContext, useState} from "react";
 import {CourseContext} from "../../Shared/Context/CourseContext";
+import {API} from "../../Shared/Constants";
 
 export const AddReviewForm = ({review}) => {
     const doNotHaveExistingReview = review === null || review.data.data['result'] === null;
@@ -66,7 +67,7 @@ export const AddReviewForm = ({review}) => {
             }
         };
 
-        await axios.post("/review/upload", formData, config).then(() => {
+        await axios.post(API + "/review/upload", formData, config).then(() => {
             window.location.reload();
         }).catch(error => {
             console.log(error);

@@ -1,5 +1,6 @@
 import {useState} from "react";
 import axios from "axios";
+import {API} from "../Shared/Constants";
 
 export const AddForum = (props) => {
     const [title, setTitle] = useState('');
@@ -19,7 +20,7 @@ export const AddForum = (props) => {
             }
         };
 
-        await axios.post("/forum/add", formData, config).then(() => {
+        await axios.post(API + "/forum/add", formData, config).then(() => {
             props.history.push("/search/forums");
         }).catch(error => {
             console.log(error);

@@ -1,6 +1,7 @@
 import axios from "axios";
 import {useContext, useState} from "react";
 import {UserContext} from "../../Shared/Context/UserContext";
+import {API} from "../../Shared/Constants";
 
 function Add(props) {
     const [name, setName] = useState('');
@@ -31,7 +32,7 @@ function Add(props) {
             }
         };
 
-        axios.post("/degree/upload", formData, config).then(() => {
+        axios.post(API + "/degree/upload", formData, config).then(() => {
             const path = "/profile/" + user["userID"];
             props.history.push(path);
         }).catch(error => {

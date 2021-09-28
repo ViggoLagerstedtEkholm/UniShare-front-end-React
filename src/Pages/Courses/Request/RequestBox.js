@@ -2,6 +2,7 @@ import axios from "axios";
 import querystring from "querystring";
 import {useContext} from "react";
 import {UserContext} from "../../Shared/Context/UserContext";
+import {API} from "../../Shared/Constants";
 
 export const RequestBox = (results) => {
     console.log(results);
@@ -31,7 +32,7 @@ export const RequestBox = (results) => {
                 }
             };
 
-            await axios.post("/request/delete", formData, config).then(() => {
+            await axios.post(API + "/request/delete", formData, config).then(() => {
                 document.getElementById(requestID).remove();
             }).catch(error => {
                 console.log(error);

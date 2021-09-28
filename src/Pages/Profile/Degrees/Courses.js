@@ -3,6 +3,7 @@ import querystring from "querystring";
 import {useContext} from "react";
 import {UserContext} from "../../Shared/Context/UserContext";
 import {ProfileContext} from "../../Shared/Context/ProfileContext";
+import {API} from "../../Shared/Constants";
 
 export const DegreeCourse = (course) => {
     const {user} = useContext(UserContext);
@@ -39,7 +40,7 @@ export const DegreeCourse = (course) => {
                 }
             };
 
-            await axios.post("/profile/delete/course", querystring.stringify(params), config).then(response => {
+            await axios.post(API + "/profile/delete/course", querystring.stringify(params), config).then(response => {
                     document.getElementById(courseID).remove();
                 }
             )

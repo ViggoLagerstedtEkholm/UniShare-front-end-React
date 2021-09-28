@@ -1,4 +1,5 @@
 import axios from "axios";
+import {API} from "../../Shared/Constants";
 
 export const RequestBox = (results) => {
     console.log(results);
@@ -30,7 +31,7 @@ export const RequestBox = (results) => {
                 }
             };
 
-            await axios.post("/admin/course/deny", formData, config).then(() => {
+            await axios.post(API + "/admin/course/deny", formData, config).then(() => {
                 document.getElementById(requestID).remove();
             }).catch(error => {
                 console.log(error);
@@ -44,7 +45,7 @@ export const RequestBox = (results) => {
                 }
             };
 
-            await axios.post("/admin/course/approve", formData, config).then(() => {
+            await axios.post(API + "/admin/course/approve", formData, config).then(() => {
                 document.getElementById(requestID).remove();
             }).catch(error => {
                 console.log(error);

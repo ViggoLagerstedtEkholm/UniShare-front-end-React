@@ -4,6 +4,7 @@ import querystring from "querystring";
 import {useContext} from "react";
 import {UserContext} from "../../Shared/Context/UserContext";
 import {ProfileContext} from "../../Shared/Context/ProfileContext";
+import {API} from "../../Shared/Constants";
 
 export const DegreesBox = (attributes) => {
     const {user} = useContext(UserContext);
@@ -46,7 +47,7 @@ export const DegreesBox = (attributes) => {
                 }
             };
 
-            await axios.post("/degree/remove", querystring.stringify(params), config).then(response => {
+            await axios.post(API + "/degree/remove", querystring.stringify(params), config).then(response => {
                     console.log(response);
                     document.getElementById(ID).remove();
                 }

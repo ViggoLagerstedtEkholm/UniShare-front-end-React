@@ -2,6 +2,7 @@ import axios from "axios";
 import {Redirect} from "react-router-dom";
 import {useContext, useEffect, useState} from "react";
 import {UserContext} from "../../Shared/Context/UserContext";
+import {API} from "../../Shared/Constants";
 
 function Edit(props) {
     const [isLoaded, setIsLoaded] = useState(null);
@@ -14,7 +15,7 @@ function Edit(props) {
 
     useEffect(() => {
         const getProject = async () => {
-            await axios.get("/project/get", {
+            await axios.get(API + "/project/get", {
                 params: {
                     projectID: projectID
                 }
@@ -45,7 +46,7 @@ function Edit(props) {
         formData.append('name', name);
         formData.append('description', description);
 
-        axios.post("/project/update", formData, {
+        axios.post(API + "/project/update", formData, {
             headers: {
                 'Content-Type': 'multipart/form-data'
             }

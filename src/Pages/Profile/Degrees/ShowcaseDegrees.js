@@ -2,6 +2,7 @@ import {useContext, useEffect, useState} from "react";
 import axios from "axios";
 import {DegreesBox} from "./DegreesBox";
 import {ProfileContext} from "../../Shared/Context/ProfileContext";
+import {API} from "../../Shared/Constants";
 
 function ShowcaseDegrees() {
     const [attributes, setAttributes] = useState(null);
@@ -13,7 +14,7 @@ function ShowcaseDegrees() {
     }, [isLoaded])
 
     async function fetchData() {
-        await axios.get("/degree/get/all",{
+        await axios.get(API + "/degree/get/all",{
             params: {
                 profileID: profileID
             }

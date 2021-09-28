@@ -3,6 +3,7 @@ import FilterContent from "../../Shared/Search/FilterContent";
 import {CommentBox} from "./CommentBox";
 import {useContext} from "react";
 import {ProfileContext} from "../../Shared/Context/ProfileContext";
+import {API} from "../../Shared/Constants";
 
 function ShowcaseComments() {
     const {profileID} = useContext(ProfileContext);
@@ -25,7 +26,7 @@ function ShowcaseComments() {
         <div >
             <CommentForm/>
             <FilterContent
-                APIEndPoint={"/search/comments"}
+                APIEndPoint={API + "/search/comments"}
                 startFilter={startFilter}
                 options={selectOptions}
                 displayBox={CommentBox}

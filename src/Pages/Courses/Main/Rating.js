@@ -4,6 +4,7 @@ import axios from "axios";
 import querystring from "querystring";
 import {CourseContext} from "../../Shared/Context/CourseContext";
 import {UserContext} from "../../Shared/Context/UserContext";
+import {API} from "../../Shared/Constants";
 
 export const Rating = () => {
     const {courseID} = useContext(CourseContext);
@@ -30,7 +31,7 @@ export const Rating = () => {
 
         try {
             if (canRate) {
-                await axios.get("/course/get/rate", params).then(response => {
+                await axios.get(API + "/course/get/rate", params).then(response => {
                     console.log(response['data']['data']);
                     setCurrentRating(response['data']['data']['rating']);
                 });

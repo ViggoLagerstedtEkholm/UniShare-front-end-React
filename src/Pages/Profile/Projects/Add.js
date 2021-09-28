@@ -2,6 +2,7 @@ import axios from "axios";
 import {Redirect} from "react-router-dom";
 import {useContext, useState} from "react";
 import {UserContext} from "../../Shared/Context/UserContext";
+import {API} from "../../Shared/Constants";
 
 function Add(props) {
     const [file, setFile] = useState(null);
@@ -24,7 +25,7 @@ function Add(props) {
         formData.append('customCheck', customCheck);
         formData.append('text', text);
 
-        axios.post("/project/upload", formData, {
+        axios.post(API + "/project/upload", formData, {
             headers: {
                 'Content-Type': 'multipart/form-data'
             }

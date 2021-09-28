@@ -1,5 +1,6 @@
 import {useState} from "react";
 import axios from "axios";
+import {API} from "../../Shared/Constants";
 
 export const PostAdd = ({forumID}) => {
     const [text, setText] = useState("");
@@ -22,7 +23,7 @@ export const PostAdd = ({forumID}) => {
             }
         };
 
-        await axios.post("/post/add", formData, config).then(() => {
+        await axios.post(API + "/post/add", formData, config).then(() => {
             window.location.reload();
         }).catch(error => {
             console.log(error);
