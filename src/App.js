@@ -32,6 +32,7 @@ import Request from "./Pages/Courses/Request/Request";
 import Overview from "./Pages/Admin/Overview";
 import {Update} from "./Pages/Courses/Update/Update";
 import {PrivateRoute} from "./Pages/Shared/Route/PrivateRoute";
+import {API} from "./Pages/Shared/Constants";
 
 function App() {
     const [user, setUser] = useState(null);
@@ -61,7 +62,7 @@ function App() {
             withCredentials: true
         }
 
-        await axios.get("/isLoggedIn", options)
+        await axios.get(API + "/isLoggedIn", options)
             .then(
                 response => {
                     isLoggedIn = response['data']['data']['LoggedIn'];
