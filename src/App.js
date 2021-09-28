@@ -42,6 +42,8 @@ function App() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
     useEffect(() => {
         checkIfLoggedIn().then(response => {
+            console.log(response);
+
             if (response) {
                 const user = localStorage.getItem('USER');
                 const initialValue = JSON.parse(user);

@@ -55,7 +55,7 @@ const Login = () => {
     }
 
     if (localStorage.getItem('USER') != null) {
-        return <Redirect to="/" />;
+        //return <Redirect to="/" />;
     }
 
     return (
