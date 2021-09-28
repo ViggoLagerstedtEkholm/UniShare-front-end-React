@@ -26,11 +26,7 @@ function Add(props) {
         formData.append('city', city);
         formData.append('university', university);
 
-        const options = {
-            withCredentials: true
-        }
-
-        axios.post(API + "/degree/upload", formData, options).then(() => {
+        axios.post(API + "/degree/upload", formData, { withCredentials: true }).then(() => {
             const path = "/profile/" + user["userID"];
             props.history.push(path);
         }).catch(error => {
