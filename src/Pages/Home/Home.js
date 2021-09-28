@@ -16,9 +16,9 @@ function Home() {
     }, [isLoaded])
 
     const fetchData = () => {
-        const profile = axios.get("http://localhost/UniShare/api/getCurrentUser");
-        const courses = axios.get("http://localhost/UniShare/api/getTOP10Courses");
-        const forums = axios.get("http://localhost/UniShare/api/getTOP10Forums");
+        const profile = axios.get("http://localhost/UniShare/getCurrentUser");
+        const courses = axios.get("http://localhost/UniShare/getTOP10Courses");
+        const forums = axios.get("http://localhost/UniShare/getTOP10Forums");
 
 
         Promise.all([profile, courses, forums]).then(function (values) {
