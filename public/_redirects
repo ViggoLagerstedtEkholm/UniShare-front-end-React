@@ -1,2 +1,2 @@
 /*    /index.html    200
-https://loving-hopper-3fa3a1.netlify.app  http://localhost/UniShare 200
+https://loving-hopper-3fa3a1.netlify.app/*  http://localhost/UniShare/:splat 301
