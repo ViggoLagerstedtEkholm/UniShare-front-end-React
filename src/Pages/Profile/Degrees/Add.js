@@ -29,6 +29,9 @@ function Add(props) {
         const config = {
             headers: {
                 'Accept': 'application/json'
+            },
+            options: {
+                withCredentials: true
             }
         };
 
