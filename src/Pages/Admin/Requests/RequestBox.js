@@ -1,5 +1,6 @@
 import axios from "axios";
 import {API} from "../../Shared/Constants";
+import courseImage from '../../../images/books.png';
 
 export const RequestBox = (results) => {
     console.log(results);
@@ -25,13 +26,7 @@ export const RequestBox = (results) => {
         formData.append('requestID', requestID);
 
         const deny = async () => {
-            const config = {
-                headers: {
-                    'Accept': 'application/json'
-                }
-            };
-
-            await axios.post(API + "/admin/course/deny", formData, config).then(() => {
+            await axios.post(API + "/admin/course/deny", formData, {withCredentials: true}).then(() => {
                 document.getElementById(requestID).remove();
             }).catch(error => {
                 console.log(error);
@@ -39,13 +34,7 @@ export const RequestBox = (results) => {
         }
 
         const approve = async () => {
-            const config = {
-                headers: {
-                    'Accept': 'application/json'
-                }
-            };
-
-            await axios.post(API + "/admin/course/approve", formData, config).then(() => {
+            await axios.post(API + "/admin/course/approve", formData, {withCredentials: true}).then(() => {
                 document.getElementById(requestID).remove();
             }).catch(error => {
                 console.log(error);
@@ -57,7 +46,7 @@ export const RequestBox = (results) => {
                 <div id={requestID} className="content-card-body">
                     <div className="content-user">
                         <div className="content-card-image">
-                            <img src="images/books.png" alt="USER"/>
+                            <img src={courseImage} alt="COURSE"/>
                         </div>
 
                         <div className="content-card-info">
