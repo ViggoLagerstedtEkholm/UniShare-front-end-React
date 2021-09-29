@@ -5,6 +5,7 @@ import {Main} from "./Main/Main";
 import {ReviewBox} from "./Review/ReviewBox";
 import FilterContent from "../Shared/Search/FilterContent";
 import {AddReview} from "./Review/AddReview";
+import {API} from "../Shared/Constants";
 
 function Courses(props) {
     const [courseID, setCourseID] = useState(props.match.params.courseID);
@@ -47,7 +48,7 @@ function Courses(props) {
             </div>
 
             <FilterContent
-                APIEndPoint={"/search/reviews"}
+                APIEndPoint={API + "/search/reviews"}
                 startFilter={startFilter}
                 options={selectOptions}
                 displayBox={ReviewBox}
