@@ -46,13 +46,7 @@ export const ReviewBox = (results) => {
             formData.append('userID', userID);
             formData.append('courseID', courseID);
 
-            const config = {
-                headers: {
-                    'Accept': 'application/json'
-                }
-            };
-
-            await axios.post(API + "/review/delete", formData, config).then(() => {
+            await axios.post(API + "/review/delete", formData, { withCredentials: true }).then(() => {
                 window.location.reload();
             }).catch(error => {
                 console.log(error);

@@ -49,7 +49,8 @@ function Edit(props) {
         axios.post(API + "/project/update", formData, {
             headers: {
                 'Content-Type': 'multipart/form-data'
-            }
+            },
+            withCredentials: true
         }).then(() => {
             const path = "/profile/" + user["userID"];
             props.history.push(path);

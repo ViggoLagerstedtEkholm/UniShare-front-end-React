@@ -29,7 +29,7 @@ const Login = () => {
                     console.log(response);
                     localStorage.setItem('USER', JSON.stringify(response['data']));
                     setUser(JSON.stringify(response['data']));
-                    //window.location.reload();
+                    window.location.reload();
             });
         }
     }
@@ -55,7 +55,7 @@ const Login = () => {
     }
 
     if (localStorage.getItem('USER') != null) {
-        //return <Redirect to="/" />;
+        return <Redirect to="/" />;
     }
 
     return (

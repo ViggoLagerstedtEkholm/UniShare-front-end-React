@@ -22,7 +22,8 @@ const FileUpload = ({URL}) => {
             await axios.post(API + URL, formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data'
-                }
+                },
+                withCredentials: true
             }).then(response => {
                 console.log(response);
                 window.location.reload();

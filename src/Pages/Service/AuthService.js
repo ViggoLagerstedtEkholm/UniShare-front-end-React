@@ -33,7 +33,7 @@ export const login = (email, password, rememberMe) =>{
 export const logout = async () => {
     console.log("Logged out!");
 
-    return await axios.post(API + "/logout").then(response => {
+    return await axios.post(API + "/logout", { withCredentials: true }).then(response => {
         console.log(response);
         localStorage.clear();
     });

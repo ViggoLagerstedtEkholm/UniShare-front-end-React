@@ -38,13 +38,7 @@ export const CommentBox = (results) => {
                 commentID: commentID
             }
 
-            const config = {
-                headers: {
-                    'Accept': 'application/json'
-                }
-            };
-
-            await axios.post(API + "/profile/delete/comment", querystring.stringify(params), config).then(response => {
+            await axios.post(API + "/profile/delete/comment", querystring.stringify(params), { withCredentials: true }).then(response => {
                     console.log(response);
                     document.location.reload();
                 }

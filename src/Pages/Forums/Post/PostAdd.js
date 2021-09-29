@@ -17,13 +17,7 @@ export const PostAdd = ({forumID}) => {
         formData.append('forumID', forumID);
         formData.append('text', text);
 
-        const config = {
-            headers: {
-                'Accept': 'application/json'
-            }
-        };
-
-        await axios.post(API + "/post/add", formData, config).then(() => {
+        await axios.post(API + "/post/add", formData, { withCredentials: true }).then(() => {
             window.location.reload();
         }).catch(error => {
             console.log(error);

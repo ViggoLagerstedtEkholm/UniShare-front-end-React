@@ -61,13 +61,7 @@ export const AddReviewForm = ({review}) => {
         formData.append('overall', overall);
         formData.append('text', text);
 
-        const config = {
-            headers: {
-                'Accept': 'application/json'
-            }
-        };
-
-        await axios.post(API + "/review/upload", formData, config).then(() => {
+        await axios.post(API + "/review/upload", formData, { withCredentials: true }).then(() => {
             window.location.reload();
         }).catch(error => {
             console.log(error);

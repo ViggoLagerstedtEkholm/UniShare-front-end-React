@@ -34,13 +34,7 @@ export const DegreeCourse = (course) => {
                 degreeID: degreeID
             }
 
-            const config = {
-                headers: {
-                    'Accept': 'application/json'
-                }
-            };
-
-            await axios.post(API + "/profile/delete/course", querystring.stringify(params), config).then(response => {
+            await axios.post(API + "/profile/delete/course", querystring.stringify(params), { withCredentials: true }).then(response => {
                     document.getElementById(courseID).remove();
                 }
             )

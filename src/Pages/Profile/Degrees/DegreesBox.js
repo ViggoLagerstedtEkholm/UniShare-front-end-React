@@ -41,13 +41,7 @@ export const DegreesBox = (attributes) => {
                 degreeID: ID
             }
 
-            const config = {
-                headers: {
-                    'Accept': 'application/json'
-                }
-            };
-
-            await axios.post(API + "/degree/remove", querystring.stringify(params), config).then(response => {
+            await axios.post(API + "/degree/remove", querystring.stringify(params), { withCredentials: true }).then(response => {
                     console.log(response);
                     document.getElementById(ID).remove();
                 }

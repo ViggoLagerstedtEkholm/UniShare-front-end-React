@@ -38,13 +38,7 @@ function ProjectBox(results) {
                 projectID: projectID
             }
 
-            const config = {
-                headers: {
-                    'Accept': 'application/json'
-                }
-            };
-
-            await axios.post(API + "/project/delete", querystring.stringify(params), config).then(response => {
+            await axios.post(API + "/project/delete", querystring.stringify(params), { withCredentials: true }).then(response => {
                 console.log(response);
                 document.getElementById(projectID).remove();
                 }
