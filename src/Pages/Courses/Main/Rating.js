@@ -25,8 +25,8 @@ export const Rating = () => {
         const params = {
             params: {
                 courseID: courseID
-
-            }
+            },
+            withCredentials: true
         }
 
         try {
@@ -52,7 +52,8 @@ export const Rating = () => {
         const config = {
             headers: {
                 'Accept': 'application/json'
-            }
+            },
+            withCredentials: true
         };
 
         try {
