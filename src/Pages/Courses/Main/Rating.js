@@ -58,7 +58,7 @@ export const Rating = () => {
 
         try {
             if (canRate) {
-                await axios.post("/course/set/rate", querystring.stringify(params), config);
+                await axios.post(API + "/course/set/rate", querystring.stringify(params), config);
             }
         } catch (error) {
             console.log(error);
