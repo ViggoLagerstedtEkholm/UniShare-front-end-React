@@ -59,7 +59,7 @@ export const DisplayForum = (props) => {
                             <PostAdd forumID={forumID}/>
 
                             <FilterContent
-                                APIEndPoint={"/search/posts"}
+                                APIEndPoint={API + "/search/posts"}
                                 startFilter={startFilter}
                                 options={selectOptions}
                                 displayBox={PostBox}
