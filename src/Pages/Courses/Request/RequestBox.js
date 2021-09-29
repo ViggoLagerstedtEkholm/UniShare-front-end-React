@@ -1,8 +1,6 @@
 import axios from "axios";
-import querystring from "querystring";
-import {useContext} from "react";
-import {UserContext} from "../../Shared/Context/UserContext";
 import {API} from "../../Shared/Constants";
+import courseImage from '../../../images/books.png';
 
 export const RequestBox = (results) => {
     console.log(results);
@@ -38,7 +36,7 @@ export const RequestBox = (results) => {
                 <div id={requestID} className="content-card-body">
                     <div className="content-user">
                         <div className="content-card-image">
-                            <img src="images/books.png" alt="USER IMAGE"/>
+                            <img src={courseImage} alt="USER IMAGE"/>
                         </div>
 
                         <div className="content-card-info">

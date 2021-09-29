@@ -1,3 +1,5 @@
+import userImage from '../../../images/user.png';
+
 export const PostBox = (results) => {
     console.log(results);
     const path = results.results['posts'];
@@ -12,8 +14,8 @@ export const PostBox = (results) => {
         const userID = data['userID'];
         let image = data['userImage'];
 
-        if(image === null){
-            image = "../../images/user.png";
+        if(image === ""){
+            image = userImage;
         }else{
             image = 'data:image/jpeg;base64,' + image;
         }
