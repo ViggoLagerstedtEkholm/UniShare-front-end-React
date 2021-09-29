@@ -26,13 +26,7 @@ export const RequestBox = (results) => {
             const formData = new FormData();
             formData.append('requestID', requestID);
 
-            const config = {
-                headers: {
-                    'Accept': 'application/json'
-                }
-            };
-
-            await axios.post(API + "/request/delete", formData, config).then(() => {
+            await axios.post(API + "/request/delete", formData, { withCredentials: true }).then(() => {
                 document.getElementById(requestID).remove();
             }).catch(error => {
                 console.log(error);

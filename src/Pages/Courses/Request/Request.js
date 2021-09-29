@@ -11,7 +11,7 @@ function Request() {
 
     useEffect(() => {
         const getForum = async () => {
-            await axios.get(API + "/request/courses").then(
+            await axios.get(API + "/request/courses", { withCredentials: true }).then(
                 response => {
                     console.log(response);
                     setRequests(response);

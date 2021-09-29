@@ -24,13 +24,7 @@ export function RequestForm() {
         formData.append('university', university);
         formData.append('description', description);
 
-        const config = {
-            headers: {
-                'Accept': 'application/json'
-            }
-        };
-
-        await axios.post(API + "/request/upload", formData, config).then(response => {
+        await axios.post(API + "/request/upload", formData, { withCredentials: true }).then(response => {
             window.location.reload();
         }).catch(error => {
             console.log(error);

@@ -15,7 +15,8 @@ export const AddReview = () => {
           await axios.get(API + "/review/get", {
               params: {
                   courseID: courseID
-              }
+              },
+              withCredentials: true
           }).then(response =>{
             console.log(response);
             setReview(response);
