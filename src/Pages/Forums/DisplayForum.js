@@ -58,15 +58,13 @@ export const DisplayForum = (props) => {
 
                             <PostAdd forumID={forumID}/>
 
-                            <div>
-                                <FilterContent
-                                    APIEndPoint={"/search/posts"}
-                                    startFilter={startFilter}
-                                    options={selectOptions}
-                                    displayBox={PostBox}
-                                    showFilterBox={false}
-                                />
-                            </div>
+                            <FilterContent
+                                APIEndPoint={"/search/posts"}
+                                startFilter={startFilter}
+                                options={selectOptions}
+                                displayBox={PostBox}
+                                showFilterBox={false}
+                            />
                     </div> : <h1>Loading...</h1>
                 }
 
