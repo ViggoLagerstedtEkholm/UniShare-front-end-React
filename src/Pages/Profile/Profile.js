@@ -22,13 +22,7 @@ function Profile(props) {
             profileID: profileID
         }
 
-        const config = {
-            headers: {
-                'Accept': 'application/json'
-            }
-        };
-
-        await axios.post(API + "/profile/append/visits", querystring.stringify(params), config).then(response =>{
+        await axios.post(API + "/profile/append/visits", querystring.stringify(params), { withCredentials: true }).then(response =>{
             console.log(response);
         }).catch(error => {
             console.log(error);
