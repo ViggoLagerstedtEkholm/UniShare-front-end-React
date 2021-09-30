@@ -42,13 +42,13 @@ export const PeopleBox = ({results, doUpdate}) => {
         const isFriend = user != null ? data['isFriend'] : null;
         const isSent = user != null ? data['isSent'] : null;
         const isReceived = user != null ? data['isReceived'] : null;
+        console.log(data);
 
         if (image === "") {
             image = userImage;
         } else {
             image = 'data:image/jpeg;base64,' + image;
         }
-
 
         function onSuspendUser() {
             suspend(usersID).then(() => window.location.reload());

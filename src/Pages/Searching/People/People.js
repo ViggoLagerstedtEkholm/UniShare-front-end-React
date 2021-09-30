@@ -27,7 +27,7 @@ const People = () => {
                 startFilter={startFilter}
                 options={selectOptions}
                 displayBox={PeopleBox}
-                showFilterBox={true}
+                showFilterBox={false}
             />
         </div>
     );

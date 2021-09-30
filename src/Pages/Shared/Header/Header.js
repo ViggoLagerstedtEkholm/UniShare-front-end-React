@@ -8,10 +8,13 @@ function Header() {
     const {user} = useContext(UserContext);
 
     return (
-        <div>
+        <>
             <nav>
+                <Navigation/>
                 <Link className="logo" to="/"><b>UniShare</b></Link>
+            </nav>
 
+            <div id="header2">
                 <ul className="nav-links">
                     <li>
                         <Link to="/search/people">People</Link>
@@ -22,10 +25,14 @@ function Header() {
                     <li>
                         <Link to="/search/forums">Forums</Link>
                     </li>
+                    <li>
+                        <Link to="/request">Request course</Link>
+                    </li>
+                    <li>
+                        <Link to="/forum/add/new">Add forum</Link>
+                    </li>
                 </ul>
-
-                <Navigation/>
-            </nav>
+            </div>
 
             {user !== null ? <>
                 {
@@ -37,7 +44,7 @@ function Header() {
             </>: null
             }
 
-        </div>
+        </>
     );
 }
 

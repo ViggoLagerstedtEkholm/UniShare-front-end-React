@@ -3,6 +3,7 @@ import {ProfileContext} from "../../Shared/Context/ProfileContext";
 import {UserContext} from "../../Shared/Context/UserContext";
 import FileUpload from "../../Shared/Files/FileUpload";
 import userImage from '../../../images/user.png';
+import {FriendList} from "../../Friends/FriendList";
 
 export const HUD = (attributes) => {
     const {profileID} = useContext(ProfileContext);
@@ -134,6 +135,7 @@ export const HUD = (attributes) => {
                     Description
                 </h3>
             </div>
+
             <div className="user-description">
                 {description}
             </div>

@@ -303,7 +303,6 @@ li{
   margin-left: 10px;
 }
 
-
 .content-filter-box{
   display: flex;
   flex-wrap:wrap;
@@ -317,8 +316,10 @@ li{
 }
 
 .filter-background-box{
-  border-style: groove;
-  background-color: #020a30;
+  margin-top: 10px;
+  border-style: dashed;
+  border-width: 1px;
+  background-color: rgb(47, 47, 49);
 }
 
 .content-filter-bg button{
@@ -510,16 +511,6 @@ form .text_field{
   height:auto;
   padding: 10px;
   min-height: 1000px;
-}
-
-.request-course-container{
-  color: white;
-  background-color: #313131;
-  display:flex;
-  height:auto;
-  padding: 10px;
-  width: 100%;
-  flex-direction: column;
 }
 
 .fixed {
@@ -854,7 +845,13 @@ form .text_field{
 
 @media screen and (max-width: 1301px) {
   .content-card-info-buttons{
+    flex-direction: row;
     width: auto;
+  }
+
+  .content-card-info-buttons button{
+    margin-right: 10px;
+    margin-left: 10px;
   }
 
   .row{
@@ -881,7 +878,8 @@ form .text_field{
     flex-direction: column;
   }
   .container{
-    padding: 0;
+    padding-left: 0;
+    padding-right: 0;
   }
 }
 

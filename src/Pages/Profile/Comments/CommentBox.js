@@ -1,29 +1,33 @@
 import {useContext} from "react";
 import {ProfileContext} from "../../Shared/Context/ProfileContext";
 import {UserContext} from "../../Shared/Context/UserContext";
-import {Redirect} from "react-router-dom";
+import {Redirect, useHistory} from "react-router-dom";
 import axios from "axios";
 import querystring from "querystring";
 import {API} from "../../Shared/Constants";
+import userImage from '../../../images/user.png';
 
 export const CommentBox = (results) => {
     const {profileID} = useContext(ProfileContext);
     const {user} = useContext(UserContext);
     const path = results.results['comments'];
+    let history = useHistory();
+
     if (path.length === 0) {
         return (<div><h4 className="review">No profile comments!</h4></div>)
     }
 
     return path.map(function (data, i) {
-        const image = data['userImage'];
+        let image = 'data:image/jpeg;base64,' + data['userImage'];
         const username = data['userDisplayName'];
         const date = data['date'];
         const text = data['text'];
-        const info = data['info'];
-
         const authorID = data['author'];
         const commentID = data['commentID'];
-        console.log(authorID);
+
+        if(data['userImage'] === ""){
+            image = userImage;
+        }
 
         let canSeeProfileEdits = false;
         if(user !== null){
@@ -31,7 +35,6 @@ export const CommentBox = (results) => {
                 canSeeProfileEdits = true;
             }
         }
-
 
         const onDelete = async () => {
             const params = {
@@ -48,15 +51,15 @@ export const CommentBox = (results) => {
             });
         }
 
-        const onVisit = (ID) => {
-            return <Redirect to={"/profile/" + ID}/>;
+        const onVisit = () =>{
+            history.push("/profile/" + authorID);
         }
 
         return (
             <div className="profile-comment">
                 <br/>
                 <div className="comment-image">
-                    <img src={'data:image/jpeg;base64,' + image} alt="USER IMAGE"/>
+                    <img src={image} alt="USER IMAGE"/>
                 </div>
 
                 <p>Username: {username}</p>
@@ -70,7 +73,7 @@ export const CommentBox = (results) => {
                 {canSeeProfileEdits ?
                     <input className="button-style-2" type="button" value="Delete comment" onClick={onDelete}/>
                     :
-                    <input className="button-style-1" type="button" value="Visit user" onClick={onVisit(authorID)}/>
+                    <input className="button-style-1" type="button" value="Visit user" onClick={() => onVisit} />
                 }
             </div>
         )

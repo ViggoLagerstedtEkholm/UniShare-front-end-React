@@ -27,51 +27,51 @@ export const AddForum = (props) => {
         });
     }
 
-    const onTitleChanged = (e) =>{
+    const onTitleChanged = (e) => {
         const title = e.target.value;
         setTitle(title);
     }
 
-    const onTopicChanged = (e) =>{
+    const onTopicChanged = (e) => {
         const topic = e.target.value;
         setTopic(topic);
     }
 
-    const onTextChanged = (e) =>{
+    const onTextChanged = (e) => {
         const text = e.target.value;
         setText(text);
     }
 
     return (
         <div className="container">
-            <div className="content-container">
-                <div className="flex-item">
-                    <div className="user-input-form-box">
-                        <form onSubmit={onSubmit}>
-                            <h1>Create forum post</h1>
-                            <h4>
-                                Title
-                            </h4>
-                            <input className="user-input-text" type="text" value={title} onChange={onTitleChanged} placeholder="Title"/>
+            <div className="flex-item">
+                <div className="user-input-form-box">
+                    <form onSubmit={onSubmit}>
+                        <h1>Create forum post</h1>
+                        <h4>
+                            Title
+                        </h4>
+                        <input className="user-input-text" type="text" value={title} onChange={onTitleChanged}
+                               placeholder="Title"/>
 
-                            <h4>
-                                Topic
-                            </h4>
-                            <input className="user-input-text" type="text" value={topic} onChange={onTopicChanged} placeholder="Topic"/>
+                        <h4>
+                            Topic
+                        </h4>
+                        <input className="user-input-text" type="text" value={topic} onChange={onTopicChanged}
+                               placeholder="Topic"/>
 
-                            <h4>
-                                Text - (ATLEAST 200 characters)
-                            </h4>
-                            <input className="user-input-text" type="text" value={text} onChange={onTextChanged} placeholder="Text"/>
+                        <h4>
+                            Text - (ATLEAST 200 characters)
+                        </h4>
+                        <input className="user-input-text" type="text" value={text} onChange={onTextChanged}
+                               placeholder="Text"/>
 
-                            <p>
-                                <input className="button-style-1" type="submit"/>
-                            </p>
-                        </form>
-                    </div>
+                        <p>
+                            <input className="button-style-1" type="submit"/>
+                        </p>
+                    </form>
                 </div>
             </div>
         </div>
-
     );
 }

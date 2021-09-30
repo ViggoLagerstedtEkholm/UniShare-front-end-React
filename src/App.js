@@ -33,6 +33,7 @@ import Overview from "./Pages/Admin/Overview";
 import {Update} from "./Pages/Courses/Update/Update";
 import {PrivateRoute} from "./Pages/Shared/Route/PrivateRoute";
 import {API} from "./Pages/Shared/Constants";
+import {LoggedInRoute} from "./Pages/Shared/Route/LoggedInRoute";
 
 function App() {
     const [user, setUser] = useState(null);
@@ -42,8 +43,6 @@ function App() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
     useEffect(() => {
         checkIfLoggedIn().then(response => {
-            console.log(response);
-
             if (response) {
                 const user = localStorage.getItem('USER');
                 const initialValue = JSON.parse(user);
@@ -53,9 +52,7 @@ function App() {
                 localStorage.clear();
             }
             setIsLoaded(true);
-
         })
-
     }, [isLoaded]);
 
     const checkIfLoggedIn = async () => {
@@ -91,25 +88,26 @@ function App() {
                                 <Route exact path="/login" component={Login}/>
                                 <Route exact path="/register" component={Register}/>
                                 <Route exact path="/profile/:profileID" component={Profile}/>
-                                <Route exact path="/project/add" component={AddProject}/>
-                                <Route exact path="/project/edit/:projectID" component={Edit}/>
-                                <Route exact path="/degree/add" component={AddDegree}/>
-                                <Route exact path="/degree/edit/:degreeID" component={EditDegree}/>
-                                <Route exact path="/courses/:courseID/update" component={Update}/>
                                 <Route exact path="/courses/:courseID" component={Course}/>
-                                <Route exact path="/courses/review/add" component={AddReview}/>
-                                <Route exact path="/settings" component={Settings}/>
                                 <Route exact path="/search/people" component={People}/>
                                 <Route exact path="/search/courses" component={Courses}/>
                                 <Route exact path="/search/forums" component={Forums}/>
-                                <Route exact path="/forum/add" component={AddForum}/>
                                 <Route exact path="/forum/:forumID" component={DisplayForum}/>
-                                <Route exact path="/forum/post/:forumID" component={PostBox}/>
-                                <Route exact path="/forum/post/:forumID/add" component={PostAdd}/>
-                                <Route exact path="/friends" component={Friend}/>
-                                <Route exact path="/request" component={Request}/>
+
+                                <LoggedInRoute exact path="/forum/add/new" component={AddForum}/>
+                                <LoggedInRoute exact path="/forum/post/:forumID" component={PostBox}/>
+                                <LoggedInRoute exact path="/forum/post/:forumID/add" component={PostAdd}/>
+                                <LoggedInRoute exact path="/friends" component={Friend}/>
+                                <LoggedInRoute exact path="/request" component={Request}/>
+                                <LoggedInRoute exact path="/project/add" component={AddProject}/>
+                                <LoggedInRoute exact path="/project/edit/:projectID" component={Edit}/>
+                                <LoggedInRoute exact path="/degree/add" component={AddDegree}/>
+                                <LoggedInRoute exact path="/degree/edit/:degreeID" component={EditDegree}/>
+                                <LoggedInRoute exact path="/courses/review/add" component={AddReview}/>
+                                <LoggedInRoute exact path="/settings" component={Settings}/>
 
                                 <PrivateRoute path='/admin' component={Overview} />
+                                <PrivateRoute exact path="/courses/:courseID/update" component={Update}/>
 
                                 <Route component={NotFound}/>
                             </Switch>

@@ -1,25 +1,29 @@
 import axios from "axios";
 import {useEffect, useState} from "react";
-import {CourseBox} from "../../Searching/Courses/CourseBox";
 import {RequestBox} from "./RequestBox";
 import {RequestForm} from "./RequestForm";
 import {API} from "../../Shared/Constants";
+import { useHistory } from "react-router-dom";
 
 function Request() {
     const [isLoaded, setIsLoaded] = useState(false);
     const [requests, setRequests] = useState(null);
+    let history = useHistory();
 
     useEffect(() => {
         const getForum = async () => {
-            await axios.get(API + "/request/courses", { withCredentials: true }).then(
+            await axios.get(API + "/request/courses", {withCredentials: true}).then(
                 response => {
-                    console.log(response);
                     setRequests(response);
                 }
             )
-                .catch((error) => {
-                    console.log(error);
-                });
+            .catch((error) => {
+                if (error.response) {
+                    if(error.response.status === 403){
+                        history.push("/login");
+                    }
+                }
+            });
         }
 
         getForum().then(() => setIsLoaded(true));
@@ -27,29 +31,27 @@ function Request() {
 
     return (
         <div className="container">
-            <div className="request-course-container">
-                <h2>Request to add course</h2>
+            <h2>Request to add course</h2>
 
-                <p>
-                    Do you have a course that is not currently in the database and want it to be added? Submit this form
-                    for
-                    admins to review, this process will take 1-2 days maximum.
-                </p>
+            <p>
+                Do you have a course that is not currently in the database and want it to be added? Submit this form
+                for
+                admins to review, this process will take 1-2 days maximum.
+            </p>
 
-                <h2 className="user-input-form-box">
-                    Add course
-                </h2>
+            <h2 className="user-input-form-box">
+                Add course
+            </h2>
 
-                <RequestForm/>
+            <RequestForm/>
 
-                <hr/>
+            <hr/>
 
-                <h2 className="user-input-form-box">
-                    Your pending requests
-                </h2>
-                <div className="display-result-box">
-                    {isLoaded ? <RequestBox results={requests}/> : <h1>Loading...</h1>}
-                </div>
+            <h2 className="user-input-form-box">
+                Your pending requests
+            </h2>
+            <div className="display-result-box">
+                {isLoaded ? <RequestBox results={requests}/> : <h1>Loading...</h1>}
             </div>
         </div>
     );

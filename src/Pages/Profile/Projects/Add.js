@@ -1,8 +1,10 @@
 import axios from "axios";
 import {Redirect} from "react-router-dom";
-import {useContext, useState} from "react";
+import React, {useContext, useState} from "react";
 import {UserContext} from "../../Shared/Context/UserContext";
 import {API} from "../../Shared/Constants";
+import {Tab, TabList, TabPanel, Tabs} from "react-tabs";
+import Message from "../../Shared/Files/Message";
 
 function Add(props) {
     const [file, setFile] = useState(null);
@@ -11,6 +13,7 @@ function Add(props) {
     const [description, setDescription] = useState('');
     const [customCheck, setCustomCheck] = useState(false);
     const [text, setText] = useState('');
+    const [message, setMessage] = useState(null);
 
     const {user} = useContext(UserContext);
 
@@ -30,11 +33,15 @@ function Add(props) {
                 'Content-Type': 'multipart/form-data'
             },
             withCredentials: true
-        }).then(() => {
+        }).then(response => {
+            console.log(response);
             const path = "/profile/" + user["userID"];
             props.history.push(path);
         }).catch(error => {
-            console.log(error);
+            console.log(error.response['data']);
+            const response = error.response['data'];
+            const message = response.join(' , ');
+            setMessage(message);
         });
 
     }
@@ -63,43 +70,56 @@ function Add(props) {
         setFile(e.target.files[0]);
     }
 
-    const onCheckedChange = (e) => {
+    const onCheckedChange = () => {
         const check = !customCheck;
         setCustomCheck(check);
     }
 
     return (
         <div className="container">
-            <div className="content-container">
-                <div className="flex-item">
-                    <div className="user-input-form-box">
-                        <h3> Enter project information</h3>
-                        <form onSubmit={onSubmit}>
-                            <input className="user-input-text" type="text" onChange={onLinkChanged} value={link}
-                                   placeholder="Enter link"/>
-                            <input className="user-input-text" type="text" onChange={onNameChanged} value={name}
-                                   placeholder="Project name"
-                                   required/>
-                            <br/>
-                            <textarea className="user-input-text" onChange={onDescriptionChanged} value={description}
-                                      placeholder="Enter description" required/>
-                            <p>
-                                Project image
-                                <input className="form-text" type='file' onChange={onFileChange}/>
-                            </p>
+            <div className="flex-item">
+                <div className="user-input-form-box">
+                    <h3> Enter project information</h3>
 
-                            <h3>Create default image with text</h3>
-                            <input type="checkbox" name="customCheck" onChange={onCheckedChange} value={customCheck}/>
-                            <p>
-                                <input className="user-input-text" type="text" onChange={onTextChanged} value={text}
-                                       placeholder="TEXT"/>
-                            </p>
+                    {message ? <Message msg={message}/> : null}
+
+                    <form onSubmit={onSubmit}>
+                        <input className="user-input-text" type="text" onChange={onLinkChanged} value={link}
+                               placeholder="Enter link"/>
+                        <input className="user-input-text" type="text" onChange={onNameChanged} value={name}
+                               placeholder="Project name"
+                               required/>
+                        <br/>
+                        <textarea className="user-input-text" onChange={onDescriptionChanged} value={description}
+                                  placeholder="Enter description" required/>
+
+                        <Tabs>
+                            <TabList>
+                                <Tab>Upload image</Tab>
+                                <Tab>Custom image</Tab>
+                            </TabList>
+
+                            <TabPanel>
+                                <p>
+                                    <input className="form-text" type='file' onChange={onFileChange}/>
+                                </p>
+                            </TabPanel>
+
+                            <TabPanel>
+                                <label>Create custom image with text: </label>
+                                <input type="checkbox" name="customCheck" onChange={onCheckedChange}
+                                       checked={customCheck}/>
+                                <p>
+                                    <input className="user-input-text" type="text" onChange={onTextChanged} value={text}
+                                           placeholder="TEXT"/>
+                                </p>
+                            </TabPanel>
                             <p>
                                 <input className="button-style-1" type="submit" name="submit_project"
                                        value="Upload"/>
                             </p>
-                        </form>
-                    </div>
+                        </Tabs>
+                    </form>
                 </div>
             </div>
         </div>

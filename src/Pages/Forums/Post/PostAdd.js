@@ -1,9 +1,11 @@
 import {useState} from "react";
 import axios from "axios";
 import {API} from "../../Shared/Constants";
+import {useHistory} from "react-router-dom";
 
 export const PostAdd = ({forumID}) => {
     const [text, setText] = useState("");
+    let history = useHistory();
 
     const onTextChange = (e) => {
         const text = e.target.value;
@@ -20,7 +22,11 @@ export const PostAdd = ({forumID}) => {
         await axios.post(API + "/post/add", formData, { withCredentials: true }).then(() => {
             window.location.reload();
         }).catch(error => {
-            console.log(error);
+            if (error.response) {
+                if(error.response.status === 403){
+                    history.push("/login");
+                }
+            }
         });
     }
 

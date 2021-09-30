@@ -88,13 +88,7 @@ export function SettingsForm({settings, degrees, activeID}) {
         formData.append('activeDegreeID', activeDegree);
         formData.append('description', description);
 
-        const config = {
-            headers: {
-                'Accept': 'application/json'
-            }
-        };
-
-        await axios.post(API + "/settings/update", formData, config).then(() => {
+        await axios.post(API + "/settings/update", formData, {withCredentials: true}).then(() => {
             setUpdate(true);
         }).catch(error => {
             console.log(error);
@@ -161,8 +155,6 @@ export function SettingsForm({settings, degrees, activeID}) {
                     <select id="degrees" name="activeDegreeID" onClick={onDegreeChange}>
                         {populateDegrees()}
                     </select>
-
-                    {activeDegree}
 
                     <hr/>
 

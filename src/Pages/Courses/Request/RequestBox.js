@@ -3,8 +3,6 @@ import {API} from "../../Shared/Constants";
 import courseImage from '../../../images/books.png';
 
 export const RequestBox = (results) => {
-    console.log(results);
-
     const path = results.results['data'];
 
     if (path.length === 0) {

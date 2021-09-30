@@ -1,6 +1,5 @@
 import FilterContent from "../../Shared/Search/FilterContent";
 import {ForumBox} from "./ForumBox";
-import {Link} from "react-router-dom";
 import {API} from "../../Shared/Constants";
 
 const Forums = () => {
@@ -21,14 +20,12 @@ const Forums = () => {
 
     return (
         <div className="container">
-            <Link to="/forum/add" className="button-style-1">Add forum</Link>
-
             <FilterContent
                 APIEndPoint={API + "/search/forums"}
                 startFilter={startFilter}
                 options={selectOptions}
                 displayBox={ForumBox}
-                showFilterBox={true}
+                showFilterBox={false}
             />
         </div>
     );

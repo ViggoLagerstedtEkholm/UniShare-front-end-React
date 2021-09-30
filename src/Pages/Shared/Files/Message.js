@@ -4,7 +4,7 @@ const PropTypes = require("prop-types");
 const Message = ({msg}) =>{
     return(
         <div>
-            <p>Alert: {msg}</p>
+            <h4>Alert: {msg}</h4>
         </div>
     )
 }

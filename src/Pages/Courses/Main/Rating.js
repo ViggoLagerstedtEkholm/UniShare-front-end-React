@@ -5,11 +5,13 @@ import querystring from "querystring";
 import {CourseContext} from "../../Shared/Context/CourseContext";
 import {UserContext} from "../../Shared/Context/UserContext";
 import {API} from "../../Shared/Constants";
+import { useHistory } from "react-router-dom";
 
 export const Rating = () => {
     const {courseID} = useContext(CourseContext);
     const [currentRating, setCurrentRating] = useState(0);
     const [loading, setIsLoaded] = useState(false);
+    let history = useHistory();
 
     const {user} = useContext(UserContext);
     let canRate = false;
@@ -38,10 +40,13 @@ export const Rating = () => {
             }
 
         } catch (error) {
-            console.log(error);
+            if (error.response) {
+                if(error.response.status === 403){
+                    history.push("/login");
+                }
+            }
         }
     }
-
 
     const setRate = async (newRating) => {
         const params = {

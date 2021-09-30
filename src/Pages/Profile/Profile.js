@@ -11,6 +11,7 @@ import {Link} from "react-router-dom";
 import axios from "axios";
 import querystring from "querystring";
 import {API} from "../Shared/Constants";
+import {FriendList} from "../Friends/FriendList";
 
 function Profile(props) {
     const [profileID, setProfileID] = useState(props.match.params.profileID);
@@ -53,6 +54,7 @@ function Profile(props) {
                                 <Tab>Projects</Tab>
                                 <Tab>Degrees</Tab>
                                 <Tab>Publications</Tab>
+                                <Tab>Friends</Tab>
                             </TabList>
 
                             <TabPanel>
@@ -115,6 +117,10 @@ function Profile(props) {
                                     <h1>~ Coming soon!</h1>
                                 }
 
+                            </TabPanel>
+
+                            <TabPanel>
+                                <FriendList ID={props.match.params.profileID}/>
                             </TabPanel>
                         </Tabs>
                     </div>

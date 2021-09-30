@@ -4,6 +4,7 @@ import {useContext} from "react";
 import {UserContext} from "../../Shared/Context/UserContext";
 import {ProfileContext} from "../../Shared/Context/ProfileContext";
 import {API} from "../../Shared/Constants";
+import courseImage from '../../../images/books.png';
 
 export const DegreeCourse = (course) => {
     const {user} = useContext(UserContext);
@@ -49,7 +50,7 @@ export const DegreeCourse = (course) => {
                 <div className="content-card-body">
                     <div className="content-user">
                         <div className="content-card-image">
-                            <img src="/images/books.png" alt="USER IMAGE"/>
+                            <img src={courseImage} alt="USER IMAGE"/>
                         </div>
 
                         <div className="content-card-info">

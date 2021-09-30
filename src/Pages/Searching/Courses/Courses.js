@@ -26,14 +26,12 @@ const Courses = () => {
 
     return (
         <div className="container">
-            <Link to="/request" className="button-style-1">Request course</Link>
-
             <FilterContent
                 APIEndPoint={API + "/search/courses"}
                 startFilter={startFilter}
                 options={selectOptions}
                 displayBox={CourseBox}
-                showFilterBox={true}
+                showFilterBox={false}
             />
         </div>
     );

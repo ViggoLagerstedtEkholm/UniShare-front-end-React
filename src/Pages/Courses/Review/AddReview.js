@@ -29,7 +29,7 @@ export const AddReview = () => {
     }, []);
 
     return (
-        <div className="request-course-container">
+        <div>
             {isLoaded ?
                 <AddReviewForm review={review} />
                 : <h1>Loading...</h1>}

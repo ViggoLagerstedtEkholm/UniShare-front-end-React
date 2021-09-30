@@ -2,6 +2,7 @@ import axios from "axios";
 import {useContext, useState} from "react";
 import {CourseContext} from "../../Shared/Context/CourseContext";
 import {API} from "../../Shared/Constants";
+import {useHistory} from "react-router-dom";
 
 export const AddReviewForm = ({review}) => {
     const doNotHaveExistingReview = review === null || review.data.data['result'] === null;
@@ -13,6 +14,7 @@ export const AddReviewForm = ({review}) => {
     const [literature, setLiterature] = useState(doNotHaveExistingReview ? 1 : review.data.data['result']['litterature']);
     const [overall, setOverall] = useState(doNotHaveExistingReview ? 1  : review.data.data['result']['overall']);
     const [text, setText] = useState(doNotHaveExistingReview ? "" : review.data.data['result']['text']);
+    let history = useHistory();
 
     const onFulfillingChanged = (e) => {
         const fulfilling = e.target.value;
@@ -64,7 +66,11 @@ export const AddReviewForm = ({review}) => {
         await axios.post(API + "/review/upload", formData, { withCredentials: true }).then(() => {
             window.location.reload();
         }).catch(error => {
-            console.log(error);
+            if (error.response) {
+                if(error.response.status === 403){
+                    history.push("/login");
+                }
+            }
         });
     }
 

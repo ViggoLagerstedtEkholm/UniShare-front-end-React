@@ -14,19 +14,19 @@ function Settings() {
     }, [])
 
     async function getSettings() {
-        await axios.get(API + '/settings/get').then(response => {
+        await axios.get(API + '/settings/get', {withCredentials: true}).then(response => {
             setSettings(response['data']['data']);
         }).catch(error => {
             console.log(error);
         });
 
-        await axios.get(API + "/degree/get/settings").then(response =>{
+        await axios.get(API + "/degree/get/settings", {withCredentials: true}).then(response =>{
             setDegrees(response['data']);
         }).catch(error =>{
             console.log(error);
         });
 
-        await axios.get(API + "/degree/get/active").then(response =>{
+        await axios.get(API + "/degree/get/active", {withCredentials: true}).then(response =>{
             setActiveID(response['data']);
         }).catch(error =>{
             console.log(error);
