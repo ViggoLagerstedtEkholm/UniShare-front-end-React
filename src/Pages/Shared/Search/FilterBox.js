@@ -1,20 +1,13 @@
-import {useEffect, useState} from "react";
+import {useState} from "react";
 import FilteringInfo from "./FilteringInfo";
 
 function FilterBox({options, onSetFilters, showFilterBox}) {
-    const[state, setState] = useState(true);
-    const[showFilteringInfo, setShowInfoFiltering] = useState(null);
+    const[state, setState] = useState(showFilterBox);
+    const[showFilteringInfo, setShowInfoFiltering] = useState(!showFilterBox);
     const[filterOrder, setFilterOrder] = useState("");
     const[filterOption, setFilterOption] = useState("");
     const[search, setSearch] = useState("");
     const[results_per_page_count, setResults_per_page_count] = useState(7);
-    const[refresh, setRefresh] = useState(1);
-
-    useEffect(() => {
-       if(!showFilterBox){
-           toggle();
-       }
-    }, [refresh])
 
     const toggle = () =>{
         if(state){

@@ -41,11 +41,17 @@ function Courses(props) {
 
             <hr/>
 
+            <h2>Write a review</h2>
+            <hr/>
+
             <div className="button-box">
                 <CourseContext.Provider value={value}>
                     <AddReview/>
                 </CourseContext.Provider>
             </div>
+
+            <h2>Reviews</h2>
+            <hr/>
 
             <FilterContent
                 APIEndPoint={API + "/search/reviews"}

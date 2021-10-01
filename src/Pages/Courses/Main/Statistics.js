@@ -29,12 +29,10 @@ export const Statistics = () => {
         <div className="course-sections-statistics">
             <div className="course-info">
                 <div className="score">
-                    Score ( {courseStatistics['score']} )
+                    Score ( {courseStatistics['score'] ?? ' - '} )
                 </div>
                 <p>Total amount of votes: {courseStatistics['total_votes']}</p>
             </div>
-
-            <br/>
 
             <div className="course-info">
                 <p>Overall popularity rating: #{courseStatistics['POPULARITY_RANK']}</p>

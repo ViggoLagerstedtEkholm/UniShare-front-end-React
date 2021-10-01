@@ -176,10 +176,6 @@ export const AddReviewForm = ({review}) => {
                         </div>
                     </div>
 
-                    <h4>
-                        Write a review
-                    </h4>
-
                     <p>Word left to limit <b>{5000 - text.length}</b></p>
                     <textarea className="user-input-text" value={text} onChange={onTextChanged} maxLength={5000} placeholder="Text"/>
                     <p>

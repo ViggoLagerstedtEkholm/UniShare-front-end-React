@@ -32,16 +32,12 @@ function Request() {
     return (
         <div className="container">
             <h2>Request to add course</h2>
-
-            <p>
+            <h3>
                 Do you have a course that is not currently in the database and want it to be added? Submit this form
                 for
                 admins to review, this process will take 1-2 days maximum.
-            </p>
-
-            <h2 className="user-input-form-box">
-                Add course
-            </h2>
+            </h3>
+            <hr/>
 
             <RequestForm/>
 

@@ -1,7 +1,8 @@
 import axios from "axios";
-import {useContext, useState} from "react";
+import React, {useContext, useState} from "react";
 import {UserContext} from "../../Shared/Context/UserContext";
 import {API} from "../../Shared/Constants";
+import Message from "../../Shared/Files/Message";
 
 function Add(props) {
     const [name, setName] = useState('');
@@ -11,6 +12,7 @@ function Add(props) {
     const [country, setCountry] = useState('');
     const [city, setCity] = useState('');
     const [university, setUniversity] = useState('');
+    const [message, setMessage] = useState(null);
 
     const {user} = useContext(UserContext);
 
@@ -26,11 +28,13 @@ function Add(props) {
         formData.append('city', city);
         formData.append('university', university);
 
-        axios.post(API + "/degree/upload", formData, { withCredentials: true }).then(() => {
+        axios.post(API + "/degree/upload", formData, {withCredentials: true}).then(() => {
             const path = "/profile/" + user["userID"];
             props.history.push(path);
         }).catch(error => {
-            console.log(error);
+            const response = error.response.data;
+            const message = response.join(' , ');
+            setMessage(message);
         });
 
     }
@@ -73,48 +77,50 @@ function Add(props) {
 
     return (
         <div className="container">
-            <div className="content-container">
-                <div className="flex-item">
-                    <div className="user-input-form-box">
-                        <form onSubmit={onSubmit}>
-                            <h4>
-                                Degree name
-                            </h4>
-                            <input className="user-input-text" type="text" placeholder="Degree name" value={name} onChange={onNameChanged}/>
-                            <h4>
-                                Field of study
-                            </h4>
-                            <input className="user-input-text" type="text" value={fieldOfStudy} onChange={onFieldOfStudyChanged}
-                                   placeholder="Field of study"/>
-                            <h4>
-                                Start date
-                            </h4>
-                            <input className="user-input-text" type="date" value={startDate} onChange={onSetStartDate}/>
-                            <h4>
-                                End date
-                            </h4>
-                            <input className="user-input-text" type="date" value={endDate} onChange={onSetEndDate}/>
-                            <h4>
-                                Country
-                            </h4>
-                            <input className="user-input-text" type="text" value={country} onChange={onSetCountry}
-                                   placeholder="Country"/>
-                            <h4>
-                                City
-                            </h4>
-                            <input className="user-input-text" type="text" value={city} onChange={onSetCity}
-                                   placeholder="City"/>
-                            <h4>
-                                University
-                            </h4>
-                            <input className="user-input-text" type="text" value={university} onChange={onSetUniversity}
-                                   placeholder="University"/>
-                            <p>
-                                <input className="button-style-1" type="submit"
-                                       name="submit_project" value="Upload"/>
-                            </p>
-                        </form>
-                    </div>
+            <div className="flex-item">
+                <div className="user-input-form-box">
+                    {message ? <Message msg={message}/> : null}
+
+                    <form onSubmit={onSubmit}>
+                        <h4>
+                            Degree name
+                        </h4>
+                        <input className="user-input-text" type="text" placeholder="Degree name" value={name}
+                               onChange={onNameChanged}/>
+                        <h4>
+                            Field of study
+                        </h4>
+                        <input className="user-input-text" type="text" value={fieldOfStudy}
+                               onChange={onFieldOfStudyChanged}
+                               placeholder="Field of study"/>
+                        <h4>
+                            Start date
+                        </h4>
+                        <input className="user-input-text" type="date" value={startDate} onChange={onSetStartDate}/>
+                        <h4>
+                            End date
+                        </h4>
+                        <input className="user-input-text" type="date" value={endDate} onChange={onSetEndDate}/>
+                        <h4>
+                            Country
+                        </h4>
+                        <input className="user-input-text" type="text" value={country} onChange={onSetCountry}
+                               placeholder="Country"/>
+                        <h4>
+                            City
+                        </h4>
+                        <input className="user-input-text" type="text" value={city} onChange={onSetCity}
+                               placeholder="City"/>
+                        <h4>
+                            University
+                        </h4>
+                        <input className="user-input-text" type="text" value={university} onChange={onSetUniversity}
+                               placeholder="University"/>
+                        <p>
+                            <input className="button-style-1" type="submit"
+                                   name="submit_project" value="Upload"/>
+                        </p>
+                    </form>
                 </div>
             </div>
         </div>

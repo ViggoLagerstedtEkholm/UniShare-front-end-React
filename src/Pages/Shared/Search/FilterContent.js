@@ -61,6 +61,7 @@ const FilterContent = ({APIEndPoint, startFilter, options, displayBox, showFilte
         filter['ID'] = startFilter['ID'];
         console.log("ID: " + filter['ID']);
         Search(APIEndPoint, filter, page).then(response => {
+            console.log("Response: " + response);
             const result = response.data;
             setNumber_of_pages(result['number_of_pages']);
             setStart_page_first_result(result['start_page_first_result']);
@@ -69,12 +70,13 @@ const FilterContent = ({APIEndPoint, startFilter, options, displayBox, showFilte
             setResult(result);
             setHasLoaded(true);
         }).catch(error => {
+            console.log("Error: " + error);
             setMessage("Could not fetch users! : " + error.msg);
         });
     }
 
     return (
-        <div className="container">
+        <div>
             <FilterBox options={options} onSetFilters={onSetFilters} showFilterBox={showFilterBox} doUpdate={doUpdate}/>
 
             {hasLoaded ? (message ? <Message msg={message}/> :
@@ -87,7 +89,7 @@ const FilterContent = ({APIEndPoint, startFilter, options, displayBox, showFilte
                               total={total}
                         />
 
-                        <DisplayBox results={result} doUpdate={doUpdate}/>
+                        <DisplayBox results={result} doUpdate={doUpdate} filter={filter}/>
                     </div>
             ) : <div className="display-result-box">
                 <h4>Loading...</h4>

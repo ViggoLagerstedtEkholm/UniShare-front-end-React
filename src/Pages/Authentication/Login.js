@@ -24,12 +24,10 @@ const Login = () => {
         form.current.validateAll();
 
         if (checkBtn.current.context._errors.length === 0) {
-            login(email, password, rememberMe).then(response =>{
-                    localStorage.clear();
-                    console.log(response);
-                    localStorage.setItem('USER', JSON.stringify(response['data']));
-                    setUser(JSON.stringify(response['data']));
-                    window.location.reload();
+            login(email, password, rememberMe, setUser).then(response =>{
+                console.log(response);
+            }).catch(response =>{
+                console.log(response);
             });
         }
     }

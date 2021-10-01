@@ -1,8 +1,9 @@
-import {useContext, useState} from "react";
+import React, {useContext, useState} from "react";
 import axios from "axios";
 import {Redirect} from "react-router-dom";
 import {UserContext} from "../Shared/Context/UserContext";
 import {API} from "../Shared/Constants";
+import Message from "../Shared/Files/Message";
 
 export function SettingsForm({settings, degrees, activeID}) {
     const [username, setUsername] = useState(settings['display_name']);
@@ -14,6 +15,7 @@ export function SettingsForm({settings, degrees, activeID}) {
     const [description, setDescription] = useState(settings['description']);
     const [activeDegree, setActiveDegree] = useState(activeID);
     const [update, setUpdate] = useState(false);
+    const [message, setMessage] = useState(null);
 
     const {user} = useContext(UserContext);
 
@@ -78,6 +80,7 @@ export function SettingsForm({settings, degrees, activeID}) {
 
     async function onUpdate(e) {
         e.preventDefault();
+        console.log(currentPassword);
         const formData = new FormData();
         formData.append('first_name', firstName);
         formData.append('last_name', lastName);
@@ -91,7 +94,7 @@ export function SettingsForm({settings, degrees, activeID}) {
         await axios.post(API + "/settings/update", formData, {withCredentials: true}).then(() => {
             setUpdate(true);
         }).catch(error => {
-            console.log(error);
+            setMessage(error.response.data);
         });
     }
 
@@ -105,6 +108,9 @@ export function SettingsForm({settings, degrees, activeID}) {
         <div className="form-authentication-container">
             <div className="user-input-form-box">
                 <h3> User information</h3>
+
+                {message ? <Message msg={message}/> : null}
+
                 <form onSubmit={onUpdate}>
                     <p>
                         Display name

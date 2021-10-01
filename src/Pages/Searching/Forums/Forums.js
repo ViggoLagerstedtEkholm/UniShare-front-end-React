@@ -20,6 +20,8 @@ const Forums = () => {
 
     return (
         <div className="container">
+            <h2>Forums</h2>
+            <hr/>
             <FilterContent
                 APIEndPoint={API + "/search/forums"}
                 startFilter={startFilter}

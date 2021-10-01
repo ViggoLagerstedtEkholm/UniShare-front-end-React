@@ -22,6 +22,8 @@ const People = () => {
 
     return (
         <div className="container">
+            <h2>People</h2>
+            <hr/>
             <FilterContent
                 APIEndPoint={API + "/search/people"}
                 startFilter={startFilter}

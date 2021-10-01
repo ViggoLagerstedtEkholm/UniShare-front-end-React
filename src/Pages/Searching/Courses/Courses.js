@@ -26,6 +26,8 @@ const Courses = () => {
 
     return (
         <div className="container">
+            <h2>Courses</h2>
+            <hr/>
             <FilterContent
                 APIEndPoint={API + "/search/courses"}
                 startFilter={startFilter}

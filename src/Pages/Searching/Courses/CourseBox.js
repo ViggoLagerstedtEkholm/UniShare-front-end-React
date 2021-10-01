@@ -3,11 +3,16 @@ import querystring from "querystring";
 import {useContext} from "react";
 import {UserContext} from "../../Shared/Context/UserContext";
 import courseImage from '../../../images/books.png';
+import {useHistory} from "react-router-dom";
 
-export const CourseBox = (results) => {
-    console.log(results);
+export const CourseBox = ({results, filter}) => {
+    let history = useHistory();
     const {user} = useContext(UserContext);
-    const path = results.results['courses'];
+    console.log(results);
+
+    const path = results['courses'];
+    let searchWord = filter['search'] ?? "";
+
     if(path.length === 0){
         return (<div><h4 className="review">No course results!</h4></div>)
     }
@@ -17,13 +22,14 @@ export const CourseBox = (results) => {
         const credits = data['credits'];
         const duration = data['duration'];
         const university = data['university'];
-        const country = data['university'];
+        const country = data['country'];
         const rating = data['average_rating'] == null ? 'Not set!': data['average_rating'];
         const city = data['city'];
         const added = data['added'];
         const courseID = data['courseID'];
         let isInActiveDegree = data['isInActiveDegree'];
         const code = data['code'];
+        console.log("Code" + code);
 
         let canSeeLoggedInFeatures = true;
         if(user == null){
@@ -69,9 +75,21 @@ export const CourseBox = (results) => {
             )
             .catch((error) => {
                 if (error.response.status === 500) {
-                    alert('AddForum a degree to put this course into! Profile->Degrees then go to settings->active degree');
+                    if(window.confirm('You dont have an active degree go to settings?')){
+                        history.push("/settings");
+                    }
                 }
             });
+        }
+
+        const getHighlightedText = (text, highlight) =>{
+            highlight = highlight.toString();
+            const parts = text.toString().split(new RegExp(`(${highlight})`, 'gi'));
+            return <span> { parts.map((part, i) =>
+                <span key={i} style={part.toLowerCase() === highlight.toLowerCase() ? { 'background-color': 'rgba(255,234,0,0.59)' } : {} }>
+            { part }
+        </span>)
+            } </span>;
         }
 
         return (
@@ -83,20 +101,20 @@ export const CourseBox = (results) => {
 
                     <div className="content-card-info">
                         <h4><b>Course information</b></h4>
-                        <p><b>Name:</b> {name}</p>
-                        <p><b>Credits:</b> {credits}</p>
-                        <p><b>Duration: </b> {duration}</p>
-                        <p><b>University: </b> {university}</p>
-                        <p><b>Code: </b> {code}</p>
+                        <p><b>Name:</b> {getHighlightedText(name, searchWord)}</p>
+                        <p><b>Credits:</b> {getHighlightedText(credits, searchWord)}</p>
+                        <p><b>Duration: </b> {getHighlightedText(duration, searchWord)}</p>
+                        <p><b>University: </b> {getHighlightedText(university, searchWord)}</p>
+                        <p><b>Code: </b> {getHighlightedText(code, searchWord)}</p>
 
                     </div>
 
                     <div className="content-card-info">
                         <h4><b>More</b></h4>
-                        <p><b>Score:</b> {rating}</p>
-                        <p><b>Country:</b> {country}</p>
-                        <p><b>City:</b> {city}</p>
-                        <p><b>Added:</b> {added}</p>
+                        <p><b>Score:</b> {getHighlightedText(rating, searchWord)}</p>
+                        <p><b>Country:</b> {getHighlightedText(country, searchWord)}</p>
+                        <p><b>City:</b> {getHighlightedText(city, searchWord)}</p>
+                        <p><b>Added:</b> {getHighlightedText(added, searchWord)}</p>
                     </div>
 
                     <div className="content-card-info-buttons">

@@ -12,6 +12,8 @@ import axios from "axios";
 import querystring from "querystring";
 import {API} from "../Shared/Constants";
 import {FriendList} from "../Friends/FriendList";
+import {Ratings} from "./Ratings/Ratings";
+import {Reviews} from "./Reviews/Reviews";
 
 function Profile(props) {
     const [profileID, setProfileID] = useState(props.match.params.profileID);
@@ -55,6 +57,8 @@ function Profile(props) {
                                 <Tab>Degrees</Tab>
                                 <Tab>Publications</Tab>
                                 <Tab>Friends</Tab>
+                                <Tab>Course Ratings</Tab>
+                                <Tab>Course Reviews</Tab>
                             </TabList>
 
                             <TabPanel>
@@ -121,6 +125,18 @@ function Profile(props) {
 
                             <TabPanel>
                                 <FriendList ID={props.match.params.profileID}/>
+                            </TabPanel>
+
+                            <TabPanel>
+                                <ProfileContext.Provider value={value}>
+                                    <Ratings/>
+                                </ProfileContext.Provider>
+                            </TabPanel>
+
+                            <TabPanel>
+                                <ProfileContext.Provider value={value}>
+                                    <Reviews/>
+                                </ProfileContext.Provider>
                             </TabPanel>
                         </Tabs>
                     </div>

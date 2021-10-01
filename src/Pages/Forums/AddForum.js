@@ -44,33 +44,32 @@ export const AddForum = (props) => {
 
     return (
         <div className="container">
-            <div className="flex-item">
-                <div className="user-input-form-box">
-                    <form onSubmit={onSubmit}>
-                        <h1>Create forum post</h1>
-                        <h4>
-                            Title
-                        </h4>
-                        <input className="user-input-text" type="text" value={title} onChange={onTitleChanged}
-                               placeholder="Title"/>
+            <h2>Create forum post</h2>
+            <hr/>
+            <div className="user-input-form-box">
+                <form onSubmit={onSubmit}>
+                    <h4>
+                        Title
+                    </h4>
+                    <input className="user-input-text" type="text" value={title} onChange={onTitleChanged}
+                           placeholder="Title"/>
 
-                        <h4>
-                            Topic
-                        </h4>
-                        <input className="user-input-text" type="text" value={topic} onChange={onTopicChanged}
-                               placeholder="Topic"/>
+                    <h4>
+                        Topic
+                    </h4>
+                    <input className="user-input-text" type="text" value={topic} onChange={onTopicChanged}
+                           placeholder="Topic"/>
 
-                        <h4>
-                            Text - (ATLEAST 200 characters)
-                        </h4>
-                        <input className="user-input-text" type="text" value={text} onChange={onTextChanged}
-                               placeholder="Text"/>
+                    <h4>
+                        Text - (ATLEAST 200 characters)
+                    </h4>
+                    <input className="user-input-text" type="text" value={text} onChange={onTextChanged}
+                           placeholder="Text"/>
 
-                        <p>
-                            <input className="button-style-1" type="submit"/>
-                        </p>
-                    </form>
-                </div>
+                    <p>
+                        <input className="button-style-1" type="submit"/>
+                    </p>
+                </form>
             </div>
         </div>
     );

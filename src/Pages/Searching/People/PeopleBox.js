@@ -5,11 +5,11 @@ import {enable, suspend} from "../../Service/Admin";
 import {Link} from "react-router-dom";
 import userImage from '../../../images/user.png';
 
-export const PeopleBox = ({results, doUpdate}) => {
-    console.log(results);
+export const PeopleBox = ({results, doUpdate, filter}) => {
+    const path = results['users'];
+    const searchWord = filter['search'] ?? "";
     const {user} = useContext(UserContext);
 
-    const path = results['users'];
     if (path.length === 0) {
         return (<div><h4 className="review">No people results!</h4></div>)
     }
@@ -24,6 +24,16 @@ export const PeopleBox = ({results, doUpdate}) => {
         if (user.privilege === 'Admin') {
             isAdmin = true;
         }
+    }
+
+    const getHighlightedText = (text, highlight) =>{
+        highlight = highlight.toString();
+        const parts = text.toString().split(new RegExp(`(${highlight})`, 'gi'));
+        return <span> { parts.map((part, i) =>
+            <span key={i} style={part.toLowerCase() === highlight.toLowerCase() ? { 'background-color': 'rgba(255,234,0,0.59)' } : {} }>
+            { part }
+        </span>)
+        } </span>;
     }
 
     return path.map(function (data) {
@@ -83,16 +93,16 @@ export const PeopleBox = ({results, doUpdate}) => {
 
                     <div className="content-card-info">
                         <h4><b>Personal information</b></h4>
-                        <p><b>First name:</b> {firstname}</p>
-                        <p><b>Last name:</b> {lastname}</p>
-                        <p><b>Username: </b> {username}</p>
+                        <p><b>First name:</b> {getHighlightedText(firstname, searchWord)}</p>
+                        <p><b>Last name:</b> {getHighlightedText(lastname, searchWord)}</p>
+                        <p><b>Username: </b> {getHighlightedText(username, searchWord)}</p>
                     </div>
 
                     <div className="content-card-info">
                         <h4><b>Personal information</b></h4>
-                        <p><b>Visits:</b> {visits}</p>
-                        <p><b>Last online:</b> {lastOnline}</p>
-                        <p><b>Joined:</b> {joined}</p>
+                        <p><b>Visits:</b> {getHighlightedText(visits, searchWord)}</p>
+                        <p><b>Last online:</b> {getHighlightedText(lastOnline, searchWord)}</p>
+                        <p><b>Joined:</b> {getHighlightedText(joined, searchWord)}</p>
                     </div>
 
                     {
@@ -105,14 +115,16 @@ export const PeopleBox = ({results, doUpdate}) => {
                             <div className="content-card-info-buttons">
 
                                 <Link to={'/profile/' + usersID} className="button-style-1" type="submit">Profile</Link>
+                                <br/>
 
                                 {
                                     isAdmin ?
                                         <button className="button-style-2" onClick={onSuspendUser}>
                                             Suspend
-                                        user</button> : null
+                                            user</button>
+                                    : <br/>
                                 }
-
+                                <br/>
                                 {
                                     canSeeLoggedInFeatures ?
                                         <>

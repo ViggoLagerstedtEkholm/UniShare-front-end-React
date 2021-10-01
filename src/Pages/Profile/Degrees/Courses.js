@@ -36,6 +36,7 @@ export const DegreeCourse = (course) => {
             }
 
             await axios.post(API + "/profile/delete/course", querystring.stringify(params), { withCredentials: true }).then(response => {
+                console.log(response);
                     document.getElementById(courseID).remove();
                 }
             )

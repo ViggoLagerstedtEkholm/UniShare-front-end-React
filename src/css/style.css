@@ -406,15 +406,15 @@ select {
 
 /*BUTTON STYLES */
 .button-style-1 {
-  background-color: #4008cc;
+  background-color: #0051c9;
 }
 
 .button-style-2 {
-  background-color: #a61839;
+  background-color: #8c132f;
 }
 
 .button-style-3 {
-  background-color: #1cc905;
+  background-color: #127303;
 }
 
 .button-style-4 {
@@ -426,7 +426,7 @@ select {
 }
 
 .button-style-1:hover{
-  background-color: #1e045e;
+  background-color: #4311c5;
   color: white;
 }
 

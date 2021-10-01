@@ -1,16 +1,15 @@
-import CommentForm from "./CommentForm";
 import FilterContent from "../../Shared/Search/FilterContent";
-import {CommentBox} from "./CommentBox";
+import {RatingsBox} from "./RatingsBox";
+import {API} from "../../Shared/Constants";
 import {useContext} from "react";
 import {ProfileContext} from "../../Shared/Context/ProfileContext";
-import {API} from "../../Shared/Constants";
 
-function ShowcaseComments() {
+export const Ratings = () => {
     const {profileID} = useContext(ProfileContext);
 
     const startFilter = {
         page: 1,
-        filterOption: "date",
+        filterOption: "added",
         filterOrder: "DESC",
         search: null,
         results_per_page_count: 7,
@@ -18,26 +17,22 @@ function ShowcaseComments() {
     }
 
     const selectOptions = new Map();
-    selectOptions.set('Text', 'text');
-    selectOptions.set('Date', 'date');
-    selectOptions.set('Username', 'userDisplayName');
+    selectOptions.set('Name', 'name');
+    selectOptions.set('Course code', 'code');
+    selectOptions.set('Credits', 'credits');
+    selectOptions.set('University', 'university');
 
     return (
-        <div >
-            <CommentForm/>
-
-            <h2>Comments</h2>
+        <div>
+            <h2>Ratings</h2>
             <hr/>
-
             <FilterContent
-                APIEndPoint={API + "/search/comments"}
+                APIEndPoint={API + "/search/profile/ratings"}
                 startFilter={startFilter}
                 options={selectOptions}
-                displayBox={CommentBox}
+                displayBox={RatingsBox}
                 showFilterBox={false}
             />
         </div>
     );
 }
-
-export default ShowcaseComments;
