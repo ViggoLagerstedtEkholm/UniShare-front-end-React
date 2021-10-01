@@ -52,19 +52,19 @@ export const AddForum = (props) => {
                         Title
                     </h4>
                     <input className="user-input-text" type="text" value={title} onChange={onTitleChanged}
-                           placeholder="Title"/>
+                           placeholder="Title" required/>
 
                     <h4>
                         Topic
                     </h4>
                     <input className="user-input-text" type="text" value={topic} onChange={onTopicChanged}
-                           placeholder="Topic"/>
+                           placeholder="Topic" required/>
 
                     <h4>
                         Text - (ATLEAST 200 characters)
                     </h4>
                     <input className="user-input-text" type="text" value={text} onChange={onTextChanged}
-                           placeholder="Text"/>
+                           placeholder="Text" required/>
 
                     <p>
                         <input className="button-style-1" type="submit"/>

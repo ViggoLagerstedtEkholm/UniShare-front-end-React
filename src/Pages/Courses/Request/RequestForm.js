@@ -36,16 +36,16 @@ export function RequestForm() {
         <div className="user-input-form-box">
             <h3> Enter course</h3>
             <form onSubmit={uploadRequest}>
-                <input className="user-input-text" type="text" name="name" placeholder="Course name"/>
-                <input className="user-input-text" type="number" name="credits" placeholder="Credits"/>
+                <input className="user-input-text" type="text" name="name" placeholder="Course name" required/>
+                <input className="user-input-text" type="number" name="credits" placeholder="Credits" required/>
                 <input className="user-input-text" type="number" name="duration"
-                       placeholder="Duration (months)"/>
-                <input className="user-input-text" type="text" name="country" placeholder="Country"/>
-                <input className="user-input-text" type="text" name="city" placeholder="City"/>
+                       placeholder="Duration (months)" required/>
+                <input className="user-input-text" type="text" name="country" placeholder="Country" required/>
+                <input className="user-input-text" type="text" name="city" placeholder="City" required/>
                 <input className="user-input-text" type="text" name="university"
-                       placeholder="@University"/>
+                       placeholder="@University" required/>
                 <textarea id="description" className="user-input-text" name="description"
-                          placeholder="Enter description"/>
+                          placeholder="Enter description" required/>
                 <p>
                     <input className="button-style-1" type="submit" name="submit_project" value="Upload"/>
                 </p>
