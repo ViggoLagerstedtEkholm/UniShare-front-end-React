@@ -68,8 +68,6 @@ export const Main = () => {
                         <Description/>
 
                         <div className="graph-box">
-                            <p>Ratings chart (1 - 10)</p>
-
                             <Graph data={data} labels={labels}/>
                         </div>
                     </div>

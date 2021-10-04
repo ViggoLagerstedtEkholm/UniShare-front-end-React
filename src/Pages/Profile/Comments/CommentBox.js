@@ -1,17 +1,17 @@
 import {useContext} from "react";
 import {ProfileContext} from "../../Shared/Context/ProfileContext";
 import {UserContext} from "../../Shared/Context/UserContext";
-import {Redirect, useHistory} from "react-router-dom";
 import axios from "axios";
 import querystring from "querystring";
 import {API} from "../../Shared/Constants";
 import userImage from '../../../images/user.png';
 
-export const CommentBox = (results) => {
+export const CommentBox = ({results, filter}) => {
     const {profileID} = useContext(ProfileContext);
     const {user} = useContext(UserContext);
-    const path = results.results['comments'];
-    let history = useHistory();
+
+    const path = results['comments'];
+    let searchWord = filter['search'] ?? "";
 
     if (path.length === 0) {
         return (<div><h4 className="review">No profile comments!</h4></div>)
@@ -51,8 +51,14 @@ export const CommentBox = (results) => {
             });
         }
 
-        const onVisit = () =>{
-            history.push("/profile/" + authorID);
+        const getHighlightedText = (text, highlight) =>{
+            highlight = highlight.toString();
+            const parts = text.toString().split(new RegExp(`(${highlight})`, 'gi'));
+            return <span> { parts.map((part, i) =>
+                <span key={i} style={part.toLowerCase() === highlight.toLowerCase() ? { 'background-color': 'rgba(255,234,0,0.59)' } : {} }>
+            { part }
+        </span>)
+            } </span>;
         }
 
         return (
@@ -62,18 +68,20 @@ export const CommentBox = (results) => {
                     <img src={image} alt="USER IMAGE"/>
                 </div>
 
-                <p>Username: {username}</p>
+                <p>Username: {getHighlightedText(username, searchWord)}</p>
                 <div className="comment-content">
                     <div className="user-description">
-                        {text}
+                        {getHighlightedText(text, searchWord)}
                     </div>
                 </div>
                 <hr/>
-                <p><b>Comment date: {date}</b></p>
+                <p><b>Comment date: {getHighlightedText(date, searchWord)}</b></p>
                 {canSeeProfileEdits ?
                     <input className="button-style-2" type="button" value="Delete comment" onClick={onDelete}/>
                     :
-                    <input className="button-style-1" type="button" value="Visit user" onClick={() => onVisit} />
+                    <form action={"/profile/" + authorID} >
+                        <button className="button-style-4" type="submit">Visit</button>
+                    </form>
                 }
             </div>
         )

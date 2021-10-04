@@ -52,7 +52,7 @@ function FilterBox({options, onSetFilters, showFilterBox}) {
             {state ?  <form onSubmit={onSubmit}>
                 <div className="content-filter-box filter-background-box">
                     <div className="row ">
-                        <div className="column">
+                        <div className="column filter-input-background">
                             <p>
                                 Select filter option
                             </p>
@@ -61,7 +61,7 @@ function FilterBox({options, onSetFilters, showFilterBox}) {
                             </select>
                         </div>
 
-                        <div className="column">
+                        <div className="column filter-input-background">
                             <p>
                                 Results per page
                             </p>
@@ -80,14 +80,14 @@ function FilterBox({options, onSetFilters, showFilterBox}) {
                         </div>
                     </div>
                     <div className="row">
-                        <div className="column">
+                        <div className="column filter-input-background">
                             Search
                             <input className="user-input-text" id="search" type="text" name="search"
                                    placeholder="Search"/>
                         </div>
                     </div>
                     <div className="row">
-                        <div className="column">
+                        <div className="column filter-input-background">
                             <p>
                                 Filter order
                             </p>

@@ -2,24 +2,30 @@ import {useState} from "react";
 import axios from "axios";
 import {API} from "../../Shared/Constants";
 import {useHistory} from "react-router-dom";
+import {validFirstname} from "../../Shared/RegEx/User";
+import {validText} from "../../Shared/RegEx/Post";
 
 export const PostAdd = ({forumID}) => {
     const [text, setText] = useState("");
     let history = useHistory();
 
-    const onTextChange = (e) => {
-        const text = e.target.value;
-        setText(text);
+    const validate = (e) =>{
+        e.preventDefault();
+
+        const textError = checkText(e.target.text.value);
+
+        if(!textError){
+            onSubmit();
+        }
     }
 
-    const onSubmit = async (e) => {
-        e.preventDefault();
+    const onSubmit = () => {
 
         const formData = new FormData();
         formData.append('forumID', forumID);
         formData.append('text', text);
 
-        await axios.post(API + "/post/add", formData, { withCredentials: true }).then(() => {
+        axios.post(API + "/post/add", formData, { withCredentials: true }).then(() => {
             window.location.reload();
         }).catch(error => {
             if (error.response) {
@@ -30,18 +36,34 @@ export const PostAdd = ({forumID}) => {
         });
     }
 
+    const checkText = (text) =>{
+        let error;
+        if(!validText.test(text)){
+            error = true;
+            document.getElementById("text").style.background="rgb(250,138,131)";
+        }else{
+            error = false;
+            document.getElementById("text").style.background="white";
+        }
+        return error;
+    }
+
     return (
         <div className="user-input-form-box">
-            <form onSubmit={onSubmit}>
+            <form onSubmit={validate}>
                 <h4>
                     Add post
                 </h4>
-
-                <textarea className="user-input-text" type="text" value={text} onChange={onTextChange}
-                          placeholder="Text"/>
+                <h4 className="information">The post needs to be between 5 and 500 characters.</h4>
+                <textarea id="text" className="user-input-text" placeholder="Text" value={text}
+                      onChange={(e) =>{
+                            setText(e.target.value);
+                          checkText(e.target.value);
+                      }}
+                />
 
                 <p>
-                    <input className="button-style-1" type="submit" name="submit_post" value="PostBox"/>
+                    <input className="button-style-1" type="submit" value="PostBox"/>
                 </p>
             </form>
         </div>

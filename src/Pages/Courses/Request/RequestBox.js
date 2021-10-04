@@ -10,12 +10,12 @@ export const RequestBox = (results) => {
     }
 
     return path.map(function (data) {
+        console.log(data);
         const name = data['name'];
         const credits = data['credits'];
         const university = data['university'];
         const country = data['country'];
         const city = data['city'];
-        const duration = data['duration'];
         const requestID = data['requestID'];
 
         const removeRequest = async () => {
@@ -41,7 +41,6 @@ export const RequestBox = (results) => {
                             <h4><b>Course information</b></h4>
                             <p><b>Name:</b> {name}</p>
                             <p><b>Credits:</b> {credits}</p>
-                            <p><b>Duration: </b> {duration}</p>
                             <p><b>University: </b> {university}</p>
                         </div>
 

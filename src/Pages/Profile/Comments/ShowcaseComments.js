@@ -21,6 +21,7 @@ function ShowcaseComments() {
     selectOptions.set('Text', 'text');
     selectOptions.set('Date', 'date');
     selectOptions.set('Username', 'userDisplayName');
+    selectOptions.set('Added', 'date');
 
     return (
         <div >

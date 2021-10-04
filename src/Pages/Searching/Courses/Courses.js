@@ -16,7 +16,6 @@ const Courses = () => {
     const selectOptions = new Map();
     selectOptions.set('Name', 'name');
     selectOptions.set('Credits', 'credits');
-    selectOptions.set('Duration', 'duration');
     selectOptions.set('Rating', 'average_rating');
     selectOptions.set('Added', 'added');
     selectOptions.set('City', 'city');

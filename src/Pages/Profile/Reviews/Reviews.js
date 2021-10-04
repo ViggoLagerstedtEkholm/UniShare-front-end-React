@@ -18,6 +18,9 @@ export const Reviews = () => {
 
     const selectOptions = new Map();
     selectOptions.set('Added date', 'added');
+    selectOptions.set('Updated date', 'updated');
+    selectOptions.set('Course name', 'name');
+    selectOptions.set('University', 'university');
 
     return (
         <div>

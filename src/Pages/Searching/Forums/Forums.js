@@ -17,6 +17,7 @@ const Forums = () => {
     selectOptions.set('Topic', 'topic');
     selectOptions.set('Views', 'views');
     selectOptions.set('Created', 'created');
+    selectOptions.set('Total posts', 'TOTAL_POSTS');
 
     return (
         <div className="container">

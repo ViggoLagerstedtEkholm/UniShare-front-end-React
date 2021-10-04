@@ -15,6 +15,15 @@ export function Sent () {
     }, [update]);
 
     function renderSent() {
+
+        if(sent.length === 0){
+            return (
+              <h4>
+                  No sent requests!
+              </h4>
+            );
+        }
+
         return sent.map(function (data) {
             const username = data['userDisplayName'];
             const receiverID = data['receiver'];

@@ -23,6 +23,8 @@ function Courses(props) {
     const selectOptions = new Map();
     selectOptions.set('Helpful', 'helpful');
     selectOptions.set('Username', 'userDisplayName');
+    selectOptions.set('Added', 'added');
+    selectOptions.set('Updated', 'updated');
 
     return (
         <div class="container">
@@ -44,11 +46,9 @@ function Courses(props) {
             <h2>Write a review</h2>
             <hr/>
 
-            <div className="button-box">
-                <CourseContext.Provider value={value}>
-                    <AddReview/>
-                </CourseContext.Provider>
-            </div>
+            <CourseContext.Provider value={value}>
+                <AddReview/>
+            </CourseContext.Provider>
 
             <h2>Reviews</h2>
             <hr/>

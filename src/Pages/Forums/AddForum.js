@@ -1,6 +1,8 @@
 import {useState} from "react";
 import axios from "axios";
 import {API} from "../Shared/Constants";
+import {validText} from "../Shared/RegEx/Post";
+import {validTitle, validTopic} from "../Shared/RegEx/Forum";
 
 export const AddForum = (props) => {
     const [title, setTitle] = useState('');
@@ -17,7 +19,8 @@ export const AddForum = (props) => {
         const config = {
             headers: {
                 'Accept': 'application/json'
-            }
+            },
+            withCredentials: true
         };
 
         await axios.post(API + "/forum/add", formData, config).then(() => {
@@ -27,19 +30,40 @@ export const AddForum = (props) => {
         });
     }
 
-    const onTitleChanged = (e) => {
-        const title = e.target.value;
-        setTitle(title);
+    const checkTitle = (title) =>{
+        let error;
+        if(!validTitle.test(title)){
+            error = true;
+            document.getElementById("title").style.background="rgb(250,138,131)";
+        }else{
+            error = false;
+            document.getElementById("title").style.background="white";
+        }
+        return error;
     }
 
-    const onTopicChanged = (e) => {
-        const topic = e.target.value;
-        setTopic(topic);
+    const checkTopic = (topic) =>{
+        let error;
+        if(!validTopic.test(topic)){
+            error = true;
+            document.getElementById("topic").style.background="rgb(250,138,131)";
+        }else{
+            error = false;
+            document.getElementById("topic").style.background="white";
+        }
+        return error;
     }
 
-    const onTextChanged = (e) => {
-        const text = e.target.value;
-        setText(text);
+    const checkText = (text) =>{
+        let error;
+        if(!validText.test(text)){
+            error = true;
+            document.getElementById("text").style.background="rgb(250,138,131)";
+        }else{
+            error = false;
+            document.getElementById("text").style.background="white";
+        }
+        return error;
     }
 
     return (
@@ -51,20 +75,39 @@ export const AddForum = (props) => {
                     <h4>
                         Title
                     </h4>
-                    <input className="user-input-text" type="text" value={title} onChange={onTitleChanged}
-                           placeholder="Title" required/>
+                    <h4 className="information">Keep the title short, 5 to 50 characters allowed.</h4>
+                    <input id="title" className="user-input-text" type="text" placeholder="Title" value={title}
+                       onChange={(e) =>{
+                            setTitle(e.target.value);
+                            checkTitle(e.target.value);
+                        }}
+                   />
 
                     <h4>
                         Topic
                     </h4>
-                    <input className="user-input-text" type="text" value={topic} onChange={onTopicChanged}
-                           placeholder="Topic" required/>
+
+                    <h4 className="information">Keep the topic short, 1 to 50 characters allowed.</h4>
+
+                    <input id="topic" className="user-input-text" type="text" placeholder="Topic" value={topic}
+                        onChange={(e) =>{
+                            setTopic(e.target.value);
+                            checkTopic(e.target.value);
+                        }}
+                    />
 
                     <h4>
-                        Text - (ATLEAST 200 characters)
+                        Text
                     </h4>
-                    <input className="user-input-text" type="text" value={text} onChange={onTextChanged}
-                           placeholder="Text" required/>
+
+                    <h4 className="information">5 to 500 characters allowed.</h4>
+
+                    <input id="text" className="user-input-text" type="text" placeholder="Text" value={text}
+                        onChange={(e) =>{
+                            setText(e.target.value);
+                            checkText(e.target.value);
+                        }}
+                    />
 
                     <p>
                         <input className="button-style-1" type="submit"/>

@@ -20,10 +20,9 @@ export const CourseBox = ({results, filter}) => {
     return path.map(function (data) {
         const name = data['name'];
         const credits = data['credits'];
-        const duration = data['duration'];
         const university = data['university'];
         const country = data['country'];
-        const rating = data['average_rating'] == null ? 'Not set!': data['average_rating'];
+        const rating = data['average_rating'] == null ? 'Not set!' : data['average_rating'];
         const city = data['city'];
         const added = data['added'];
         const courseID = data['courseID'];
@@ -103,7 +102,6 @@ export const CourseBox = ({results, filter}) => {
                         <h4><b>Course information</b></h4>
                         <p><b>Name:</b> {getHighlightedText(name, searchWord)}</p>
                         <p><b>Credits:</b> {getHighlightedText(credits, searchWord)}</p>
-                        <p><b>Duration: </b> {getHighlightedText(duration, searchWord)}</p>
                         <p><b>University: </b> {getHighlightedText(university, searchWord)}</p>
                         <p><b>Code: </b> {getHighlightedText(code, searchWord)}</p>
 

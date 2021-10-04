@@ -14,6 +14,15 @@ export function Received({doUpdate}) {
     }, []);
 
     function renderReceived() {
+
+        if(pending.length === 0){
+            return (
+                <h4>
+                    No received requests!
+                </h4>
+            );
+        }
+
         return pending.map(function (data) {
             const username = data['userDisplayName'];
             const userID = data['sender'];

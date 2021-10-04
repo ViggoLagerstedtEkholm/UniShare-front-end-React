@@ -5,6 +5,7 @@ import {useContext} from "react";
 import {UserContext} from "../../Shared/Context/UserContext";
 import {ProfileContext} from "../../Shared/Context/ProfileContext";
 import {API} from "../../Shared/Constants";
+import Collapsible from "react-collapsible";
 
 export const DegreesBox = (attributes) => {
     const {user} = useContext(UserContext);
@@ -53,7 +54,6 @@ export const DegreesBox = (attributes) => {
         }
 
         return (
-            <div>
                 <div id={ID} className="degree-box">
                     <div className="degree-info-panel">
                         <div className="review-text">
@@ -86,9 +86,7 @@ export const DegreesBox = (attributes) => {
                     </div>
 
                     <DegreeCourse course={courses}/>
-
                 </div>
-            </div>
         );
     });
 }

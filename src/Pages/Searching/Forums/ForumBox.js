@@ -3,6 +3,7 @@ import forumImage from '../../../images/pencil.jpg';
 export const ForumBox = ({results, filter}) => {
     const path = results['forums'];
     const searchWord = filter['search'] ?? "";
+    console.log(path);
 
     if(path.length === 0){
         return (<div><h4 className="review">No forum results!</h4></div>)
@@ -14,8 +15,7 @@ export const ForumBox = ({results, filter}) => {
         const views = data['views'];
         const created = data['created'];
         const forumID = data['forumID'];
-
-        console.log(searchWord);
+        const totalPosts = data['TOTAL_POSTS'];
 
         const getHighlightedText = (text, highlight) =>{
             highlight = highlight.toString();
@@ -34,11 +34,17 @@ export const ForumBox = ({results, filter}) => {
                         <img src={forumImage} alt="FORUM IMAGE"/>
                     </div>
 
-                    <div className="content-card-forum">
+                    <div className="content-card-info review-text">
+                        <h4><b>Forum information</b></h4>
                         <p><b>Title:</b> {getHighlightedText(title, searchWord)}</p>
                         <p><b>Topic:</b> {getHighlightedText(topic, searchWord)}</p>
+                    </div>
+
+                    <div className="content-card-info">
+                        <h4><b>Forum stats</b></h4>
                         <p><b>Views: </b> {getHighlightedText(views, searchWord)}</p>
                         <p><b>Created: </b> {getHighlightedText(created, searchWord)}</p>
+                        <p><b>Total posts: </b> {totalPosts}</p>
                     </div>
 
                     <div className="content-card-info-buttons">

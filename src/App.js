@@ -12,14 +12,10 @@ import Forums from "./Pages/Searching/Forums/Forums";
 import Footer from "./Pages/Shared/Header/Footer";
 import {useEffect, useMemo, useState} from "react";
 import {UserContext} from "./Pages/Shared/Context/UserContext";
-import Settings from "./Pages/Settings/Settings";
+import {Settings} from "./Pages/Settings/Settings";
 import People from "./Pages/Searching/People/People";
-import AddProject from "./Pages/Profile/Projects/Add";
 import {AddForum} from "./Pages/Forums/AddForum.js";
 import {PostBox} from "./Pages/Forums/Post/PostBox";
-import AddDegree from "./Pages/Profile/Degrees/Add";
-import EditDegree from "./Pages/Profile/Degrees/Edit";
-import Edit from "./Pages/Profile/Projects/Edit";
 import {ErrorBoundary} from 'react-error-boundary'
 import NotFound from "./Pages/Shared/Error/NotFound";
 import Fallback from "./Pages/Shared/Error/Fallback";
@@ -34,6 +30,10 @@ import {Update} from "./Pages/Courses/Update/Update";
 import {PrivateRoute} from "./Pages/Shared/Route/PrivateRoute";
 import {API} from "./Pages/Shared/Constants";
 import {LoggedInRoute} from "./Pages/Shared/Route/LoggedInRoute";
+import {Verify} from "./Pages/Authentication/Verify";
+import DegreeUploadHandler from "./Pages/Profile/Degrees/DegreeUploadHandler";
+import ScrollToTop from "./Pages/Shared/Route/ScrollToTop";
+import ProjectUploadHandler from "./Pages/Profile/Projects/ProjectUploadHandler";
 
 function App() {
     const [user, setUser] = useState(null);
@@ -44,6 +44,7 @@ function App() {
     useEffect(() => {
         checkIfLoggedIn().then(response => {
             if (response) {
+                console.log("Logged in!: response");
                 const user = localStorage.getItem('USER');
                 const initialValue = JSON.parse(user);
                 setUser(initialValue);
@@ -79,30 +80,36 @@ function App() {
         <div>
             {isLoaded ?
                 <Router>
+
                     <ErrorBoundary FallbackComponent={Fallback}>
                         <UserContext.Provider value={value}>
                             <Header/>
-
+                            <ScrollToTop />
                             <Switch>
                                 <Route exact path="/" component={Home}/>
                                 <Route exact path="/login" component={Login}/>
                                 <Route exact path="/register" component={Register}/>
+                                <Route exact path="/verify/:email/:hash" component={Verify}/>
+
                                 <Route exact path="/profile/:profileID" component={Profile}/>
                                 <Route exact path="/courses/:courseID" component={Course}/>
                                 <Route exact path="/search/people" component={People}/>
                                 <Route exact path="/search/courses" component={Courses}/>
                                 <Route exact path="/search/forums" component={Forums}/>
-                                <Route exact path="/forum/:forumID" component={DisplayForum}/>
 
+                                <Route exact path="/forum/:forumID" component={DisplayForum}/>
                                 <LoggedInRoute exact path="/forum/add/new" component={AddForum}/>
                                 <LoggedInRoute exact path="/forum/post/:forumID" component={PostBox}/>
                                 <LoggedInRoute exact path="/forum/post/:forumID/add" component={PostAdd}/>
                                 <LoggedInRoute exact path="/friends" component={Friend}/>
                                 <LoggedInRoute exact path="/request" component={Request}/>
-                                <LoggedInRoute exact path="/project/add" component={AddProject}/>
-                                <LoggedInRoute exact path="/project/edit/:projectID" component={Edit}/>
-                                <LoggedInRoute exact path="/degree/add" component={AddDegree}/>
-                                <LoggedInRoute exact path="/degree/edit/:degreeID" component={EditDegree}/>
+
+                                <LoggedInRoute exact path="/project/add" component={ProjectUploadHandler}/>
+                                <LoggedInRoute exact path="/project/edit/:projectID" component={ProjectUploadHandler}/>
+
+                                <LoggedInRoute exact path="/degree/add" component={DegreeUploadHandler}/>
+                                <LoggedInRoute exact path="/degree/edit/:degreeID" component={DegreeUploadHandler}/>
+
                                 <LoggedInRoute exact path="/courses/review/add" component={AddReview}/>
                                 <LoggedInRoute exact path="/settings" component={Settings}/>
 

@@ -3,56 +3,32 @@ import {useContext, useState} from "react";
 import {CourseContext} from "../../Shared/Context/CourseContext";
 import {API} from "../../Shared/Constants";
 import {useHistory} from "react-router-dom";
+import {validURL} from "../../Shared/RegEx/Project";
+import {validText} from "../../Shared/RegEx/Review";
 
 export const AddReviewForm = ({review}) => {
     const doNotHaveExistingReview = review === null || review.data.data['result'] === null;
     const {courseID} = useContext(CourseContext);
-    const [fulfilling, setFulfilling] = useState( doNotHaveExistingReview ? 1 : review.data.data['result']['fulfilling']);
+    const [fulfilling, setFulfilling] = useState(doNotHaveExistingReview ? 1 : review.data.data['result']['fulfilling']);
     const [environment, setEnvironment] = useState(doNotHaveExistingReview ? 1 : review.data.data['result']['environment']);
-    const [difficulty, setDifficulty] = useState(doNotHaveExistingReview? 1 : review.data.data['result']['difficulty']);
+    const [difficulty, setDifficulty] = useState(doNotHaveExistingReview ? 1 : review.data.data['result']['difficulty']);
     const [grading, setGrading] = useState(doNotHaveExistingReview ? 1 : review.data.data['result']['grading']);
     const [literature, setLiterature] = useState(doNotHaveExistingReview ? 1 : review.data.data['result']['litterature']);
-    const [overall, setOverall] = useState(doNotHaveExistingReview ? 1  : review.data.data['result']['overall']);
+    const [overall, setOverall] = useState(doNotHaveExistingReview ? 1 : review.data.data['result']['overall']);
     const [text, setText] = useState(doNotHaveExistingReview ? "" : review.data.data['result']['text']);
     let history = useHistory();
 
-    const onFulfillingChanged = (e) => {
-        const fulfilling = e.target.value;
-        setFulfilling(fulfilling);
-    }
-
-    const onEnvironmentChanged = (e) => {
-        const environment = e.target.value;
-        setEnvironment(environment);
-    }
-
-    const onDifficultyChanged = (e) => {
-        const difficulty = e.target.value;
-        setDifficulty(difficulty);
-    }
-
-    const onGradingChanged = (e) => {
-        const grading = e.target.value;
-        setGrading(grading);
-    }
-
-    const onLiteratureChanged = (e) => {
-        const literature = e.target.value;
-        setLiterature(literature);
-    }
-
-    const onOverallChanged = (e) => {
-        const overall = e.target.value;
-        setOverall(overall);
-    }
-
-    const onTextChanged = (e) => {
-        const text = e.target.value;
-        setText(text);
-    }
-
-    const onSubmit = async (e) => {
+    const validate = (e) => {
         e.preventDefault();
+
+        const textError = checkText(e.target.text.value);
+
+        if(!textError){
+            onSubmit();
+        }
+    }
+
+    const onSubmit = () => {
         const formData = new FormData();
         formData.append('courseID', courseID);
         formData.append('fulfilling', fulfilling);
@@ -63,25 +39,40 @@ export const AddReviewForm = ({review}) => {
         formData.append('overall', overall);
         formData.append('text', text);
 
-        await axios.post(API + "/review/upload", formData, { withCredentials: true }).then(() => {
+        axios.post(API + "/review/upload", formData, {withCredentials: true}).then(() => {
             window.location.reload();
         }).catch(error => {
+            console.log(error.response);
             if (error.response) {
-                if(error.response.status === 403){
+                if (error.response.status === 403) {
                     history.push("/login");
                 }
             }
         });
     }
 
+    const checkText = (text) => {
+        let error;
+        if (!validText.test(text)) {
+            error = true;
+            document.getElementById("text").style.background = "rgb(250,138,131)";
+        } else {
+            error = false;
+            document.getElementById("text").style.background = "white";
+        }
+        return error;
+    }
+
     return (
         <div>
             <div className="user-input-form-box">
-                <form onSubmit={onSubmit}>
+                <form onSubmit={validate}>
                     <div className="course-rate-box">
                         <div className="course-rate-cell">
                             <h4>Fulfilling</h4>
-                            <select value={fulfilling} onChange={onFulfillingChanged}>
+                            <select value={fulfilling} onChange={(e) => {
+                                setFulfilling(e.target.value);
+                            }}>
                                 <option value="1">1 (Default)</option>
                                 <option value="2">2</option>
                                 <option value="3">3</option>
@@ -97,7 +88,9 @@ export const AddReviewForm = ({review}) => {
 
                         <div className="course-rate-cell">
                             <h4>Environment</h4>
-                            <select value={environment} onChange={onEnvironmentChanged}>
+                            <select value={environment} onChange={(e) =>{
+                                setEnvironment(e.target.value);
+                            }}>
                                 <option value="1">1 (Default)</option>
                                 <option value="2">2</option>
                                 <option value="3">3</option>
@@ -113,7 +106,9 @@ export const AddReviewForm = ({review}) => {
 
                         <div className="course-rate-cell">
                             <h4>Difficulty</h4>
-                            <select value={difficulty} onChange={onDifficultyChanged}>
+                            <select value={difficulty} onChange={(e) =>{
+                                setDifficulty(e.target.value);
+                            }}>
                                 <option value="1">1 (Default)</option>
                                 <option value="2">2</option>
                                 <option value="3">3</option>
@@ -129,7 +124,9 @@ export const AddReviewForm = ({review}) => {
 
                         <div className="course-rate-cell">
                             <h4>Grading</h4>
-                            <select value={grading} onChange={onGradingChanged}>
+                            <select value={grading} onChange={(e) =>{
+                                setGrading(e.target.value);
+                            }}>
                                 <option value="1">1 (Default)</option>
                                 <option value="2">2</option>
                                 <option value="3">3</option>
@@ -145,7 +142,9 @@ export const AddReviewForm = ({review}) => {
 
                         <div className="course-rate-cell">
                             <h4>Literature</h4>
-                            <select value={literature} onChange={onLiteratureChanged}>
+                            <select value={literature} onChange={(e) =>{
+                                setLiterature(e.target.value);
+                            }}>
                                 <option value="1">1 (Default)</option>
                                 <option value="2">2</option>
                                 <option value="3">3</option>
@@ -161,7 +160,9 @@ export const AddReviewForm = ({review}) => {
 
                         <div className="course-rate-cell">
                             <h4>Overall</h4>
-                            <select value={overall} onChange={onOverallChanged}>
+                            <select value={overall} onChange={(e) =>{
+                                setOverall(e.target.value);
+                            }}>
                                 <option value="1">1 (Default)</option>
                                 <option value="2">2</option>
                                 <option value="3">3</option>
@@ -177,7 +178,16 @@ export const AddReviewForm = ({review}) => {
                     </div>
 
                     <p>Word left to limit <b>{5000 - text.length}</b></p>
-                    <textarea className="user-input-text" value={text} onChange={onTextChanged} maxLength={5000} placeholder="Text"/>
+                    <textarea
+                        id="text"
+                        className="user-input-text" value={text}
+                        maxLength={5000}
+                        placeholder="Text"
+                        onChange={(e) =>{
+                            setText(e.target.value);
+                            checkText(e.target.value);
+                        }}
+                    />
                     <p>
                         <input className="button-style-1" type="submit" name="submit_project" value="Upload"/>
                     </p>

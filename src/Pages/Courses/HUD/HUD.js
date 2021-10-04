@@ -5,7 +5,6 @@ export const HUD = (attributes) => {
 
     const name = courseInfo['name'];
     const credits = courseInfo['credits'];
-    const duration = courseInfo['duration'];
     const added = courseInfo['added'];
     const country = courseInfo['country'];
     const city = courseInfo['city'];
@@ -38,16 +37,6 @@ export const HUD = (attributes) => {
 
                 <p>
                     {credits}
-                </p>
-
-                <div>
-                    <h3>
-                        Duration (YEARS)
-                    </h3>
-                </div>
-
-                <p>
-                    {duration}
                 </p>
 
                 <div>

@@ -1,8 +1,10 @@
 import userImage from '../../../images/user.png';
 
-export const PostBox = (results) => {
-    console.log(results);
-    const path = results.results['posts'];
+export const PostBox = ({results, filter}) => {
+
+    const path = results['posts'];
+    let searchWord = filter['search'] ?? "";
+
     if(path.length === 0){
         return (<div><h4 className="review">No post results!</h4></div>)
     }
@@ -11,13 +13,23 @@ export const PostBox = (results) => {
         const date = data['date'];
         const text = data['text'];
         const userDisplayName = data['userDisplayName'];
-        const userID = data['userID'];
         let image = data['userImage'];
+        console.log(data);
 
         if(image === ""){
             image = userImage;
         }else{
             image = 'data:image/jpeg;base64,' + image;
+        }
+
+        const getHighlightedText = (text, highlight) =>{
+            highlight = highlight.toString();
+            const parts = text.toString().split(new RegExp(`(${highlight})`, 'gi'));
+            return <span> { parts.map((part, i) =>
+                <span key={i} style={part.toLowerCase() === highlight.toLowerCase() ? { 'background-color': 'rgba(255,234,0,0.59)' } : {} }>
+            { part }
+        </span>)
+            } </span>;
         }
 
         return (
@@ -27,16 +39,16 @@ export const PostBox = (results) => {
                 </div>
 
                 <p>
-                    Username: {userDisplayName}
+                    Username: {getHighlightedText(userDisplayName, searchWord)}
                 </p>
 
                 <p>
-                    Posted: {date}
+                    Posted: {getHighlightedText(date, searchWord)}
                 </p>
 
                 <div className="review-border">
                     <div className="review-text">
-                        {text}
+                        {getHighlightedText(text, searchWord)}
                     </div>
                 </div>
             </div>

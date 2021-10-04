@@ -4,6 +4,8 @@ import FilterContent from "../Shared/Search/FilterContent";
 import {PostBox} from "./Post/PostBox";
 import {PostAdd} from "./Post/PostAdd";
 import {API} from "../Shared/Constants";
+import {ShowcaseUser} from "../Home/ShowcaseUser";
+import Collapsible from "react-collapsible";
 
 export const DisplayForum = (props) => {
     const [forum, setForum] = useState(null);
@@ -20,6 +22,7 @@ export const DisplayForum = (props) => {
             }).then(
                 response => {
                     setForum(response['data']);
+                    console.log(response['data']);
                 }
             )
             .catch((error) => {
@@ -40,7 +43,7 @@ export const DisplayForum = (props) => {
     }
 
     const selectOptions = new Map();
-    selectOptions.set('Date', 'date');
+    selectOptions.set('Posted', 'date');
     selectOptions.set('Username', 'userDisplayName');
 
     return (
@@ -48,6 +51,10 @@ export const DisplayForum = (props) => {
                 {
                     isLoaded ?
                         <div>
+                            <h2>Thread starter</h2>
+                            <hr/>
+                            <ShowcaseUser ID={forum['creator']}/>
+                            <hr/>
                             <div className="forum-display-info">
                                 <h3>Title: {forum['title']}</h3>
                                 <h3>Created: {forum['created']}</h3>
@@ -56,7 +63,10 @@ export const DisplayForum = (props) => {
 
                             <br/>
 
-                            <PostAdd forumID={forumID}/>
+                            <Collapsible open={true} trigger="Write post">
+                                <PostAdd forumID={forumID}/>
+                            </Collapsible>
+                            <br/>
 
                             <FilterContent
                                 APIEndPoint={API + "/search/posts"}

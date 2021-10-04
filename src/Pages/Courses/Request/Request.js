@@ -43,9 +43,12 @@ function Request() {
 
             <hr/>
 
-            <h2 className="user-input-form-box">
+            <h2>
                 Your pending requests
             </h2>
+
+            <hr/>
+
             <div className="display-result-box">
                 {isLoaded ? <RequestBox results={requests}/> : <h1>Loading...</h1>}
             </div>

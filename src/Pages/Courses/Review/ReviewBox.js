@@ -4,9 +4,12 @@ import axios from "axios";
 import userImage from '../../../images/user.png';
 import {API} from "../../Shared/Constants";
 
-export const ReviewBox = (results) => {
+export const ReviewBox = ({results, filter}) => {
     const {user} = useContext(UserContext);
-    const path = results.results['reviews'];
+
+    const path = results['reviews'];
+    let searchWord = filter['search'] ?? "";
+
     if(path.length === 0){
         return (<div><h4 className="review">No review results!</h4></div>)
     }
@@ -39,6 +42,16 @@ export const ReviewBox = (results) => {
             image = 'data:image/jpeg;base64,' + image;
         }
 
+        const getHighlightedText = (text, highlight) =>{
+            highlight = highlight.toString();
+            const parts = text.toString().split(new RegExp(`(${highlight})`, 'gi'));
+            return <span> { parts.map((part, i) =>
+                <span key={i} style={part.toLowerCase() === highlight.toLowerCase() ? { 'background-color': 'rgba(255,234,0,0.59)' } : {} }>
+            { part }
+        </span>)
+            } </span>;
+        }
+
         const onDelete = async (e) => {
             e.preventDefault();
 
@@ -61,7 +74,7 @@ export const ReviewBox = (results) => {
                     <img src={image} alt="USER IMG"/>
                 </div>
                 <p>
-                    Username: {userDisplayName}
+                    Username: {getHighlightedText(userDisplayName, searchWord)}
                 </p>
 
                 {canSeeProfileEdits ?
@@ -77,7 +90,7 @@ export const ReviewBox = (results) => {
 
                 <div className="review-border">
                     <div className="review-text">
-                        {text}
+                        {getHighlightedText(text, searchWord)}
                     </div>
                 </div>
 
@@ -100,11 +113,11 @@ export const ReviewBox = (results) => {
                 <hr/>
 
                 <p>
-                    Updated: {updated}
+                    Updated: {getHighlightedText(updated, searchWord)}
                 </p>
 
                 <p>
-                    Added: {added}
+                    Added: {getHighlightedText(added, searchWord)}
                 </p>
             </div>
         )
