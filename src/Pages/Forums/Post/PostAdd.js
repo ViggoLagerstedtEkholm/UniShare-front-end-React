@@ -2,7 +2,6 @@ import {useState} from "react";
 import axios from "axios";
 import {API} from "../../Shared/Constants";
 import {useHistory} from "react-router-dom";
-import {validFirstname} from "../../Shared/RegEx/User";
 import {validText} from "../../Shared/RegEx/Post";
 
 export const PostAdd = ({forumID}) => {
@@ -20,7 +19,6 @@ export const PostAdd = ({forumID}) => {
     }
 
     const onSubmit = () => {
-
         const formData = new FormData();
         formData.append('forumID', forumID);
         formData.append('text', text);
@@ -49,7 +47,7 @@ export const PostAdd = ({forumID}) => {
     }
 
     return (
-        <div className="user-input-form-box">
+        <div className="title-bar">
             <form onSubmit={validate}>
                 <h4>
                     Add post

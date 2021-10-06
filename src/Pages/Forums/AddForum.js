@@ -70,7 +70,7 @@ export const AddForum = (props) => {
         <div className="container">
             <h2>Create forum post</h2>
             <hr/>
-            <div className="user-input-form-box">
+            <div className="title-bar">
                 <form onSubmit={onSubmit}>
                     <h4>
                         Title

@@ -5,19 +5,21 @@ import axios from "axios";
 import querystring from "querystring";
 import {API} from "../../Shared/Constants";
 import userImage from '../../../images/user.png';
+import {getHighlightedText} from "../../Shared/HighLightText";
+import {NoResults} from "../../Shared/Search/NoResults";
 
 export const CommentBox = ({results, filter}) => {
     const {profileID} = useContext(ProfileContext);
     const {user} = useContext(UserContext);
 
-    const path = results['comments'];
+    const path = results['result'];
     let searchWord = filter['search'] ?? "";
 
     if (path.length === 0) {
-        return (<div><h4 className="review">No profile comments!</h4></div>)
+        return (<NoResults/>)
     }
 
-    return path.map(function (data, i) {
+    return path.map(function (data) {
         let image = 'data:image/jpeg;base64,' + data['userImage'];
         const username = data['userDisplayName'];
         const date = data['date'];
@@ -49,16 +51,6 @@ export const CommentBox = ({results, filter}) => {
                 console.log(error);
                 alert('Error!');
             });
-        }
-
-        const getHighlightedText = (text, highlight) =>{
-            highlight = highlight.toString();
-            const parts = text.toString().split(new RegExp(`(${highlight})`, 'gi'));
-            return <span> { parts.map((part, i) =>
-                <span key={i} style={part.toLowerCase() === highlight.toLowerCase() ? { 'background-color': 'rgba(255,234,0,0.59)' } : {} }>
-            { part }
-        </span>)
-            } </span>;
         }
 
         return (

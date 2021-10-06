@@ -1,8 +1,8 @@
 html, body {
     width: 100%;
     height: 100%;
-    margin: 0px;
-    padding: 0px;
+    margin: 0;
+    padding: 0;
     overflow-x: hidden;
     color: white;
 }
@@ -12,6 +12,13 @@ fieldset {
     font-size: 15px;
     transform: scale(1.5);
     transition: 280ms all ease-in-out;
+}
+
+.loading{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    vertical-align: center;
 }
 
 textarea {
@@ -43,6 +50,18 @@ li {
     list-style-type: none;
 }
 
+.no-results{
+    padding: 10px;
+}
+
+.capitalize{
+    text-transform: uppercase;
+}
+
+.white{
+    color: white;
+}
+
 .information{
     padding: 10px;
     background-color: rgb(159, 212, 255);
@@ -57,75 +76,8 @@ li {
     color: red;
 }
 
-.Collapsible {
-    background-color: #3b3b3b;
-}
-
-.Collapsible__contentInner {
-    padding: 10px;
-    border: 1px solid #f1f1f1;
-    border-top: 0;
-}
-
-.Collapsible__contentInner p {
-    margin-bottom: 10px;
-    font-size: 14px;
-    line-height: 20px;
-}
-
-.Collapsible__contentInner p:last-child {
-    margin-bottom: 0;
-}
-
-.Collapsible__trigger {
-    display: block;
-    font-weight: 400;
-    text-decoration: none;
-    color: #333333;
-    position: relative;
-    border: 1px solid white;
-    padding: 10px;
-    background: #3173f1;
-    color: white;
-}
-
-.Collapsible__trigger:after {
-    font-family: 'FontAwesome';
-    content: '↓';
-    position: absolute;
-    right: 10px;
-    top: 10px;
-    display: block;
-    transition: transform 300ms;
-}
-
-.Collapsible__trigger.is-open:after {
-    transform: rotateZ(180deg);
-}
-
-.Collapsible__trigger.is-disabled {
-    opacity: 0.5;
-    background-color: grey;
-}
-
-.CustomTriggerCSS {
-    background-color: lightcoral;
-    transition: background-color 200ms ease;
-}
-
-.CustomTriggerCSS--open {
-    background-color: darkslateblue;
-}
-
-.Collapsible__custom-sibling {
-    padding: 5px;
-    font-size: 12px;
-    background-color: #CBB700;
-    color: black;
-}
-
-.degree-text-name {
-    font-size: 16px;
+.not-found-animation{
+    margin-top: 1%;
 }
 
 .friend-pending {
@@ -144,8 +96,11 @@ li {
 
 .degree-courses-buttons {
     display: flex;
+    flex-direction: column;
     justify-content: space-evenly;
     gap: 10px;
+    width: 100%;
+    margin-right: 10px;
 }
 
 .search-terms-container {
@@ -158,13 +113,33 @@ li {
     color: white;
 }
 
-.content-card-forum {
+.profile-handles{
+    margin-top: 30px;
+    margin-bottom: 5px;
     display: flex;
-    font-size: 15px;
     flex-direction: row;
-    text-align: left;
-    justify-content: space-evenly;
-    width: 100%;
+    height: 20px;
+    justify-content: center;
+    align-items: center;
+
+}
+
+.profile-handles-icon{
+    margin-left: 10px;
+    margin-right: 10px;
+    align-items: center;
+    display: flex;
+    justify-content: center;
+}
+
+.profile-handle-icon-linkedin{
+    max-width: 54px;
+    max-height: 44px;
+}
+
+.profile-handle-icon-github{
+    max-width: 64px;
+    max-height: 64px;
 }
 
 .course-profile {
@@ -175,8 +150,23 @@ li {
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
-.error {
-    border: 2px solid red;
+.profile-side-information{
+    box-shadow: rgba(220, 220, 220, 0.1) 0 4px 16px, rgba(215, 215, 215, 0.1) 0 8px 24px, rgba(222, 222, 222, 0.1) 0 16px 56px;
+    padding: 10px;
+    border-radius: 5px;
+    background-color: #1A1E20;
+    margin-right: 10px;
+}
+
+.profile-side-information button{
+    margin-top: 10px;
+}
+
+.course-side-information{
+    padding: 10px;
+    border-radius: 5px;
+    background-color: #403F3F;
+    margin-left: 10px;
 }
 
 .home-statistics-header {
@@ -219,20 +209,12 @@ li {
     align-items: center;
 }
 
-.user-input-form-box p, a {
+.title-bar p, a {
     color: black;
 }
 
 .form-text {
     color: black;
-}
-
-.profile-comment-container {
-    padding: 10px;
-    margin-top: 10px;
-    background-color: #313131;
-    color: white;
-    border-radius: 5px;
 }
 
 .profile-comment-form {
@@ -283,9 +265,8 @@ li {
 }
 
 .degree-box {
-    margin-top: 10px;
+    margin-top: 5px;
     background: linear-gradient(178deg, rgb(32 37 40) 0%, rgb(12 9 21) 100%);
-    margin-top: 20px;
     border-radius: 5px;
     padding: 10px;
     color: white;
@@ -300,7 +281,6 @@ li {
     text-decoration: underline;
 }
 
-
 .score {
     font-size: 35px;
     font-family: monospace;
@@ -311,15 +291,16 @@ li {
     font-size: 15px;
 }
 
-/* Courses page */
-
 .course-container {
     padding: 10px;
     color: white;
 }
 
+.course-shadow{
+    box-shadow: rgba(0, 0, 0, 0.35) 0 5px 15px;
+}
+
 .course-sections-statistics {
-    color: white;
     padding: 10px;
     background-color: #474646;
     border-radius: 5px;
@@ -341,14 +322,13 @@ li {
 }
 
 .graph-box {
-    color: white;
+    padding: 10px;
     background-color: #474646;
     border-radius: 5px;
     margin-top: 10px;
-    text-align: center;
 }
 
-.review {
+.empty-response {
     padding: 10px;
     background-color: #2b2b2b;
     border-radius: 5px;
@@ -398,12 +378,6 @@ li {
     border-radius: 5px;
 }
 
-.project-description {
-    width: auto;
-    word-wrap: break-word;
-    text-overflow: ellipsis;
-}
-
 .project-line {
     border-left: 1px solid white;
     height: auto;
@@ -418,19 +392,27 @@ li {
     background-color: #474646;
     border-radius: 5px;
     color: white;
-    padding: 10px 50px;
+    padding: 10px 10px;
 }
 
 .filter-background-box {
+    box-shadow: rgba(220, 220, 220, 0.1) 0 4px 16px, rgba(215, 215, 215, 0.1) 0 8px 24px, rgba(222, 222, 222, 0.1) 0 16px 56px;
     margin-top: 10px;
-    border-style: dashed;
     border-width: 1px;
     background-color: rgb(47, 47, 49);
 }
 
 .filter-input-background{
-    box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+    box-shadow: rgba(220, 220, 220, 0.06) 0 4px 16px, rgba(215, 215, 215, 0.05) 0 8px 24px, rgba(222, 222, 222, 0.04) 0 16px 56px;
+    border-radius: 5px;
+    background-color: #1a233a;
     margin: 5px;
+}
+
+.filter-text{
+    font-size: 20px;
+    font-style: italic;
+    margin-bottom: 20px;
 }
 
 .content-filter-bg button {
@@ -561,29 +543,10 @@ select {
     color: white;
 }
 
-.form-authentication-container {
-    margin: auto;
-    width: 50%;
-    padding: 50px;
-    background-color: white;
-    border-radius: 5px;
-}
-
 .form-authentication-text {
     text-align: center;
     word-wrap: break-word;
     color: black;
-}
-
-.form-authentication h1 {
-    text-align: center;
-    padding: 0 0 20px 0;
-    border-bottom: 1px solid silver;
-}
-
-.form-authentication form {
-    padding: 0 40px;
-    box-sizing: border-box;
 }
 
 form .text_field {
@@ -620,8 +583,8 @@ form .text_field {
     display: flex;
     height: auto;
     padding: 10px;
-    min-height: 1000px;
-    box-shadow: rgba(0, 0, 0, 0.4) 0px 30px 90px;
+    border-radius: 5px;
+    box-shadow: rgba(0, 0, 0, 0.4) 0 30px 90px;
 }
 
 .fixed {
@@ -635,70 +598,6 @@ form .text_field {
     flex-grow: 1;
 }
 
-.small-image {
-    width: 100%;
-    max-height: 150px;
-}
-
-.medium-image {
-    width: 100%;
-    max-height: 300px;
-    min-height: 300px;
-}
-
-.large-image {
-    width: 100%;
-    max-height: 500px;
-    min-height: 500px;
-}
-
-.profile-tab {
-    overflow: hidden;
-    background-color: #6e6e6e;
-}
-
-.profile-tab button {
-    background-color: inherit;
-    float: left;
-    border: none;
-    outline: none;
-    cursor: pointer;
-    padding: 14px 16px;
-    transition: 0.3s;
-    font-size: 17px;
-    color: white;
-}
-
-.profile-tab button:hover {
-    background-color: #ddd;
-}
-
-.profile-tab button.active {
-    background-color: #ccc;
-}
-
-.profile-tabcontent {
-    display: none;
-    padding: 6px 12px;
-    border-top: none;
-    background-color: #474646;
-}
-
-.user-profile {
-    padding: 10px;
-    background-color: #403f3f;
-    border-radius: 5px;
-}
-
-.user-profile p {
-    color: white;
-}
-
-.user-profile h3 {
-    color: white;
-    margin-top: 15px;
-}
-
 .user-content {
     padding: 10px;
     background-color: #403f3f;
@@ -707,7 +606,6 @@ form .text_field {
 }
 
 .user-projects-box {
-    padding: 5px;
     background-color: #403f3f;
     border-radius: 5px;
 }
@@ -726,10 +624,11 @@ form .text_field {
 .user-image {
     display: flex;
     justify-content: center;
-    margin-left: 40px;
-    margin-right: 40px;
-    outline: 2px solid #CCC;
-    height: 300px;
+    margin-top: 10px;
+    margin-left: 20px;
+    margin-right: 20px;
+    outline: 1px solid #a8a8a8;
+    height: 340px;
     width: auto;
 }
 
@@ -743,7 +642,7 @@ form .text_field {
     color: white;
 }
 
-.user-input-form-box {
+.title-bar {
     padding: 10px;
     margin-bottom: 10px;
     background-color: white;
@@ -751,26 +650,9 @@ form .text_field {
     border-radius: 5px;
 }
 
-.user-input-form-box button {
+.title-bar button {
     margin-top: 5px;
     margin-bottom: 5px;
-}
-
-.wrapper-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, 20rem);
-    justify-content: flex-start;
-    background-color: #474646;
-}
-
-.wrapper-container-item {
-    overflow: hidden;
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-    background-color: white;
-    text-align: center;
-    border-radius: 5px;
-    position: relative;
-    margin: 5%;
 }
 
 .user-profile-project-description-box {
@@ -781,24 +663,6 @@ form .text_field {
 .user-profile-project-description-box h1 {
     width: 100%;
     text-overflow: clip;
-}
-
-.user-project-button-link-delete :hover {
-    background-color: red;
-}
-
-.wrapper-container-item a {
-    color: black;
-    text-decoration: none;
-    text-transform: uppercase;
-    font-family: monospace;
-}
-
-.forum-display-info {
-    margin-top: 10px;
-    background-color: #4b5357;
-    border-radius: 5px;
-    padding: 10px;
 }
 
 .display-result-box {
@@ -817,31 +681,7 @@ form .text_field {
 }
 
 .startpage-flex-item {
-    background-color: #313131;
     flex-grow: 1;
-}
-
-.startpage-flex-item h1 {
-    color: white;
-    flex-grow: 1;
-    padding: 10px;
-}
-
-.startpage-top-ranked-box {
-    width: 100%;
-    height: 100px;
-    text-align: left;
-    padding: 10px;
-    background-color: #383838;
-}
-
-.startpage-top-ranked-box p {
-    margin-top: 5px;
-    margin-bottom: 5px;
-}
-
-.startpage-top-ranked-score {
-    color: #eb9e34;
 }
 
 .content-pagination {
@@ -873,7 +713,7 @@ form .text_field {
     flex: 1;
 }
 
-.content-user {
+.card-info {
     display: flex;
     flex-wrap: nowrap;
     justify-content: left;
@@ -908,9 +748,8 @@ form .text_field {
     display: flex;
     font-size: 15px;
     flex-direction: column;
-    text-align: left;
-    justify-content: center;
-    width: 100%;
+    justify-content: left;
+    width: 90%;
 }
 
 .content-card-info-buttons {
@@ -932,18 +771,9 @@ form .text_field {
     font-family: monospace;
 }
 
-.content-card-info p {
-    overflow: hidden;
-    max-width: 250px;
-}
-
 .content-card-info button {
     height: 100%;
     width: 100%;
-}
-
-.content-card-info select {
-    width: 90%;
 }
 
 .user-input-text {
@@ -954,6 +784,30 @@ form .text_field {
     border: 1px solid #ccc;
     border-radius: 4px;
     box-sizing: border-box;
+}
+
+.text-area{
+    width: 100%;
+    height: 150px;
+}
+
+.responsive-text{
+    direction: ltr;
+    width: 100%;
+    margin: 10px;
+    font-size: 15px;
+    text-align: match-parent;
+    white-space: pre-line;
+    overflow-wrap: break-word;
+    word-break: break-word;
+    hyphens: auto;
+}
+
+.forum-display-info {
+    margin-top: 10px;
+    background-color: #4b5357;
+    border-radius: 5px;
+    padding: 10px;
 }
 
 @media screen and (max-width: 1301px) {
@@ -979,7 +833,7 @@ form .text_field {
         background: linear-gradient(0deg, rgba(0, 39, 54, 1) 0%, rgba(0, 93, 99, 1) 100%);
     }
 
-    .content-user {
+    .card-info {
         flex-direction: column;
     }
 
@@ -998,6 +852,10 @@ form .text_field {
 }
 
 @media screen and (max-width: 984px) {
+    .course-side-information{
+        margin-top: 10px;
+        margin-left: 0;
+    }
 
     .content-filter-box {
         padding-right: 100px;
@@ -1097,12 +955,12 @@ form .text_field {
         height: auto;
     }
 
-    .content-user img {
+    .card-info img {
         margin-top: 10px;
         margin-bottom: 10px;
     }
 
-    .content-user a {
+    .card-info a {
         margin-top: 10px;
         margin-bottom: 10px;
     }

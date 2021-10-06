@@ -1,14 +1,15 @@
 import axios from "axios";
 import {API} from "../../Shared/Constants";
 import courseImage from '../../../images/books.png';
+import {NoResults} from "../../Shared/Search/NoResults";
 
 export const RequestBox = (results) => {
     console.log(results);
 
-    const path = results.results['requests'];
+    const path = results.results['result'];
 
     if (path.length === 0) {
-        return (<div><h4 className="review">No requested courses!</h4></div>)
+        return (<NoResults/>)
     }
 
     return path.map(function (data) {
@@ -17,7 +18,6 @@ export const RequestBox = (results) => {
         const university = data['university'];
         const country = data['country'];
         const city = data['city'];
-        const duration = data['duration'];
         const requestID = data['requestID'];
         const code = data['code'];
         const requestDate = data['date'];
@@ -44,24 +44,23 @@ export const RequestBox = (results) => {
         return (
             <div>
                 <div id={requestID} className="content-card-body">
-                    <div className="content-user">
+                    <div className="card-info">
                         <div className="content-card-image">
                             <img src={courseImage} alt="COURSE"/>
                         </div>
 
-                        <div className="content-card-info">
+                        <div className="content-card-info responsive-text">
                             <h4><b>Course information</b></h4>
-                            <p><b>Name:</b> {name}</p>
+                            <p><b>Name:</b> {name} </p>
                             <p><b>Credits:</b> {credits}</p>
-                            <p><b>Duration: </b> {duration}</p>
                             <p><b>University: </b> {university}</p>
+                            <p><b>Code:</b> {code}</p>
                         </div>
 
-                        <div className="content-card-info">
+                        <div className="content-card-info responsive-text">
                             <h4><b>More</b></h4>
                             <p><b>Country:</b> {country}</p>
                             <p><b>City:</b> {city}</p>
-                            <p><b>Code:</b> {code}</p>
                             <p><b>Request date:</b> {requestDate}</p>
                         </div>
 

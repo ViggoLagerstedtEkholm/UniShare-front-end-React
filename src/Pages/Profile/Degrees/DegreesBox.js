@@ -5,7 +5,8 @@ import {useContext} from "react";
 import {UserContext} from "../../Shared/Context/UserContext";
 import {ProfileContext} from "../../Shared/Context/ProfileContext";
 import {API} from "../../Shared/Constants";
-import Collapsible from "react-collapsible";
+import {NoResults} from "../../Shared/Search/NoResults";
+import {Link} from "react-router-dom";
 
 export const DegreesBox = (attributes) => {
     const {user} = useContext(UserContext);
@@ -13,7 +14,7 @@ export const DegreesBox = (attributes) => {
 
     const path = attributes.attributes.data.degrees;
     if(path.length === 0){
-        return (<div><h4 className="review">No degrees found!</h4></div>)
+        return (<NoResults/>)
     }
 
     return path.map(function (data) {
@@ -38,38 +39,43 @@ export const DegreesBox = (attributes) => {
         }
 
         const onDelete = async () => {
-            const params = {
-                degreeID: ID
-            }
-
-            await axios.post(API + "/degree/remove", querystring.stringify(params), { withCredentials: true }).then(response => {
-                    console.log(response);
-                    document.getElementById(ID).remove();
+            if (window.confirm("Do you want to delete this degree?")) {
+                const params = {
+                    degreeID: ID
                 }
-            )
-            .catch((error) => {
-                console.log(error);
-                alert('Error!');
-            });
+
+                await axios.post(API + "/degree/remove", querystring.stringify(params), { withCredentials: true }).then(response => {
+                        console.log(response);
+                        document.getElementById(ID).remove();
+                    }
+                )
+                .catch((error) => {
+                    console.log(error);
+                    alert('Error!');
+                });
+            }
         }
 
         return (
                 <div id={ID} className="degree-box">
                     <div className="degree-info-panel">
-                        <div className="review-text">
+                        <div className="responsive-text">
                             {
                                 isActive ? <h1>Active degree</h1>:null
                             }
-                            <p >Name: {name}</p>
+
+                            <div className="capitalize">
+                                <h2>{name}</h2>
+                            </div>
 
                             <hr/>
 
-                            <p>University: {university}</p>
-                            <p>Country: {country}</p>
-                            <p>City: {city}</p>
-                            <p>Field of study: {field_of_study}</p>
-                            <p>Between: {start_date} - {end_date}</p>
-                            <p>Sum total credits: {totalCredits} hp</p>
+                            <p><b>University: </b> {university}</p>
+                            <p><b>Country: </b> {country}</p>
+                            <p><b>City: </b> {city}</p>
+                            <p><b>Field of study: </b> {field_of_study}</p>
+                            <p><b>Between: </b> {start_date} - {end_date}</p>
+                            <p><b>Sum total credits: </b> {totalCredits} hp</p>
                         </div>
 
                         {canSeeProfileEdits ?
@@ -81,7 +87,7 @@ export const DegreesBox = (attributes) => {
                                 <button className="button-style-2" onClick={onDelete}>Delete degree </button>
 
                                 <h3>Included courses</h3>
-                                <a href="/search/courses">Add courses to degree</a>
+                                <Link to={"/search/courses"}>Add courses to degree</Link>
                             </div>: null}
                     </div>
 

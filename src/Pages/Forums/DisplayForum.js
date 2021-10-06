@@ -4,34 +4,36 @@ import FilterContent from "../Shared/Search/FilterContent";
 import {PostBox} from "./Post/PostBox";
 import {PostAdd} from "./Post/PostAdd";
 import {API} from "../Shared/Constants";
-import {ShowcaseUser} from "../Home/ShowcaseUser";
 import Collapsible from "react-collapsible";
+import NotFound from "../Shared/Error/NotFound";
+import {ShowcaseUser} from "../Home/ShowcaseUser";
+import {Loading} from "../Shared/State/Loading";
 
 export const DisplayForum = (props) => {
     const [forum, setForum] = useState(null);
     const [isLoaded, setIsLoaded] = useState(false);
-
+    const [forumExists, setForumExists] = useState(false);
     const forumID = props.match.params.forumID;
 
     useEffect(() => {
-        const getForum = async () => {
-            await axios.get(API + "/forum/get", {
-                params: {
-                    forumID: forumID
-                }
-            }).then(
-                response => {
-                    setForum(response['data']);
-                    console.log(response['data']);
-                }
-            )
-            .catch((error) => {
-                console.log(error);
-            });
-        }
-
-        getForum().then(() => setIsLoaded(true));
+        checkIfForumExists().then((response) =>{
+            if(response){
+                setForumExists(true);
+                setForum(response);
+            }
+            setIsLoaded(true);
+        });
     }, []);
+
+    const checkIfForumExists = async () => {
+        const promise =  axios.get(API + "/forum/get", {
+            params: {
+                forumID: forumID
+            }
+        });
+
+        return promise.then((response) => response.data).catch(() => null);
+    }
 
     const startFilter = {
         page: 1,
@@ -48,36 +50,39 @@ export const DisplayForum = (props) => {
 
     return (
         <div className="container">
-                {
-                    isLoaded ?
-                        <div>
-                            <h2>Thread starter</h2>
-                            <hr/>
-                            <ShowcaseUser ID={forum['creator']}/>
-                            <hr/>
-                            <div className="forum-display-info">
-                                <h3>Title: {forum['title']}</h3>
-                                <h3>Created: {forum['created']}</h3>
-                                <h3>Views: {forum['views']}</h3>
-                            </div>
+            {isLoaded ? <div>
+                    {
+                        forumExists ?
+                            <div>
+                                <h2>Thread starter</h2>
+                                <hr/>
+                                <ShowcaseUser ID={forum['creator']}/>
+                                <hr/>
+                                <div className="forum-display-info">
+                                    <h3>Title: {forum['title']}</h3>
+                                    <h3>Created: {forum['created']}</h3>
+                                    <h3>Views: {forum['views']}</h3>
+                                </div>
 
-                            <br/>
+                                <br/>
 
-                            <Collapsible open={true} trigger="Write post">
-                                <PostAdd forumID={forumID}/>
-                            </Collapsible>
-                            <br/>
+                                <Collapsible open={true} trigger="Write post">
+                                    <PostAdd forumID={forumID}/>
+                                </Collapsible>
+                                <br/>
 
-                            <FilterContent
-                                APIEndPoint={API + "/search/posts"}
-                                startFilter={startFilter}
-                                options={selectOptions}
-                                displayBox={PostBox}
-                                showFilterBox={false}
-                            />
-                    </div> : <h1>Loading...</h1>
-                }
-
+                                <FilterContent
+                                    APIEndPoint={API + "/search/posts"}
+                                    startFilter={startFilter}
+                                    options={selectOptions}
+                                    displayBox={PostBox}
+                                    showFilterBox={false}
+                                />
+                            </div> : <NotFound/>
+                    }
+                </div> :
+                <Loading/>
+            }
         </div>
 
     );

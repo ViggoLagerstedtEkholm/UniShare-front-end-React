@@ -23,16 +23,12 @@ export const Reviews = () => {
     selectOptions.set('University', 'university');
 
     return (
-        <div>
-            <h2>Ratings</h2>
-            <hr/>
-            <FilterContent
-                APIEndPoint={API + "/search/profile/reviews"}
-                startFilter={startFilter}
-                options={selectOptions}
-                displayBox={ReviewBox}
-                showFilterBox={false}
-            />
-        </div>
+        <FilterContent
+            APIEndPoint={API + "/search/profile/reviews"}
+            startFilter={startFilter}
+            options={selectOptions}
+            displayBox={ReviewBox}
+            showFilterBox={false}
+        />
     );
 }

@@ -3,6 +3,7 @@ import Collapsible from "react-collapsible";
 import axios from "axios";
 import {API} from "../Shared/Constants";
 import Message from "../Shared/Files/Message";
+import {Loading} from "../Shared/State/Loading";
 
 export function ActiveDegree() {
     const [activeDegreeID, setActiveDegreeID] = useState();
@@ -30,7 +31,6 @@ export function ActiveDegree() {
 
     const validate = (e) =>{
         e.preventDefault();
-        console.log("ID" + activeDegreeID);
 
         if(activeDegreeID){
             onSubmit();
@@ -89,7 +89,7 @@ export function ActiveDegree() {
 
                 <button id="update" type="submit" className="button-style-4">Update active degree</button>
             </form>
-            : <h4>Loading degrees.</h4>}
+            : <Loading/>}
 
         </Collapsible>
     );

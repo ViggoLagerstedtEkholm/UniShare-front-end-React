@@ -1,9 +1,10 @@
 import axios from "axios";
 import {useEffect, useState} from "react";
 import {RequestBox} from "./RequestBox";
-import {RequestForm} from "./RequestForm";
+import {CourseUploadHandler} from "./CourseUploadHandler";
 import {API} from "../../Shared/Constants";
 import { useHistory } from "react-router-dom";
+import {Loading} from "../../Shared/State/Loading";
 
 function Request() {
     const [isLoaded, setIsLoaded] = useState(false);
@@ -39,7 +40,7 @@ function Request() {
             </h3>
             <hr/>
 
-            <RequestForm/>
+            <CourseUploadHandler/>
 
             <hr/>
 
@@ -50,7 +51,7 @@ function Request() {
             <hr/>
 
             <div className="display-result-box">
-                {isLoaded ? <RequestBox results={requests}/> : <h1>Loading...</h1>}
+                {isLoaded ? <RequestBox results={requests}/> : <Loading/>}
             </div>
         </div>
     );

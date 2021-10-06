@@ -21,18 +21,15 @@ export const Ratings = () => {
     selectOptions.set('Course code', 'code');
     selectOptions.set('Credits', 'credits');
     selectOptions.set('University', 'university');
+    selectOptions.set('Rating', 'rating');
 
     return (
-        <div>
-            <h2>Ratings</h2>
-            <hr/>
-            <FilterContent
-                APIEndPoint={API + "/search/profile/ratings"}
-                startFilter={startFilter}
-                options={selectOptions}
-                displayBox={RatingsBox}
-                showFilterBox={false}
-            />
-        </div>
+        <FilterContent
+            APIEndPoint={API + "/search/profile/ratings"}
+            startFilter={startFilter}
+            options={selectOptions}
+            displayBox={RatingsBox}
+            showFilterBox={false}
+        />
     );
 }

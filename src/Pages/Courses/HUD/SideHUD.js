@@ -5,6 +5,7 @@ import {CourseContext} from "../../Shared/Context/CourseContext";
 import Message from "../../Shared/Files/Message";
 import {HUD} from "./HUD";
 import {API} from "../../Shared/Constants";
+import {Loading} from "../../Shared/State/Loading";
 
 export const SideHUD = () => {
     const [HUDInfo, setHUDInfo] = useState(null);
@@ -24,7 +25,7 @@ export const SideHUD = () => {
                 }
             })
 
-            setHUDInfo(response);
+            setHUDInfo(response.data);
             setIsLoaded(true);
         } catch (error) {
             setMessage("Could not load data.");
@@ -32,9 +33,9 @@ export const SideHUD = () => {
     }
 
     return (
-        <div className="user-profile">
+        <div className="course-side-information">
             {message ? <Message msg={message}/> : null}
-            {isLoaded ? <HUD attributes={HUDInfo}/> : <h1>Loading...</h1>}
+            {isLoaded ? <HUD attributes={HUDInfo}/> : <Loading/>}
         </div>
     );
 }

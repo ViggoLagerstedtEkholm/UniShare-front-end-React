@@ -3,6 +3,7 @@ import {useContext, useEffect, useState} from "react";
 import {AddReviewForm} from "./AddReviewForm";
 import {CourseContext} from "../../Shared/Context/CourseContext";
 import {API} from "../../Shared/Constants";
+import {Loading} from "../../Shared/State/Loading";
 
 export const AddReview = () => {
     const [isLoaded, setIsLoaded] = useState(false);
@@ -32,7 +33,7 @@ export const AddReview = () => {
         <div>
             {isLoaded ?
                 <AddReviewForm review={review} />
-                : <h1>Loading...</h1>}
+                : <Loading/>}
         </div>
 );
 }

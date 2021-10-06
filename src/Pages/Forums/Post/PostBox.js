@@ -2,11 +2,11 @@ import userImage from '../../../images/user.png';
 
 export const PostBox = ({results, filter}) => {
 
-    const path = results['posts'];
+    const path = results['result'];
     let searchWord = filter['search'] ?? "";
 
     if(path.length === 0){
-        return (<div><h4 className="review">No post results!</h4></div>)
+        return (<div><h4 className="empty-response">No post results!</h4></div>)
     }
 
     return path.map(function (data) {
@@ -33,7 +33,7 @@ export const PostBox = ({results, filter}) => {
         }
 
         return (
-            <div className="review">
+            <div className="empty-response">
                 <div className="comment-image">
                     <img src={image} alt="USER IMG"/>
                 </div>

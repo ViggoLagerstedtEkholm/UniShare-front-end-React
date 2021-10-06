@@ -5,8 +5,9 @@ import {UserContext} from "../../Shared/Context/UserContext";
 import {API} from "../../Shared/Constants";
 import {Tab, TabList, TabPanel, Tabs} from "react-tabs";
 import Message from "../../Shared/Files/Message";
-import {validURL} from "../../Shared/RegEx/Project";
-import {validDescription, validName} from "../../Shared/RegEx/Shared";
+import {validDescription, validName, validURL} from "../../Shared/RegEx/Shared";
+import {Loading} from "../../Shared/State/Loading";
+import NotFound from "../../Shared/Error/NotFound";
 
 function ProjectUploadHandler(props) {
     const [file, setFile] = useState(null);
@@ -20,38 +21,35 @@ function ProjectUploadHandler(props) {
     const [message, setMessage] = useState(null);
     const [isLoaded, setIsLoaded] = useState(false);
 
+    const [projectExists, setProjectExists] = useState(false);
+
     let projectID = props.match.params.projectID;
     const {user} = useContext(UserContext);
     let history = useHistory();
 
     useEffect(() => {
-        if (projectID) {
-            const getProject = async () => {
-                await axios.get(API + "/project/get", {
-                    params: {
-                        projectID: projectID
-                    },
-                    withCredentials: true
-                }).then(
-                    response => {
-                        const data = response.data;
-                        console.log(data);
-                        setName(data['name']);
-                        setLink(data['link']);
-                        setDescription(data['description']);
-                    }
-                )
-                    .catch((error) => {
-                        console.log(error);
-                        props.history.push("/");
-                    });
+        checkIfProjectExists().then((response) => {
+            if (response) {
+                console.log(response);
+                setName(response['name']);
+                setLink(response['link']);
+                setDescription(response['description']);
+                setProjectExists(true);
             }
-
-            getProject().then(() => setIsLoaded(true));
-        } else {
             setIsLoaded(true);
-        }
+        });
     }, []);
+
+    const checkIfProjectExists = () => {
+        const promise = axios.get(API + "/project/get", {
+            params: {
+                projectID: projectID
+            },
+            withCredentials: true
+        });
+
+        return promise.then((response) => response.data).catch(() => null);
+    }
 
     const validate = (e) => {
         e.preventDefault();
@@ -64,7 +62,7 @@ function ProjectUploadHandler(props) {
         if ((file !== null && !customCheck) || (customCheck && file === null)) {
             canUploadFile = true;
             document.getElementById('imagePicker').style.border = "none";
-        }else{
+        } else {
             document.getElementById('imagePicker').style.border = "5px solid red";
         }
 
@@ -93,7 +91,7 @@ function ProjectUploadHandler(props) {
             withCredentials: true
         }
 
-        if (projectID) {
+        if (projectID && projectExists) {
             axios.post(API + "/project/update", formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data'
@@ -156,90 +154,100 @@ function ProjectUploadHandler(props) {
 
     return (
         <div className="container">
-            {
-                projectID ? <h2>Update project</h2> : <h2>Add project</h2>
-            }
-            <hr/>
+            {isLoaded ?
+                <div>
+                    {
+                        projectExists || !projectID?
+                            <div className="title-bar">
+                                {message ? <Message msg={message}/> : null}
 
-            <div className="user-input-form-box">
+                                {
+                                    projectID ? <h2>Update project</h2> : <h2>Add project</h2>
+                                }
+                                <hr/>
 
-                {message ? <Message msg={message}/> : null}
-
-                {isLoaded ?
-                    <form onSubmit={validate}>
-                    <h2>Project link</h2>
-                    <h4 className="information">Valid links are either http/https. Example of valid link: https://test.com</h4>
-                    <input id="link" className="user-input-text" type="text" placeholder="Enter link" value={link}
-                       onChange={(e) => {
-                           setLink(e.target.value);
-                           checkLink(e.target.value);
-                       }}
-                    />
-
-                    <h2>Project name</h2>
-                    <h4 className="information">Special characters and spaces allowed. Between 1 and 150 characters. No numbers allowed.</h4>
-                    <input id="name" className="user-input-text" type="text" placeholder="Project name" value={name}
-                           onChange={(e) => {
-                               setName(e.target.value);
-                               checkName(e.target.value);
-                           }}
-                    />
-
-                    <br/>
-                        <h2>Description</h2>
-                        <h4 className="information">Characters between 5 and 2000 allowed.</h4>
-                        <textarea id="description" className="user-input-text" value={description}
-                              placeholder="Enter description"
-                              onChange={(e) => {
-                                  setDescription(e.target.value);
-                                  checkDescription(e.target.value);
-                              }}/>
-
-                    <Tabs>
-                        <TabList>
-                            <Tab>Upload image</Tab>
-                            <Tab>Custom image</Tab>
-                        </TabList>
-
-                        <div id="imagePicker">
-                            <TabPanel>
-                                <p>
-                                    <h2>File</h2>
-                                    <h4 className="information">GIF, JPEG, PNG are allowed file formats. Don't upload copyright material.</h4>
-                                    <input id="file" className="form-text" type='file' onChange={(e) => {
-                                        setFile(e.target.files[0]);
-                                    }}/>
-                                </p>
-                            </TabPanel>
-
-                            <TabPanel>
-                                <h2>Custom Image</h2>
-                                <h4 className="information">Create default image with text</h4>
-                                <input type="checkbox" name="customCheck" checked={customCheck}
-                                       onChange={(e) => {
-                                           setCustomCheck(!customCheck);
-                                       }}
-                                />
-
-                                <p>
-                                    <input className="user-input-text" type="text" placeholder="TEXT" value={text}
+                                <form onSubmit={validate}>
+                                    <h2>Project link</h2>
+                                    <h4 className="information">Valid links are either http/https. Example of valid
+                                        link: https://test.com</h4>
+                                    <input id="link" className="user-input-text" type="text" placeholder="Enter link"
+                                           value={link}
                                            onChange={(e) => {
-                                               setText(e.target.value);
+                                               setLink(e.target.value);
+                                               checkLink(e.target.value);
                                            }}
                                     />
 
-                                </p>
-                            </TabPanel>
-                        </div>
+                                    <h2>Project name</h2>
+                                    <h4 className="information">Special characters and spaces allowed. Between 1 and 150
+                                        characters. No numbers allowed.</h4>
+                                    <input id="name" className="user-input-text" type="text" placeholder="Project name"
+                                           value={name}
+                                           onChange={(e) => {
+                                               setName(e.target.value);
+                                               checkName(e.target.value);
+                                           }}
+                                    />
 
-                        <p>
-                            <input className="button-style-1" type="submit" name="submit_project"
-                                   value="Upload"/>
-                        </p>
-                    </Tabs>
-                </form> : <h4>Loading project...</h4>}
+                                    <br/>
+                                    <h2>Description</h2>
+                                    <h4 className="information">Characters between 5 and 2000 allowed.</h4>
+                                    <textarea id="description" className="user-input-text" value={description}
+                                              placeholder="Enter description"
+                                              onChange={(e) => {
+                                                  setDescription(e.target.value);
+                                                  checkDescription(e.target.value);
+                                              }}/>
 
-            </div>
+                                    <Tabs>
+                                        <TabList>
+                                            <Tab>Upload image</Tab>
+                                            <Tab>Custom image</Tab>
+                                        </TabList>
+
+                                        <div id="imagePicker">
+                                            <TabPanel>
+                                                <p>
+                                                    <h2>File</h2>
+                                                    <h4 className="information">GIF, JPEG, PNG are allowed file formats.
+                                                        Don't upload copyright material.</h4>
+                                                    <input id="file" className="form-text" type='file'
+                                                           onChange={(e) => {
+                                                               setFile(e.target.files[0]);
+                                                           }}/>
+                                                </p>
+                                            </TabPanel>
+
+                                            <TabPanel>
+                                                <h2>Custom Image</h2>
+                                                <h4 className="information">Create default image with text</h4>
+                                                <input type="checkbox" name="customCheck" checked={customCheck}
+                                                       onChange={() => {
+                                                           setCustomCheck(!customCheck);
+                                                       }}
+                                                />
+
+                                                <p>
+                                                    <input className="user-input-text" type="text" placeholder="TEXT"
+                                                           value={text}
+                                                           onChange={(e) => {
+                                                               setText(e.target.value);
+                                                           }}
+                                                    />
+
+                                                </p>
+                                            </TabPanel>
+                                        </div>
+
+                                        <p>
+                                            <input className="button-style-1" type="submit" name="submit_project"
+                                                   value="Upload"/>
+                                        </p>
+                                    </Tabs>
+                                </form>
+                            </div> : <NotFound/>
+                    }
+                </div> : <Loading/>}
         </div>
     );
 }

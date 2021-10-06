@@ -1,14 +1,13 @@
 import '../../css/header.css';
 import React, {useState, useContext} from 'react';
-import {Link, Redirect, useHistory} from 'react-router-dom';
-import Input from "react-validation/build/input";
+import {Link, Redirect} from 'react-router-dom';
 import {UserContext} from "../Shared/Context/UserContext";
 import axios from "axios";
 import {API} from "../Shared/Constants";
-import {validEmail, validLastname} from "../Shared/RegEx/User";
+import {validEmail} from "../Shared/RegEx/User";
 import Message from "../Shared/Files/Message";
 
-const Login = (props) => {
+const Login = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [rememberMe, setRememberMe] = useState(false);
@@ -16,7 +15,6 @@ const Login = (props) => {
     const [message, setMessage] = useState('');
 
     const {user, setUser} = useContext(UserContext);
-    let history = useHistory();
 
     const validate = (e) =>{
         e.preventDefault();
@@ -72,7 +70,7 @@ const Login = (props) => {
 
     return (
         <div className="container">
-            <div className="user-input-form-box">
+            <div className="title-bar">
                 <h1>Login</h1>
 
                 {message ? <Message msg={message}/> : null}

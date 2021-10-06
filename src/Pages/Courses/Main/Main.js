@@ -7,9 +7,9 @@ import {Rating} from "./Rating";
 import {Description} from "./Description";
 import {UserContext} from "../../Shared/Context/UserContext";
 import {API} from "../../Shared/Constants";
+import {Loading} from "../../Shared/State/Loading";
 
 export const Main = () => {
-    const [courseStatistics, setCourseStatistics] = useState(null);
     const [isLoaded, setIsLoaded] = useState(false);
     const [message, setMessage] = useState('');
     const [data, setData] = useState(null);
@@ -29,19 +29,12 @@ export const Main = () => {
 
     async function fetchData() {
         try {
-            const response = await axios.get(API + "/course/statistics", {
-                params: {
-                    courseID: courseID
-                }
-            })
-
             const graphData = await axios.get(API + "/course/getGraphData",{
                 params: {
                     courseID: courseID
                 }
             });
 
-            setCourseStatistics(response.data);
             let count = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
             let data = graphData['data']['data']['ratings'];
             for (let i = 0; i < data.length; i++) {
@@ -60,18 +53,19 @@ export const Main = () => {
                 {message ? <h1>{message}</h1> : null}
                 {isLoaded ?
                     <div>
-                        <Statistics courseStatistics={courseStatistics}/>
+                        <Statistics/>
 
                         {
                             canSeeLoggedInFeatures ? <Rating/> : null
                         }
                         <Description/>
 
-                        <div className="graph-box">
+                        <div className="graph-box course-info course-shadow">
+                            <p>Ratings chart</p>
                             <Graph data={data} labels={labels}/>
                         </div>
                     </div>
-                    : <h1>Loading...</h1>}
+                    : <Loading/>}
             </div>
         </div>
     );

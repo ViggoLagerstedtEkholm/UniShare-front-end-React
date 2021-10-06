@@ -3,6 +3,7 @@ import {useContext, useEffect, useState} from "react";
 import ProjectBox from "./ProjectBox";
 import {ProfileContext} from "../../Shared/Context/ProfileContext";
 import {API} from "../../Shared/Constants";
+import {Loading} from "../../Shared/State/Loading";
 
 function ShowcaseProjects() {
     const [isLoaded, setIsLoaded] = useState(false);
@@ -33,7 +34,7 @@ function ShowcaseProjects() {
 
     return (
         <div>
-            {isLoaded ? <ProjectBox results={results}/> : <h1>Loading...</h1>}
+            {isLoaded ? <ProjectBox results={results}/> : <Loading/>}
         </div>
     );
 }

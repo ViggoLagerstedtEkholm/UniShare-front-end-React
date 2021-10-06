@@ -3,6 +3,7 @@ import axios from "axios";
 import {HUD} from "./HUD";
 import {ProfileContext} from "../../Shared/Context/ProfileContext";
 import {API} from "../../Shared/Constants";
+import {Loading} from "../../Shared/State/Loading";
 
 function SideHUD() {
     const [HUDInfo, setHUDInfo] = useState(null);
@@ -15,7 +16,7 @@ function SideHUD() {
     }, [])
 
     async function fetchData() {
-        await axios.get(API + "/profile/sideHUD", {
+        await axios.get(API + "/profile/get", {
             params: {
                 profileID: profileID
             }
@@ -27,8 +28,8 @@ function SideHUD() {
     }
 
     return (
-        <div className="user-profile">
-            {isLoaded ? <HUD attributes={HUDInfo}/> : <h1>Loading...</h1>}
+        <div className="profile-side-information">
+            {isLoaded ? <HUD attributes={HUDInfo}/> : <Loading/>}
         </div>
     );
 }

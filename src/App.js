@@ -1,5 +1,8 @@
 import './App.css';
 import './css/style.css';
+import './css/collapsible.css';
+import './css/tabs.css';
+
 import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
 import Home from "./Pages/Home/Home";
 import Register from "./Pages/Authentication/Register";
@@ -17,16 +20,13 @@ import People from "./Pages/Searching/People/People";
 import {AddForum} from "./Pages/Forums/AddForum.js";
 import {PostBox} from "./Pages/Forums/Post/PostBox";
 import {ErrorBoundary} from 'react-error-boundary'
-import NotFound from "./Pages/Shared/Error/NotFound";
 import Fallback from "./Pages/Shared/Error/Fallback";
 import axios from "axios";
 import {DisplayForum} from "./Pages/Forums/DisplayForum";
 import {PostAdd} from "./Pages/Forums/Post/PostAdd";
 import {AddReview} from "./Pages/Courses/Review/AddReview";
 import {Friend} from "./Pages/Friends/Friend";
-import Request from "./Pages/Courses/Request/Request";
 import Overview from "./Pages/Admin/Overview";
-import {Update} from "./Pages/Courses/Update/Update";
 import {PrivateRoute} from "./Pages/Shared/Route/PrivateRoute";
 import {API} from "./Pages/Shared/Constants";
 import {LoggedInRoute} from "./Pages/Shared/Route/LoggedInRoute";
@@ -34,6 +34,8 @@ import {Verify} from "./Pages/Authentication/Verify";
 import DegreeUploadHandler from "./Pages/Profile/Degrees/DegreeUploadHandler";
 import ScrollToTop from "./Pages/Shared/Route/ScrollToTop";
 import ProjectUploadHandler from "./Pages/Profile/Projects/ProjectUploadHandler";
+import NotFound from "./Pages/Shared/Error/NotFound";
+import {CourseUploadHandler} from "./Pages/Courses/Upload/CourseUploadHandler";
 
 function App() {
     const [user, setUser] = useState(null);
@@ -44,7 +46,6 @@ function App() {
     useEffect(() => {
         checkIfLoggedIn().then(response => {
             if (response) {
-                console.log("Logged in!: response");
                 const user = localStorage.getItem('USER');
                 const initialValue = JSON.parse(user);
                 setUser(initialValue);
@@ -66,7 +67,6 @@ function App() {
             .then(
                 response => {
                     isLoggedIn = response['data']['data']['LoggedIn'];
-                    console.log(response['data']['data']['LoggedIn']);
                 }
             )
             .catch((error) => {
@@ -80,7 +80,6 @@ function App() {
         <div>
             {isLoaded ?
                 <Router>
-
                     <ErrorBoundary FallbackComponent={Fallback}>
                         <UserContext.Provider value={value}>
                             <Header/>
@@ -102,7 +101,9 @@ function App() {
                                 <LoggedInRoute exact path="/forum/post/:forumID" component={PostBox}/>
                                 <LoggedInRoute exact path="/forum/post/:forumID/add" component={PostAdd}/>
                                 <LoggedInRoute exact path="/friends" component={Friend}/>
-                                <LoggedInRoute exact path="/request" component={Request}/>
+
+                                <LoggedInRoute exact path="/courses/request/add" component={CourseUploadHandler}/>
+                                <LoggedInRoute exact path="/courses/request/update/:courseID" component={CourseUploadHandler}/>
 
                                 <LoggedInRoute exact path="/project/add" component={ProjectUploadHandler}/>
                                 <LoggedInRoute exact path="/project/edit/:projectID" component={ProjectUploadHandler}/>
@@ -114,7 +115,6 @@ function App() {
                                 <LoggedInRoute exact path="/settings" component={Settings}/>
 
                                 <PrivateRoute path='/admin' component={Overview} />
-                                <PrivateRoute exact path="/courses/:courseID/update" component={Update}/>
 
                                 <Route component={NotFound}/>
                             </Switch>

@@ -8,10 +8,10 @@ export const Statistics = () => {
     const {courseID} = useContext(CourseContext);
 
     useEffect(async () => {
-        await fetchData();
-    }, [courseStatistics])
+        await getCourseStatistics();
+    }, [])
 
-    async function fetchData() {
+    const getCourseStatistics = async () => {
         try {
             const response = await axios.get(API + "/course/statistics", {
                 params: {
@@ -20,13 +20,14 @@ export const Statistics = () => {
             })
 
             setCourseStatistics(response.data);
+            console.log("Data: ", response.data);
         } catch (error) {
             console.log(error);
         }
     }
 
     return (
-        <div className="course-sections-statistics">
+        <div className="course-sections-statistics course-shadow">
             <div className="course-info">
                 <div className="score">
                     Score ( {courseStatistics['score'] ?? ' - '} )
@@ -42,7 +43,6 @@ export const Statistics = () => {
             <div className="course-info">
                 <p>Amount of reviews ( {courseStatistics['review_count']} )</p>
             </div>
-            <hr/>
         </div>
     );
 }

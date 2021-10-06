@@ -5,6 +5,8 @@ import {API} from "../../Shared/Constants";
 import Message from "../../Shared/Files/Message";
 import {validFieldOfStudy} from "../../Shared/RegEx/Degree";
 import {validCity, validCountry, validName, validUniversity} from "../../Shared/RegEx/Shared";
+import {Loading} from "../../Shared/State/Loading";
+import NotFound from "../../Shared/Error/NotFound";
 
 function DegreeUploadHandler(props) {
     const [name, setName] = useState('');
@@ -17,45 +19,42 @@ function DegreeUploadHandler(props) {
 
     const [message, setMessage] = useState(null);
     const [isLoaded, setIsLoaded] = useState(false);
+    const [degreeExists, setDegreeExists] = useState(false);
+
     const degreeID = props.match.params.degreeID;
 
     const {user} = useContext(UserContext);
 
     useEffect(() => {
-        if(degreeID){
-            const getDegree = async () => {
-                await axios.get(API + "/degree/get", {
-                    params: {
-                        degreeID: degreeID
-                    },
-                    withCredentials: true
-                }).then(
-                    response => {
-                        console.log(response);
-                        const data = response.data['data']['degree'];
-                        setCity(data['city']);
-                        setCountry(data['country']);
-                        setEndDate(data['end_date']);
-                        setFieldOfStudy(data['fieldOfStudy']);
-                        setName(data['name']);
-                        setStartDate(data['start_date']);
-                        setUniversity(data['university']);
+        checkIfDegreeExists().then((response) => {
+            console.log(response);
+            if (response) {
+                setDegreeExists(true);
 
-                    }
-                )
-                .catch((error) => {
-                    console.log(error);
-                    props.history.push("/");
-                });
+                setCity(response['city']);
+                setCountry(response['country']);
+                setEndDate(response['end_date']);
+                setFieldOfStudy(response['fieldOfStudy']);
+                setName(response['name']);
+                setStartDate(response['start_date']);
+                setUniversity(response['university']);
             }
-
-            getDegree().then(() => setIsLoaded(true));
-        }else{
             setIsLoaded(true);
-        }
+        });
     }, []);
 
-    const validate = (e) =>{
+    const checkIfDegreeExists = () => {
+        const promise = axios.get(API + "/degree/get", {
+            params: {
+                degreeID: degreeID
+            },
+            withCredentials: true
+        });
+
+        return promise.then((response) => response.data).catch(() => null);
+    }
+
+    const validate = (e) => {
         e.preventDefault();
 
         const nameError = checkName(name);
@@ -65,7 +64,7 @@ function DegreeUploadHandler(props) {
         const cityError = checkCity(city);
         const universityError = checkUniversity(university);
 
-        if(!nameError && !fieldOfStudyError && !startDateError && !countryError && !cityError && !universityError){
+        if (!nameError && !fieldOfStudyError && !startDateError && !countryError && !cityError && !universityError) {
             onSubmit();
         }
     }
@@ -80,11 +79,9 @@ function DegreeUploadHandler(props) {
         formData.append('city', city);
         formData.append('university', university);
 
-        if(degreeID){
+        if (degreeID && degreeExists) {
             formData.append('degreeID', degreeID);
-        }
 
-        if(degreeID){
             axios.post(API + "/degree/update", formData, {withCredentials: true}).then(() => {
                 const path = "/profile/" + user["userID"];
                 props.history.push(path);
@@ -93,7 +90,7 @@ function DegreeUploadHandler(props) {
                 const message = response.join(' , ');
                 setMessage(message);
             });
-        }else{
+        } else {
             axios.post(API + "/degree/upload", formData, {withCredentials: true}).then(() => {
                 const path = "/profile/" + user["userID"];
                 props.history.push(path);
@@ -129,12 +126,12 @@ function DegreeUploadHandler(props) {
         return error;
     }
 
-    const checkBetweenDates = (date1, date2) =>{
+    const checkBetweenDates = (date1, date2) => {
         let error;
-        if(Date.parse(date1) > Date.parse(date2)|| (date1 === "" || date2 === "" )){
+        if (Date.parse(date1) > Date.parse(date2) || (date1 === "" || date2 === "")) {
             error = true;
             document.getElementById('dates').style.border = "5px solid red";
-        }else{
+        } else {
             console.log("No border?");
             error = false;
             document.getElementById('dates').style.border = "none";
@@ -180,89 +177,102 @@ function DegreeUploadHandler(props) {
 
     return (
         <div className="container">
-                {
-                    degreeID ? <h2>Update degree</h2> : <h2>Add degree</h2>
-                }
-                <hr/>
+            {isLoaded ?
+                <div>
+                    {
+                        degreeExists ?
+                            <div className="title-bar">
+                                {message ? <Message msg={message}/> : null}
 
-                <div className="user-input-form-box">
-                    {message ? <Message msg={message}/> : null}
+                                {
+                                    degreeID ? <h2>Update degree</h2> : <h2>Add degree</h2>
+                                }
+                                <hr/>
 
-                    {isLoaded ?     <form onSubmit={validate}>
-                        <h4>
-                            Degree name
-                        </h4>
-                        <input id="name" className="user-input-text" type="text" placeholder="Degree name" value={name}
-                               onChange={(e) =>{
-                                   setName(e.target.value);
-                                   checkName(e.target.value);
-                               }}/>
-                        <h4>
-                            Field of study
-                        </h4>
-                        <input id="field" className="user-input-text" type="text" placeholder="Field of study" value={fieldOfStudy}
-                               onChange={(e) =>{
-                                   setFieldOfStudy(e.target.value);
-                                   checkFieldOfStudy(e.target.value);
-                               }}
-                        />
+                                <form onSubmit={validate}>
+                                    <h4>
+                                        Degree name
+                                    </h4>
+                                    <input id="name" className="user-input-text" type="text" placeholder="Degree name"
+                                           value={name}
+                                           onChange={(e) => {
+                                               setName(e.target.value);
+                                               checkName(e.target.value);
+                                           }}/>
+                                    <h4>
+                                        Field of study
+                                    </h4>
+                                    <input id="field" className="user-input-text" type="text"
+                                           placeholder="Field of study" value={fieldOfStudy}
+                                           onChange={(e) => {
+                                               setFieldOfStudy(e.target.value);
+                                               checkFieldOfStudy(e.target.value);
+                                           }}
+                                    />
 
-                        <div id="dates">
-                            <h4>
-                                Start date
-                            </h4>
-                            <input className="user-input-text" type="date" value={startDate}
-                                   onChange={(e) =>{
-                                       setStartDate(e.target.value);
-                                       checkBetweenDates(e.target.value, startDate);
-                                   }}
-                            />
-                            <h4>
-                                End date
-                            </h4>
-                            <input className="user-input-text" type="date" value={endDate}
-                                   onChange={(e) =>{
-                                       setEndDate(e.target.value);
-                                       checkBetweenDates(startDate, e.target.value);
-                                   }}
-                            />
-                        </div>
+                                    <div id="dates">
+                                        <h4>
+                                            Start date
+                                        </h4>
+                                        <input className="user-input-text" type="date" value={startDate}
+                                               onChange={(e) => {
+                                                   setStartDate(e.target.value);
+                                                   checkBetweenDates(e.target.value, startDate);
+                                               }}
+                                        />
+                                        <h4>
+                                            End date
+                                        </h4>
+                                        <input className="user-input-text" type="date" value={endDate}
+                                               onChange={(e) => {
+                                                   setEndDate(e.target.value);
+                                                   checkBetweenDates(startDate, e.target.value);
+                                               }}
+                                        />
+                                    </div>
 
-                        <h4>
-                            Country
-                        </h4>
-                        <input id="country" className="user-input-text" type="text" placeholder="Country" value={country}
-                               onChange={(e) =>{
-                                   setCountry(e.target.value);
-                                   checkCountry(e.target.value);
-                               }}
-                        />
+                                    <h4>
+                                        Country
+                                    </h4>
+                                    <input id="country" className="user-input-text" type="text" placeholder="Country"
+                                           value={country}
+                                           onChange={(e) => {
+                                               setCountry(e.target.value);
+                                               checkCountry(e.target.value);
+                                           }}
+                                    />
 
-                        <h4>
-                            City
-                        </h4>
-                        <input id="city" className="user-input-text" type="text" placeholder="City" value={city}
-                               onChange={(e) =>{
-                                   setCity(e.target.value);
-                                   checkCity(e.target.value);
-                               }}
-                        />
-                        <h4>
-                            University
-                        </h4>
-                        <input id="university" className="user-input-text" type="text" placeholder="University" value={university}
-                               onChange={(e) =>{
-                                   setUniversity(e.target.value);
-                                   checkUniversity(e.target.value);
-                               }}
-                        />
+                                    <h4>
+                                        City
+                                    </h4>
+                                    <input id="city" className="user-input-text" type="text" placeholder="City"
+                                           value={city}
+                                           onChange={(e) => {
+                                               setCity(e.target.value);
+                                               checkCity(e.target.value);
+                                           }}
+                                    />
+                                    <h4>
+                                        University
+                                    </h4>
+                                    <input id="university" className="user-input-text" type="text"
+                                           placeholder="University" value={university}
+                                           onChange={(e) => {
+                                               setUniversity(e.target.value);
+                                               checkUniversity(e.target.value);
+                                           }}
+                                    />
 
-                        <p>
-                            <input className="button-style-1" type="submit"
-                                   name="submit_project" value="Upload"/>
-                        </p>
-                    </form>: <h4>Loading degree...</h4>}
-                </div>
+                                    <p>
+                                        <input className="button-style-1" type="submit"
+                                               name="submit_project" value="Upload"/>
+                                    </p>
+                                </form>
+
+                        </div>: <NotFound/>
+                    }
+                </div> : <Loading/>}
+
         </div>
     );
 }

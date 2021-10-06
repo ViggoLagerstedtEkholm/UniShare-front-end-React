@@ -16,7 +16,7 @@ export function Privacy() {
     }
 
     return (
-        <Collapsible trigger="Delete account">
+        <Collapsible trigger="Delete Account">
             <h2>Privacy settings</h2>
 
             <form onSubmit={onDelete}>

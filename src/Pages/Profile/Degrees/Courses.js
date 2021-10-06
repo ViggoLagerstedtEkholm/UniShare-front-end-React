@@ -49,19 +49,19 @@ export const DegreeCourse = (course) => {
         return (
             <div id={courseID} className="course-profile">
                 <div className="content-card-body">
-                    <div className="content-user">
+                    <div className="card-info">
                         <div className="content-card-image">
                             <img src={courseImage} alt="USER IMAGE"/>
                         </div>
 
-                        <div className="content-card-info">
-                            <p><b>Name:</b>{name}</p>
+                        <div className="content-card-info responsive-text">
+                            <p><b>Name: </b>{name}</p>
                             <p><b>Credits: </b>{credits}</p>
                             <p><b>University: </b>{university}</p>
                         </div>
 
                         <div className="content-card-info-buttons">
-                            <div className='row degree-courses-buttons'>
+                            <div className='degree-courses-buttons'>
                                 <form action={"/courses/" + courseID}>
                                     <button className="button-style-1" type="submit">
                                         Go to course page

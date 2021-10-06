@@ -4,6 +4,7 @@ import PaginationBox from "../Pagination/PaginationBox";
 import Search from "./Search";
 import {Info} from "../Pagination/Info";
 import Message from "../Files/Message";
+import {Loading} from "../State/Loading";
 
 const FilterContent = ({APIEndPoint, startFilter, options, displayBox, showFilterBox}) => {
     const [filter, setFilter] = useState(startFilter);
@@ -59,9 +60,7 @@ const FilterContent = ({APIEndPoint, startFilter, options, displayBox, showFilte
     const doSearch = () => {
         filter['page'] = page;
         filter['ID'] = startFilter['ID'];
-        console.log("ID: " + filter['ID']);
         Search(APIEndPoint, filter, page).then(response => {
-            console.log("Response: " + response);
             const result = response.data;
             setNumber_of_pages(result['number_of_pages']);
             setStart_page_first_result(result['start_page_first_result']);
@@ -70,8 +69,7 @@ const FilterContent = ({APIEndPoint, startFilter, options, displayBox, showFilte
             setResult(result);
             setHasLoaded(true);
         }).catch(error => {
-            console.log("Error: " + error);
-            setMessage("Could not fetch users! : " + error.msg);
+            setMessage("Could not fetch! : " + error.msg);
         });
     }
 
@@ -92,7 +90,7 @@ const FilterContent = ({APIEndPoint, startFilter, options, displayBox, showFilte
                         <DisplayBox results={result} doUpdate={doUpdate} filter={filter}/>
                     </div>
             ) : <div className="display-result-box">
-                <h4>Loading...</h4>
+                <Loading/>
             </div>
             }
 

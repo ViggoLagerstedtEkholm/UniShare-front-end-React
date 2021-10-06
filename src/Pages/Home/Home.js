@@ -5,6 +5,7 @@ import {TopTrendingDiscussion} from './TopForums';
 import {ShowcaseUser} from './ShowcaseUser';
 import {API} from "../Shared/Constants";
 import {UserContext} from "../Shared/Context/UserContext";
+import {Loading} from "../Shared/State/Loading";
 
 function Home() {
     const [topRanked, setTopRanked] = useState(null);
@@ -106,7 +107,7 @@ function Home() {
                             </div>
                         </div>
                     </div>
-                    : <h4>Loading home page...</h4>
+                    : <Loading/>
                 }
             </div>
 

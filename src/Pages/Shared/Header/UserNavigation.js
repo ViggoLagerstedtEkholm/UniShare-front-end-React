@@ -16,7 +16,7 @@ function UserNavigation() {
                 <Link to="/friends">Friends</Link>
             </li>
             <li>
-                <Link to={'/profile/' + JSON.parse(localStorage.getItem('USER'))['userID']}>Profile</Link>
+                <a href={'/profile/' + JSON.parse(localStorage.getItem('USER'))['userID']}>Profile</a>
             </li>
             <li>
                 <a href="/" onClick={onLogout}>Logout</a>

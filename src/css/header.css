@@ -1,4 +1,4 @@
-nav{
+.top-nav{
   display: flex;
   justify-content: space-between;
   padding-left: 30px;
@@ -19,7 +19,6 @@ nav{
   padding-left: 50px;
   padding-right: 5%;
   align-items: center;
-  min-height: 5vh;
 }
 
 #adminHeader{

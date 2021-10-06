@@ -6,6 +6,7 @@ import {CourseContext} from "../../Shared/Context/CourseContext";
 import {UserContext} from "../../Shared/Context/UserContext";
 import {API} from "../../Shared/Constants";
 import { useHistory } from "react-router-dom";
+import {Loading} from "../../Shared/State/Loading";
 
 export const Rating = () => {
     const {courseID} = useContext(CourseContext);
@@ -73,11 +74,11 @@ export const Rating = () => {
     const handleNewRating = (e) => {
         const newRating = e.target.value;
         setCurrentRating(newRating);
-        setRate(newRating).then(r => document.getElementById('rating'));
+        setRate(newRating).then(() => document.getElementById('rating'));
     }
 
     return (
-        <div className="course-sections">
+        <div className="course-sections course-shadow">
             {loading ? <div>
                 {canRate ? <div>
                     <div className="course-info">
@@ -104,7 +105,7 @@ export const Rating = () => {
                     <Link to={"/login"}> Login </Link>
                 </div>
             }
-            </div> : <h1>Loading...</h1>
+            </div> : <Loading/>
             }
         </div>
     );

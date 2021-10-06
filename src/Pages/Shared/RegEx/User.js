@@ -7,11 +7,11 @@ export const validPassword = new RegExp(
 );
 
 export const validFirstname = new RegExp(
-    '^(?=.{2,30}$)[a-zA-Z\u00C0-\u00ff]+(?:[-\'\\s][a-zA-Z\u00C0-\u00ff]+)*$'
+    '^(?=.{2,50}$)[a-zA-Z\u00C0-\u00ff]+(?:[-\'\\s][a-zA-Z\u00C0-\u00ff]+)*$'
 );
 
 export const validLastname = new RegExp(
-    '^(?=.{2,30}$)[a-zA-Z\u00C0-\u00ff]+(?:[-\'\\s][a-zA-Z\u00C0-\u00ff]+)*$'
+    '^(?=.{2,50}$)[a-zA-Z\u00C0-\u00ff]+(?:[-\'\\s][a-zA-Z\u00C0-\u00ff]+)*$'
 );
 
 export const validUsername = new RegExp(

@@ -16,7 +16,6 @@ export const Request = () => {
     const selectOptions = new Map();
     selectOptions.set('Date', 'date');
     selectOptions.set('Credits', 'credits');
-    selectOptions.set('Duration', 'duration');
     selectOptions.set('Name', 'name');
     selectOptions.set('University', 'university');
     selectOptions.set('Country', 'country');

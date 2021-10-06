@@ -8,17 +8,19 @@
 .footer-content{
   display: flex;
   color: white;
-  justify-content: space-around;
+  justify-content: space-evenly;
 }
 
-.footer-links{
+.footer-link{
+  margin-bottom: 10px;
+  margin-top: 10px;
   display: flex;
-  justify-content: space-around;
+  align-items: center;
   width: 60%;
 }
 
 @media screen and (max-width: 480px) {
-  .footer-links{
+  .footer-link{
     flex-direction: column;
   }
 }

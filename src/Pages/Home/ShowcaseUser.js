@@ -2,12 +2,13 @@ import userImage from "../../images/user.png";
 import axios from "axios";
 import {API} from "../Shared/Constants";
 import {useEffect, useState} from "react";
+import {Loading} from "../Shared/State/Loading";
 
 export const ShowcaseUser = (userID) => {
     const [isLoaded, setIsLoaded] = useState(false);
     const [profile, setProfile] = useState(null);
     const ID = userID.ID;
-
+    console.log(ID);
     useEffect(async () => {
         fetchData().then(() => setIsLoaded(true));
     }, [])
@@ -32,7 +33,7 @@ export const ShowcaseUser = (userID) => {
         <div className="startpage-display-user">
             <div className="content-card-body">
                 {isLoaded ?
-                <div className="content-user">
+                <div className="card-info">
                     <div className="content-card-image">
                         <img
                             src={profile['image'] === "" ? userImage : 'data:image/jpeg;base64,' + profile['image']}
@@ -58,12 +59,12 @@ export const ShowcaseUser = (userID) => {
                     <span className="vertical-line"/>
 
                     <div className="content-card-info-buttons">
-                        <form action={'/profile/' + profile['ID']}>
+                        <form action={'/profile/' + ID}>
                             <button className="button-style-4" type="submit">Profile</button>
                         </form>
                     </div>
                     <span className="vertical-line"/>
-                    </div> : <h4>Loading user...</h4>
+                    </div> : <Loading/>
                 }
             </div>
         </div>

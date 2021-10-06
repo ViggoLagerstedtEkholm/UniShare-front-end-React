@@ -3,6 +3,7 @@ import axios from "axios";
 import {DegreesBox} from "./DegreesBox";
 import {ProfileContext} from "../../Shared/Context/ProfileContext";
 import {API} from "../../Shared/Constants";
+import {Loading} from "../../Shared/State/Loading";
 
 function ShowcaseDegrees() {
     const [attributes, setAttributes] = useState(null);
@@ -26,7 +27,7 @@ function ShowcaseDegrees() {
 
     return (
         <div>
-            {isLoaded ?  <DegreesBox attributes={attributes}/>: <h1>Loading...</h1>}
+            {isLoaded ?  <DegreesBox attributes={attributes}/>: <Loading/>}
         </div>
     );
 }

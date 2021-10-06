@@ -4,17 +4,18 @@ import {useContext} from "react";
 import {UserContext} from "../../Shared/Context/UserContext";
 import courseImage from '../../../images/books.png';
 import {useHistory} from "react-router-dom";
+import {getHighlightedText} from "../../Shared/HighLightText";
+import {NoResults} from "../../Shared/Search/NoResults";
 
 export const CourseBox = ({results, filter}) => {
     let history = useHistory();
     const {user} = useContext(UserContext);
-    console.log(results);
 
-    const path = results['courses'];
+    const path = results['result'];
     let searchWord = filter['search'] ?? "";
 
     if(path.length === 0){
-        return (<div><h4 className="review">No course results!</h4></div>)
+        return (<NoResults/>)
     }
 
     return path.map(function (data) {
@@ -28,7 +29,7 @@ export const CourseBox = ({results, filter}) => {
         const courseID = data['courseID'];
         let isInActiveDegree = data['isInActiveDegree'];
         const code = data['code'];
-        console.log("Code" + code);
+        const link = data['link'];
 
         let canSeeLoggedInFeatures = true;
         if(user == null){
@@ -37,7 +38,7 @@ export const CourseBox = ({results, filter}) => {
 
         let isAdmin = false;
         if (user != null) {
-            if (user.privilege === 'Admin') {
+            if (user['privilege'] === 'Admin') {
                 isAdmin = true;
             }
         }
@@ -81,24 +82,14 @@ export const CourseBox = ({results, filter}) => {
             });
         }
 
-        const getHighlightedText = (text, highlight) =>{
-            highlight = highlight.toString();
-            const parts = text.toString().split(new RegExp(`(${highlight})`, 'gi'));
-            return <span> { parts.map((part, i) =>
-                <span key={i} style={part.toLowerCase() === highlight.toLowerCase() ? { 'background-color': 'rgba(255,234,0,0.59)' } : {} }>
-            { part }
-        </span>)
-            } </span>;
-        }
-
         return (
             <div className="content-card-body">
-                <div className="content-user">
+                <div className="card-info">
                     <div className="content-card-image">
                         <img src={courseImage} alt="USER IMAGE"/>
                     </div>
 
-                    <div className="content-card-info">
+                    <div className="content-card-info responsive-text">
                         <h4><b>Course information</b></h4>
                         <p><b>Name:</b> {getHighlightedText(name, searchWord)}</p>
                         <p><b>Credits:</b> {getHighlightedText(credits, searchWord)}</p>
@@ -107,7 +98,7 @@ export const CourseBox = ({results, filter}) => {
 
                     </div>
 
-                    <div className="content-card-info">
+                    <div className="content-card-info responsive-text">
                         <h4><b>More</b></h4>
                         <p><b>Score:</b> {getHighlightedText(rating, searchWord)}</p>
                         <p><b>Country:</b> {getHighlightedText(country, searchWord)}</p>
@@ -115,7 +106,12 @@ export const CourseBox = ({results, filter}) => {
                         <p><b>Added:</b> {getHighlightedText(added, searchWord)}</p>
                     </div>
 
-                    <div className="content-card-info-buttons">
+                    <div className="content-card-info responsive-text">
+                        <h4><b>LINK</b></h4>
+                        <a href={link} target="popup"><p><b>Link:</b> {getHighlightedText(link, searchWord)}</p></a>
+                    </div>
+
+                    <div className="degree-courses-buttons">
                         {
                             canSeeLoggedInFeatures ?
                                 <form onSubmit={toggleToActiveDegree}>
@@ -128,14 +124,17 @@ export const CourseBox = ({results, filter}) => {
                                 : null
 
                         }
+
+                        {
+                            isAdmin ?
+                                <form action={"/courses/request/update/" + courseID}>
+                                    <button className="button-style-4">Update</button>
+                                </form>
+                            : null
+                        }
                         <form action={"/courses/" + courseID} >
                             <button className="button-style-1" type="submit">Go to course</button>
                         </form>
-
-                        {isAdmin ? <form action={"/courses/" + courseID} >
-                            <button className="button-style-4" type="submit">Update</button>
-                        </form> : null}
-
                     </div>
                 </div>
             </div>

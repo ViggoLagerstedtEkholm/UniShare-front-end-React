@@ -2,6 +2,7 @@ import {useContext, useEffect, useState} from "react";
 import axios from "axios";
 import {CourseContext} from "../../Shared/Context/CourseContext";
 import {API} from "../../Shared/Constants";
+import {Loading} from "../../Shared/State/Loading";
 
 export const Description = () => {
     const [description, setDescription] = useState(null);
@@ -21,8 +22,7 @@ export const Description = () => {
 
         try{
             await axios.get(API + "/course/get", params).then(response =>{
-                console.log(response['data'][0]['description']);
-                const description = response['data'][0]['description'];
+                const description = response.data['description'];
                 setDescription(description);
                 setIsLoaded(true);
             });
@@ -34,23 +34,24 @@ export const Description = () => {
     }
 
     return (
-        <div className="course-sections">
+        <div className="course-sections course-shadow">
             {isLoaded ?
                 <div>
                     <div className="course-info">
                         <p>Description</p>
                     </div>
 
-                    <div className="review-text">
+                    <div className="responsive-text">
                         {
                             description.length === 0 ? <h4>No description set!</h4> : null
                         }
-                        {description}
+                        <p>
+                            {description}
+                        </p>
                     </div>
                 </div>
-
                 :
-                <h1>Loading...</h1>
+                <Loading/>
             }
         </div>
     );

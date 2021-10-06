@@ -11,9 +11,13 @@ export const validUniversity = new RegExp(
 );
 
 export const validDescription = new RegExp(
-    '^.{5,2000}$'
+    '^[\\s\\S]{1,5000}$'
 );
 
 export const validName = new RegExp(
-    '^(?=.{1,150}$)[a-zA-Z\u00C0-\u00ff]+(?:[-\'\\s][a-zA-Z\u00C0-\u00ff]+)*$'
+    '^[\\s\\S]{1,300}$'
+);
+
+export const validURL = new RegExp(
+    'https?:\\/\\/(www\\.)?[-a-zA-Z0-9@:%._\\+~#=]{1,256}\\.[a-zA-Z0-9()]{1,6}\\b([-a-zA-Z0-9()@:%_\\+.~#?&//=]*)'
 );

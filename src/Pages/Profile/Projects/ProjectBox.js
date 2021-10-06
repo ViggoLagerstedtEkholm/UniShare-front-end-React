@@ -1,10 +1,10 @@
 import axios from "axios";
-import {Redirect} from "react-router-dom";
-import {useContext, useState} from "react";
+import {useContext} from "react";
 import {UserContext} from "../../Shared/Context/UserContext";
 import {ProfileContext} from "../../Shared/Context/ProfileContext";
 import querystring from "querystring";
 import {API} from "../../Shared/Constants";
+import {NoResults} from "../../Shared/Search/NoResults";
 
 function ProjectBox(results) {
     const {user} = useContext(UserContext);
@@ -13,10 +13,10 @@ function ProjectBox(results) {
     console.log(results.results.data['projects']);
     const path = results.results.data['projects'];
     if (path.length === 0) {
-        return (<div><h4 className="review">No projects!</h4></div>)
+        return (<NoResults/>)
     }
 
-    return path.map(function (data, i) {
+    return path.map(function (data) {
         const added = data['added'];
         const description = data['description'];
         const link = data['link'];
@@ -34,18 +34,21 @@ function ProjectBox(results) {
         }
 
         const onDelete = async () => {
-            const params = {
-                projectID: projectID
-            }
-
-            await axios.post(API + "/project/delete", querystring.stringify(params), { withCredentials: true }).then(response => {
-                console.log(response);
-                document.getElementById(projectID).remove();
+            if (window.confirm("Do you want to delete this project?")) {
+                const params = {
+                    projectID: projectID
                 }
-            )
-            .catch((error) => {
-                alert('Error!');
-            });
+
+                await axios.post(API + "/project/delete", querystring.stringify(params), { withCredentials: true }).then(response => {
+                        console.log(response);
+                        document.getElementById(projectID).remove();
+                    }
+                )
+                .catch((error) => {
+                    alert('Error!');
+                    console.log(error);
+                });
+            }
         }
 
         return (
@@ -58,17 +61,17 @@ function ProjectBox(results) {
                             <div className="project-line"/>
 
                             <div className="user-profile-project-description-box">
-                                <h2>Name</h2>
-                                <p>{name}</p>
+                                <h2>{name}</h2>
+                                <hr/>
 
                                 <h2>Description</h2>
-                                <p className="project-description">
+                                <p className="responsive-text">
                                     {description}
                                 </p>
 
                                 <h2>External link</h2>
 
-                                <a href={link}>{link}</a>
+                                <a href={link} target="popup" className="responsive-text white">{link}</a>
 
                                 <p>
                                     <b>Added: {added}</b>

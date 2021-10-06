@@ -53,18 +53,18 @@ function FilterBox({options, onSetFilters, showFilterBox}) {
                 <div className="content-filter-box filter-background-box">
                     <div className="row ">
                         <div className="column filter-input-background">
-                            <p>
+                            <div className="filter-text">
                                 Select filter option
-                            </p>
+                            </div>
                             <select className="content-filter-select" name="filter_option" id="filterOption">
                                 {renderOptions()}
                             </select>
                         </div>
 
                         <div className="column filter-input-background">
-                            <p>
+                            <div className="filter-text">
                                 Results per page
-                            </p>
+                            </div>
                             <select className="content-filter-select" name="results_per_page_count" id="results_per_page_count">
                                 <option value="1">1</option>
                                 <option value="2">2</option>
@@ -81,16 +81,18 @@ function FilterBox({options, onSetFilters, showFilterBox}) {
                     </div>
                     <div className="row">
                         <div className="column filter-input-background">
-                            Search
+                            <div className="filter-text">
+                                Search
+                            </div>
                             <input className="user-input-text" id="search" type="text" name="search"
                                    placeholder="Search"/>
                         </div>
                     </div>
                     <div className="row">
                         <div className="column filter-input-background">
-                            <p>
+                            <div className="filter-text">
                                 Filter order
-                            </p>
+                            </div>
                             <select id="filterOrder" className="content-filter-select" name="filterOrder">
                                 <option value="ASC">ASC</option>
                                 <option value="DESC">DESC</option>

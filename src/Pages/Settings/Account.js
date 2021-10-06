@@ -65,8 +65,9 @@ export function Account() {
         formData.append('display_name', username);
         formData.append('description', description);
 
-        axios.post(API + "/settings/update/account", formData, {withCredentials: true}).then(() => {
+        axios.post(API + "/settings/update/account", formData, {withCredentials: true}).then(response => {
             setUpdated(true);
+            console.log(response);
         }).catch(error => {
             setMessage(error.response);
         });
@@ -159,7 +160,9 @@ export function Account() {
         <Collapsible open={true} trigger="General Settings">
             {message ? <Message msg={message}/> : null}
 
-            {updated ? <h4 className="success">Updated</h4> : null}
+            {updated ?<div className="information">
+                <h4 className="success">Updated</h4>
+            </div> : null}
 
             <form onSubmit={validate}>
                 <p>
@@ -200,7 +203,7 @@ export function Account() {
                         emailIsAvailable ? null : <h2>Email is not available!</h2>
                     }
                     Email
-                    <input id="email" className="user-input-text" type="text" placeholder="Email" value={email}
+                    <input id="email" className="user-input-text" type="text" placeholder="Email" value={email} disabled
                            onChange={(e) =>{
                                setEmail(e.target.value);
                                setUpdated(false);

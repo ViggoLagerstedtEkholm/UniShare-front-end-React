@@ -1,11 +1,13 @@
 import courseImage from '../../../images/books.png';
+import {getHighlightedText} from "../../Shared/HighLightText";
+import {NoResults} from "../../Shared/Search/NoResults";
 
 export const RatingsBox = ({results, filter}) => {
-    const path = results['ratings'];
+    const path = results['result'];
     const searchWord = filter['search'] ?? "";
 
     if(path.length === 0){
-        return (<div><h4 className="review">No course results!</h4></div>)
+        return (<NoResults/>)
     }
 
     return path.map(function (data) {
@@ -17,19 +19,9 @@ export const RatingsBox = ({results, filter}) => {
         const courseID = data['courseID'];
         const city = data['city'];
 
-        const getHighlightedText = (text, highlight) =>{
-            highlight = highlight.toString();
-            const parts = text.toString().split(new RegExp(`(${highlight})`, 'gi'));
-            return <span> { parts.map((part, i) =>
-                <span key={i} style={part.toLowerCase() === highlight.toLowerCase() ? { 'background-color': 'rgba(255,234,0,0.59)' } : {} }>
-            { part }
-        </span>)
-            } </span>;
-        }
-
         return (
             <div className="content-card-body">
-                <div className="content-user">
+                <div className="card-info">
                     <div className="content-card-image">
                         <img src={courseImage} alt="USER IMAGE"/>
                     </div>

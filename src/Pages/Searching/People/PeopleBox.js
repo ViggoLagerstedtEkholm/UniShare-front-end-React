@@ -4,14 +4,16 @@ import {AcceptRequest, FriendRemove, FriendRequestSend, RejectRequest} from "../
 import {enable, suspend} from "../../Service/Admin";
 import {Link} from "react-router-dom";
 import userImage from '../../../images/user.png';
+import {getHighlightedText} from "../../Shared/HighLightText";
+import {NoResults} from "../../Shared/Search/NoResults";
 
 export const PeopleBox = ({results, doUpdate, filter}) => {
-    const path = results['users'];
+    const path = results['result'];
     const searchWord = filter['search'] ?? "";
     const {user} = useContext(UserContext);
 
     if (path.length === 0) {
-        return (<div><h4 className="review">No people results!</h4></div>)
+        return (<NoResults/>)
     }
 
     let canSeeLoggedInFeatures = true;
@@ -24,16 +26,6 @@ export const PeopleBox = ({results, doUpdate, filter}) => {
         if (user.privilege === 'Admin') {
             isAdmin = true;
         }
-    }
-
-    const getHighlightedText = (text, highlight) =>{
-        highlight = highlight.toString();
-        const parts = text.toString().split(new RegExp(`(${highlight})`, 'gi'));
-        return <span> { parts.map((part, i) =>
-            <span key={i} style={part.toLowerCase() === highlight.toLowerCase() ? { 'background-color': 'rgba(255,234,0,0.59)' } : {} }>
-            { part }
-        </span>)
-        } </span>;
     }
 
     return path.map(function (data) {
@@ -86,19 +78,19 @@ export const PeopleBox = ({results, doUpdate, filter}) => {
 
         return (
             <div id={usersID} className="content-card-body">
-                <div className="content-user">
+                <div className="card-info">
                     <div className="content-card-image">
                         <img src={image} alt="USER IMAGE"/>
                     </div>
 
-                    <div className="content-card-info">
+                    <div className="content-card-info responsive-text">
                         <h4><b>Personal information</b></h4>
                         <p><b>First name:</b> {getHighlightedText(firstname, searchWord)}</p>
                         <p><b>Last name:</b> {getHighlightedText(lastname, searchWord)}</p>
                         <p><b>Username: </b> {getHighlightedText(username, searchWord)}</p>
                     </div>
 
-                    <div className="content-card-info">
+                    <div className="content-card-info responsive-text">
                         <h4><b>Personal information</b></h4>
                         <p><b>Visits:</b> {getHighlightedText(visits, searchWord)}</p>
                         <p><b>Last online:</b> {getHighlightedText(lastOnline, searchWord)}</p>

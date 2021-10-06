@@ -1,4 +1,4 @@
-function FilteringInfo({filterOption, filterOrder, search, results_per_page_count, doUpdate}) {
+function FilteringInfo({filterOption, filterOrder, search, results_per_page_count}) {
     return (
         <div className="search-terms-container">
             <h1>Search terms</h1>

@@ -3,7 +3,6 @@ import {useContext, useState} from "react";
 import {CourseContext} from "../../Shared/Context/CourseContext";
 import {API} from "../../Shared/Constants";
 import {useHistory} from "react-router-dom";
-import {validURL} from "../../Shared/RegEx/Project";
 import {validText} from "../../Shared/RegEx/Review";
 
 export const AddReviewForm = ({review}) => {
@@ -65,7 +64,7 @@ export const AddReviewForm = ({review}) => {
 
     return (
         <div>
-            <div className="user-input-form-box">
+            <div className="title-bar">
                 <form onSubmit={validate}>
                     <div className="course-rate-box">
                         <div className="course-rate-cell">

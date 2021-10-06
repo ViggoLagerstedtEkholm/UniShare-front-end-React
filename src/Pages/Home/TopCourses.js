@@ -9,12 +9,12 @@ export const TopRankedCourse = (data) => {
 
         return (
             <div className="content-card-body">
-                <div className="content-user">
+                <div className="card-info">
                     <div className="content-card-image">
                         <img src={courseImage} alt="USER IMAGE"/>
                     </div>
 
-                    <div className="content-card-info">
+                    <div className="content-card-info responsive-text">
                         <h4>
                             <b>Course information</b>
                         </h4>
@@ -28,7 +28,11 @@ export const TopRankedCourse = (data) => {
                         </p>
                     </div>
 
-                    <div className="content-card-info">
+                    <div className="content-card-info responsive-text">
+                        <h4>
+                            <b>Stats</b>
+                        </h4>
+
                         <p><b>Score:</b> {average_rating}</p>
                     </div>
 

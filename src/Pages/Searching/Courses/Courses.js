@@ -1,6 +1,5 @@
 import FilterContent from "../../Shared/Search/FilterContent";
 import {CourseBox} from "./CourseBox";
-import {Link} from "react-router-dom";
 import {API} from "../../Shared/Constants";
 
 const Courses = () => {

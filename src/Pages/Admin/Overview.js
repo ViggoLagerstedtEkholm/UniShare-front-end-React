@@ -1,5 +1,5 @@
 import {Tab, Tabs, TabList, TabPanel} from 'react-tabs';
-import 'react-tabs/style/react-tabs.css';
+
 import {Request} from "./Requests/Request";
 
 function Overview() {
@@ -12,6 +12,8 @@ function Overview() {
                             <TabList>
                                 <Tab>Course requests</Tab>
                             </TabList>
+
+                            <br/>
 
                             <TabPanel>
                                 <Request/>

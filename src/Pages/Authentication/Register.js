@@ -47,6 +47,7 @@ function Register() {
         axios.post(API + "/register", formData).then(response => {
             console.log(response);
             setRegistered(true);
+            alert('Go to your mail for verification.');
             window.scrollTo(0, 0);
         }).catch(error => {
             console.log(error.response);
@@ -127,7 +128,7 @@ function Register() {
 
     return (
         <div className="container">
-            <div className="user-input-form-box">
+            <div className="title-bar">
 
                 {registered ? <p>Check your mail: <b>{email}</b>. click the embedded the link to verify your email.</p> : null}
 

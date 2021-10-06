@@ -10,19 +10,23 @@ export const TopTrendingDiscussion = (data) => {
 
         return (
             <div className="content-card-body">
-                <div className="content-user">
+                <div className="card-info">
                     <div className="content-card-image">
                         <img src={forumImage} alt="USER IMAGE"/>
                     </div>
 
-                    <div className="content-card-info">
+                    <div className="content-card-info responsive-text">
                         <h4><b>Course information</b></h4>
                         <p><b>Name:</b> {title}</p>
                         <p><b>Created: </b>{created}</p>
                         <p><b>Topic: </b>{topic}</p>
                     </div>
 
-                    <div className="content-card-info">
+                    <div className="content-card-info responsive-text">
+                        <h4>
+                            <b>Stats</b>
+                        </h4>
+
                         <p><b>Views:</b> {views}</p>
                     </div>
 
