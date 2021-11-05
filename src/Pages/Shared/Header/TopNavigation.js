@@ -3,7 +3,7 @@ import GuestNavigation from "./GuestNavigation";
 import {Link} from "react-router-dom";
 
 function TopNavigation() {
-    if (localStorage.getItem('USER')) {
+    if (localStorage.getItem('token')) {
         return (
             <div className="top-nav">
                 <UserNavigation/>

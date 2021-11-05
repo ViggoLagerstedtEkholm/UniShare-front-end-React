@@ -5,6 +5,8 @@ import Collapsible from "react-collapsible";
 import {Loading} from "../Shared/State/Loading";
 import {validURL} from "../Shared/RegEx/Shared";
 import Message from "../Shared/Files/Message";
+import api from "../Service/api";
+import {DeleteGithub, DeleteLinkedIn, GetHandles, UpdateHandles} from "../Service/SettingsService";
 
 export const Handles = () =>{
     const [github, setGitHub] = useState('');
@@ -13,35 +15,27 @@ export const Handles = () =>{
     const [isLoaded, setIsLoaded] = useState(false);
 
     useEffect( () => {
-        getHandles().then((response) => {
-            console.log(response);
+        GetHandles().then((response) => {
+            setLinkedIn(response.linkedIn);
+            setGitHub(response.gitHub);
             setIsLoaded(true);
-            setLinkedIn(response['linkedin']);
-            setGitHub(response['github']);
         });
     }, [])
 
-    const getHandles = async () => {
-        const promise = axios.get(API + "/settings/get/handles", {withCredentials: true});
-        return promise.then((response) => response.data).catch(() => null);
-    }
-
-
     const updateHandles = (e) =>{
         e.preventDefault();
-        const formData = new FormData();
-        formData.append('linkedin', e.target.LinkedIn.value);
-        formData.append('github', e.target.GitHub.value);
 
-        axios.post(API + "/settings/update/handles", formData, { withCredentials: true }).then(response => {
+        const handles = {
+            LinkedIn : linkedIn,
+            Github : github
+        }
+
+        UpdateHandles(handles).then((response) =>{
             console.log(response);
-            //window.location.reload();
-        }).catch(error => {
-            console.log(error.data);
-            const response = error.response.data;
-            const message = response.join(' , ');
-            setMessage(message);
-        });
+            window.location.reload();
+        }).catch(() =>{
+            setMessage('Error.');
+        })
     }
 
     const checkLink = (link, ID) => {
@@ -57,15 +51,11 @@ export const Handles = () =>{
     }
 
     const onDeleteLinkedIn = () =>{
-        axios.post(API + "/settings/delete/handle/linkedin", null, { withCredentials: true }).then(() => {
-            window.location.reload();
-        });
+        DeleteLinkedIn().then(() => window.location.reload());
     }
 
     const onDeleteGitHub = () =>{
-        axios.post(API + "/settings/delete/handle/github", null, { withCredentials: true }).then(() => {
-            window.location.reload();
-        });
+        DeleteGithub().then(() => window.location.reload());
     }
 
     return(

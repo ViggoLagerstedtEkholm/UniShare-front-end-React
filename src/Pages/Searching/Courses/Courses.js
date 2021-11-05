@@ -1,33 +1,38 @@
 import FilterContent from "../../Shared/Search/FilterContent";
 import {CourseBox} from "./CourseBox";
 import {API} from "../../Shared/Constants";
+import {UserContext} from "../../Shared/Context/UserContext";
+import {useContext} from "react";
 
 const Courses = () => {
+    const {user} = useContext(UserContext);
+
     const startFilter = {
-        page: 1,
-        filterOption: "average_rating",
-        filterOrder: "DESC",
-        search: null,
-        results_per_page_count: 7,
-        ID: null
+        Page: 1,
+        Option: "Rating",
+        Order: "Descending",
+        Search: "",
+        ActiveDegreeUserId : user ? user.Id : null,
+        ResultsPerPage: 7,
     }
 
     const selectOptions = new Map();
-    selectOptions.set('Name', 'name');
-    selectOptions.set('Credits', 'credits');
-    selectOptions.set('Rating', 'average_rating');
-    selectOptions.set('Added', 'added');
-    selectOptions.set('City', 'city');
-    selectOptions.set('Country', 'country');
-    selectOptions.set('University', 'university');
-    selectOptions.set('Code', 'code');
+    selectOptions.set('Name', 'Name');
+    selectOptions.set('Credits', 'Credits');
+    selectOptions.set('Added', 'Added');
+    selectOptions.set('Country', 'Country');
+    selectOptions.set('City', 'City');
+    selectOptions.set('University', 'University');
+    selectOptions.set('Code', 'Code');
+    selectOptions.set('Link', 'Link');
+    selectOptions.set('Rating', 'Rating');
 
     return (
         <div className="container">
-            <h2>Courses</h2>
+            <h2 className="logo">Courses</h2>
             <hr/>
             <FilterContent
-                APIEndPoint={API + "/search/courses"}
+                APIEndPoint={API + "/api/Search/courses"}
                 startFilter={startFilter}
                 options={selectOptions}
                 displayBox={CourseBox}

@@ -9,7 +9,7 @@ export const AdminNavigation = () => {
         <>
             {user !== null ? <div>
                 {
-                    user['privilege'] === "Admin" ?
+                    user.role === "Admin" ?
                     <div id="adminHeader">
                         <Link className="admin-text" to="/admin"><b>Administer website content</b></Link>
                     </div> : null

@@ -1,17 +1,24 @@
-import axios from "axios";
-import {API} from "../Shared/Constants";
 import Collapsible from "react-collapsible";
+import {DeleteUser} from "../Service/AuthenticationService";
+import { useHistory } from "react-router-dom";
+import {useContext} from "react";
+import {UserContext} from "../Shared/Context/UserContext";
 
 export function Privacy() {
+    let history = useHistory();
+
+    const {setUser} = useContext(UserContext);
 
     async function onDelete(e) {
         e.preventDefault();
         if (window.confirm("Are you sure you want to delete your account?")) {
-            axios.post(API + "/settings/delete/account", null, {withCredentials: true}).then(() => {
-                window.location.reload();
-            }).catch(error => {
-                console.log(error);
-            });
+            DeleteUser().then(() =>{
+                localStorage.clear();
+                history.push("/");
+                setUser(null);
+            }).catch(() =>{
+                alert('Something went wrong!');
+            })
         }
     }
 

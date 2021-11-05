@@ -5,24 +5,23 @@ import {API} from "../../Shared/Constants";
 export const Request = () => {
 
     const startFilter = {
-        page: 1,
-        filterOption: "date",
-        filterOrder: "DESC",
-        search: null,
-        results_per_page_count: 7,
-        ID: null
+        Page: 1,
+        Option: "Date",
+        Order: "Descending",
+        Search: null,
+        ResultsPerPage: 7,
     }
 
     const selectOptions = new Map();
-    selectOptions.set('Date', 'date');
-    selectOptions.set('Credits', 'credits');
-    selectOptions.set('Name', 'name');
-    selectOptions.set('University', 'university');
-    selectOptions.set('Country', 'country');
+    selectOptions.set('Date', 'Date');
+    selectOptions.set('Credits', 'Credits');
+    selectOptions.set('Name', 'Name');
+    selectOptions.set('University', 'University');
+    selectOptions.set('Country', 'Country');
 
     return (
         <FilterContent
-            APIEndPoint={API + "/search/requests"}
+            APIEndPoint={API + "/api/Search/requests"}
             startFilter={startFilter}
             options={selectOptions}
             displayBox={RequestBox}

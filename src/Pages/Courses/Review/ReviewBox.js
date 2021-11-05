@@ -1,44 +1,35 @@
 import {useContext} from "react";
 import {UserContext} from "../../Shared/Context/UserContext";
-import axios from "axios";
-import userImage from '../../../images/user.png';
-import {API} from "../../Shared/Constants";
 import {getHighlightedText} from "../../Shared/HighLightText";
 import {NoResults} from "../../Shared/Search/NoResults";
+import {CanSeeEdits} from "../../Service/UserService";
+import {DeleteReview} from "../../Service/ReviewService";
+import userImage from '../../../images/ProfileDefault.png';
 
 export const ReviewBox = ({results, filter}) => {
     const {user} = useContext(UserContext);
 
-    const path = results['result'];
-    let searchWord = filter['search'] ?? "";
+    const path = results['reviews'];
+    let searchWord = filter['Search'] ?? "";
 
     if(path.length === 0){
         return (<NoResults/>)
     }
 
     return path.map(function (data) {
-        const userDisplayName = data['userDisplayName'];
-        let image = data['userImage'];
-        let userID = data['userID'];
-        let courseID = data['courseID'];
+        const username = data['username'];
+        let image = data['image'];
+        let courseID = data['courseId'];
         const text = data['text'];
 
         const fulfilling = data['fulfilling'];
         const environment = data['environment'];
         const difficulty = data['difficulty'];
         const grading = data['grading'];
-        const litterature = data['litterature'];
+        const literature = data['literature'];
         const overall = data['overall'];
-        const helpful = data['helpful'];
         const added = data['added'];
         const updated = data['updated'];
-
-        let canSeeCourseRating = false;
-        if(user != null){
-            if(userID === parseInt(user['userID'])){
-                canSeeCourseRating = true;
-            }
-        }
 
         if(image === ""){
             image = userImage;
@@ -49,32 +40,22 @@ export const ReviewBox = ({results, filter}) => {
         const onDelete = async (e) => {
             e.preventDefault();
 
-            const formData = new FormData();
-            formData.append('userID', userID);
-            formData.append('courseID', courseID);
-
-            await axios.post(API + "/review/delete", formData, { withCredentials: true }).then(() => {
-                window.location.reload();
-            }).catch(error => {
-                console.log(error);
-            });
-
-            document.getElementById(userID + "," + courseID).remove();
+            DeleteReview(courseID).then(() => window.location.reload());
         }
 
         return (
-            <div id={userID + "," + courseID} className="empty-response">
+            <div className="empty-response">
                 <div className="comment-image">
                     <img src={image} alt="USER IMG"/>
                 </div>
                 <p>
-                    Username: {getHighlightedText(userDisplayName, searchWord)}
+                    Username: {getHighlightedText(username, searchWord)}
                 </p>
 
-                {canSeeCourseRating ?
-                    <input className="button-style-2" type="button" value="Delete comment" onClick={onDelete}/>
+                {CanSeeEdits(username, user) ?
+                    <input className="button-style-2" type="button" value="Delete review" onClick={onDelete}/>
                     :
-                    <form action={"/profile/" + courseID} >
+                    <form action={"/profile/" + username} >
                         <button className="button-style-1" type="submit">Visit</button>
                     </form>
                 }
@@ -97,12 +78,10 @@ export const ReviewBox = ({results, filter}) => {
                 <br/>
                 Grading: {grading}
                 <br/>
-                Literature: {litterature}
+                Literature: {literature}
                 <br/>
                 Overall: {overall}
                 <br/>
-                <br/>
-                Helpful: {helpful}
 
                 <hr/>
 

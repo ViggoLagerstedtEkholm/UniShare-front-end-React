@@ -1,41 +1,97 @@
 import {useContext, useEffect, useState} from "react";
-import axios from "axios";
 import {CourseContext} from "../../Shared/Context/CourseContext";
-
-import Message from "../../Shared/Files/Message";
-import {HUD} from "./HUD";
-import {API} from "../../Shared/Constants";
 import {Loading} from "../../Shared/State/Loading";
+import {CheckIfCourseExists} from "../../Service/CourseService";
 
 export const SideHUD = () => {
     const [HUDInfo, setHUDInfo] = useState(null);
     const [isLoaded, setIsLoaded] = useState(false);
-    const [message, setMessage] = useState('');
     const {courseID} = useContext(CourseContext);
+    const [added, setAdded] = useState(new Date());
 
-    useEffect(async () => {
-        await fetchData();
-    }, [])
-
-    async function fetchData() {
-        try {
-            const response = await axios.get(API + "/course/get", {
-                params: {
-                    courseID: courseID
-                }
-            })
-
-            setHUDInfo(response.data);
+    useEffect( () => {
+        CheckIfCourseExists(courseID).then(response => {
+            setHUDInfo(response);
+            const addedDateTime = new Date(response['added']).toDateString() + " , " + new Date(response['added']).toTimeString();
+            setAdded(addedDateTime);
             setIsLoaded(true);
-        } catch (error) {
-            setMessage("Could not load data.");
-        }
-    }
+        })
+    }, [])
 
     return (
         <div className="course-side-information">
-            {message ? <Message msg={message}/> : null}
-            {isLoaded ? <HUD attributes={HUDInfo}/> : <Loading/>}
+            {isLoaded ?
+                <div>
+                    <h3>
+                        {HUDInfo['name']}
+                    </h3>
+
+                    <div>
+                        <h4>
+                            Link
+                        </h4>
+                    </div>
+
+                    <div className="responsive-text">
+                        <a href={HUDInfo['link']} target="popup">{HUDInfo['link']}</a>
+                    </div>
+
+                    <hr/>
+
+                    <div>
+                        <h3>
+                            Credits
+                        </h3>
+                    </div>
+
+                    <p>
+                        {HUDInfo['credits']}
+                    </p>
+
+                    <div>
+                        <h3>
+                            Country
+                        </h3>
+                    </div>
+
+                    <p>
+                        {HUDInfo['country']}
+                    </p>
+
+                    <div>
+                        <h3>
+                            City
+                        </h3>
+                    </div>
+
+                    <p>
+                        {HUDInfo['city']}
+                    </p>
+
+                    <div>
+                        <h3>
+                            University
+                        </h3>
+                    </div>
+
+                    <p>
+                        {HUDInfo['university']}
+                    </p>
+
+                    <hr/>
+
+                    <div>
+                        <h5>
+                            Added
+                        </h5>
+                    </div>
+
+                    <p>
+                        {
+                            added
+                        }
+                    </p>
+                </div> : <Loading/>}
         </div>
     );
 }

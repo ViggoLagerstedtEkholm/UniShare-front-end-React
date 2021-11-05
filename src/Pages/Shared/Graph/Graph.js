@@ -1,7 +1,32 @@
 import {Bar} from 'react-chartjs-2';
+import axios from "axios";
+import {API} from "../Constants";
+import {CourseContext} from "../Context/CourseContext";
+import {useContext, useEffect, useState} from "react";
+import {GetGraphData} from "../../Service/CourseService";
+import {Loading} from "../State/Loading";
 
-export const Graph = ({data, labels}) => {
-    console.log(data, labels);
+export const Graph = () => {
+    const labels = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+    const [data, setData] = useState(null);
+    const {courseID} = useContext(CourseContext);
+    const [isLoaded, setHasLoaded] = useState(false);
+
+    useEffect( async () => {
+        GetGraphData(courseID).then(response =>{
+            console.log(response);
+            let count = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+            for (let i = 0; i < response.length; i++) {
+                console.log("Rating:" + response[i]['rating']);
+                console.log("Rating:" + response[i]['rating']);
+                const item = response[i];
+                count[item['rating'] - 1] = item['count'];
+            }
+            setData(count);
+            setHasLoaded(true);
+        })
+    }, []);
+
 
     const dataset = {
         labels: labels,
@@ -60,7 +85,9 @@ export const Graph = ({data, labels}) => {
 
     return (
         <div className="graph-container">
-            <Bar data={dataset} options={options}/>
+            {isLoaded ?
+                <Bar data={dataset} options={options}/>
+             : <Loading/>}
         </div>
     )
 }

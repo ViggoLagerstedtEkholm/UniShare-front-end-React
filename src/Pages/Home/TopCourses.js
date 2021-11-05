@@ -1,11 +1,12 @@
-import courseImage from '../../images/books.png';
+import {Link} from "react-router-dom";
+import courseImage from '../../images/CourseDefault.png';
 
-export const TopRankedCourse = (data) => {
-    return data.data.map(function (data) {
+export const TopRankedCourse = ({data}) => {
+    return data.map(function (data) {
         const name = data['name'];
         const university = data['university'];
-        const average_rating = data['average_rating'];
-        const courseID = data['courseID'];
+        const average_rating = data['rating'];
+        const courseID = data['id'];
 
         return (
             <div className="content-card-body">
@@ -37,9 +38,7 @@ export const TopRankedCourse = (data) => {
                     </div>
 
                     <div className="content-card-info-buttons">
-                        <form action={'/courses/' + courseID}>
-                            <button className="button-style-1" type="submit">Visit</button>
-                        </form>
+                        <Link className="button-style-1" to={'/courses/' + courseID}> Visit</Link>
                     </div>
                 </div>
             </div>

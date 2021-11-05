@@ -1,37 +1,40 @@
 import {useEffect, useState} from "react";
-import axios from "axios";
-import {API} from "../Shared/Constants";
-import {Link, useHistory} from "react-router-dom";
+import {Link} from "react-router-dom";
+import {VerifyEmail} from "../Service/AuthenticationService";
+import {Loading} from "../Shared/State/Loading";
 
 export function Verify(props) {
-    const email = props.match.params.email;
-    const hash = props.match.params.hash;
+    const query = new URLSearchParams(props.location.search);
+
+    const Id = query.get('Id');
+    const Token = query.get('Token');
+
     const [isVerified, setIsVerified] = useState(false);
-    let history = useHistory();
+    const [isLoaded, setIsLoaded] = useState(false);
 
     useEffect(async () => {
-        verify().then(() => {
+        const credentials = {
+            Id : Id,
+            Token : Token
+        }
 
-        });
-    },[]);
-
-    const verify = async () =>{
-        const data = new FormData();
-        data.append('email', email);
-        data.append('hash', hash);
-
-        await axios.post(API + "/verify", data).then(response => {
-            console.log(response);
+        VerifyEmail(credentials).then(() => {
             setIsVerified(true);
-        })
-        .catch((error) => {
-            console.log(error);
-            console.log(error.response);
+            setIsLoaded(true);
+
+        }).catch(() =>{
+            setIsVerified(false);
+            setIsLoaded(true);
         });
-    }
+
+    },[]);
 
     return (
         <div className="container">
+            {
+                isLoaded ? null : <Loading/>
+            }
+
             {
                 isVerified ?
                     <div>

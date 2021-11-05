@@ -18,6 +18,10 @@ export const validName = new RegExp(
     '^[\\s\\S]{1,300}$'
 );
 
+export const validComment = new RegExp(
+    '^[\\s\\S]{1,2000}$'
+);
+
 export const validURL = new RegExp(
     'https?:\\/\\/(www\\.)?[-a-zA-Z0-9@:%._\\+~#=]{1,256}\\.[a-zA-Z0-9()]{1,6}\\b([-a-zA-Z0-9()@:%_\\+.~#?&//=]*)'
 );

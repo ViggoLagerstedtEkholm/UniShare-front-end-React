@@ -4,6 +4,7 @@ import axios from "axios";
 import {API} from "../Shared/Constants";
 import Message from "../Shared/Files/Message";
 import {Loading} from "../Shared/State/Loading";
+import api from "../Service/api";
 
 export function ActiveDegree() {
     const [activeDegreeID, setActiveDegreeID] = useState();
@@ -16,16 +17,19 @@ export function ActiveDegree() {
     }, [isLoaded])
 
     const getDegreeData = async () => {
-        await axios.get(API + "/degree/get/active", {withCredentials: true}).then(response => {
-            setActiveDegreeID(response['data']);
+        await api.get(API + "/api/Settings/degrees").then(response => {
+            console.log(response.data);
+            setDegrees(response.data);
         }).catch(error => {
             console.log(error);
         });
 
-        await axios.get(API + "/degree/get/settings", {withCredentials: true}).then(response => {
-            setDegrees(response['data']);
+        await api.get(API + "/api/Settings/degrees/active").then(response => {
+            console.log(response);
+            setActiveDegreeID(response.data);
         }).catch(error => {
             console.log(error);
+            setActiveDegreeID(null);
         });
     }
 
@@ -39,22 +43,22 @@ export function ActiveDegree() {
 
     const onSubmit = () =>{
         const formData = new FormData();
-        formData.append('activeDegreeID', activeDegreeID);
+        formData.append('ActiveDegreeId', activeDegreeID);
 
-        axios.post(API + "/settings/update/active/degree", formData, {withCredentials: true}).then(() => {
+        api.post(API + "/api/Settings/update/active", formData).then(() => {
             alert('Updated active degree');
         }).catch(error => {
-            setMessage(error.response);
+            console.log(error);
         });
     }
 
     function populateDegrees() {
         return degrees.map(function (data) {
-            const isActive = data['isActive'];
             const name = data['name'];
-            const degreeID = data['degreeID'];
+            const degreeID = data['id'];
 
-            if (isActive) {
+
+            if (degreeID === activeDegreeID) {
                 return (
                     <option value={degreeID} selected="selected">{name} - Active</option>
                 )
@@ -78,10 +82,12 @@ export function ActiveDegree() {
                     <form onSubmit={validate}>
                         <div className="project-card">
 
-                        <select id="degrees" name="activeDegreeID"
+                        <select id="degrees" name="activeDegreeID" value={activeDegreeID}
                                 onChange={(e) =>{
                                     setActiveDegreeID(e.target.value);
                                 }}>
+                            <option value={-1} selected="selected">None</option>
+
                             {populateDegrees()}
                         </select>
 

@@ -5,6 +5,8 @@ html, body {
     padding: 0;
     overflow-x: hidden;
     color: white;
+    background-color: #161A1C;
+    font-family: Bahnschrift, serif, serif;
 }
 
 fieldset {
@@ -14,7 +16,7 @@ fieldset {
     transition: 280ms all ease-in-out;
 }
 
-.loading{
+.loading {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -50,25 +52,25 @@ li {
     list-style-type: none;
 }
 
-.no-results{
+.no-results {
     padding: 10px;
 }
 
-.capitalize{
+.capitalize {
     text-transform: uppercase;
 }
 
-.white{
+.white {
     color: white;
 }
 
-.information{
+.information {
     padding: 10px;
     background-color: rgb(159, 212, 255);
     border-radius: 5px;
 }
 
-.success{
+.success {
     color: #005e00;
 }
 
@@ -76,7 +78,7 @@ li {
     color: red;
 }
 
-.not-found-animation{
+.not-found-animation {
     margin-top: 1%;
 }
 
@@ -113,7 +115,7 @@ li {
     color: white;
 }
 
-.profile-handles{
+.profile-handles {
     margin-top: 30px;
     margin-bottom: 5px;
     display: flex;
@@ -124,7 +126,7 @@ li {
 
 }
 
-.profile-handles-icon{
+.profile-handles-icon {
     margin-left: 10px;
     margin-right: 10px;
     align-items: center;
@@ -132,12 +134,12 @@ li {
     justify-content: center;
 }
 
-.profile-handle-icon-linkedin{
+.profile-handle-icon-linkedin {
     max-width: 54px;
     max-height: 44px;
 }
 
-.profile-handle-icon-github{
+.profile-handle-icon-github {
     max-width: 64px;
     max-height: 64px;
 }
@@ -150,19 +152,29 @@ li {
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
-.profile-side-information{
+.course-header-text{
+    font-size: 30px;
+    font-family: "Arial", serif;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-transform: uppercase;
+}
+
+.profile-side-information {
     box-shadow: rgba(220, 220, 220, 0.1) 0 4px 16px, rgba(215, 215, 215, 0.1) 0 8px 24px, rgba(222, 222, 222, 0.1) 0 16px 56px;
     padding: 10px;
     border-radius: 5px;
     background-color: #1A1E20;
     margin-right: 10px;
+    min-height: 900px;
 }
 
-.profile-side-information button{
+.profile-side-information button {
     margin-top: 10px;
 }
 
-.course-side-information{
+.course-side-information {
+    height: auto;
     padding: 10px;
     border-radius: 5px;
     background-color: #403F3F;
@@ -296,7 +308,7 @@ li {
     color: white;
 }
 
-.course-shadow{
+.course-shadow {
     box-shadow: rgba(0, 0, 0, 0.35) 0 5px 15px;
 }
 
@@ -396,20 +408,19 @@ li {
 }
 
 .filter-background-box {
-    box-shadow: rgba(220, 220, 220, 0.1) 0 4px 16px, rgba(215, 215, 215, 0.1) 0 8px 24px, rgba(222, 222, 222, 0.1) 0 16px 56px;
     margin-top: 10px;
     border-width: 1px;
-    background-color: rgb(47, 47, 49);
+    background-color: rgb(51 96 135);
 }
 
-.filter-input-background{
+.filter-input-background {
     box-shadow: rgba(220, 220, 220, 0.06) 0 4px 16px, rgba(215, 215, 215, 0.05) 0 8px 24px, rgba(222, 222, 222, 0.04) 0 16px 56px;
     border-radius: 5px;
-    background-color: #1a233a;
+    background-color: #1b0b33;
     margin: 5px;
 }
 
-.filter-text{
+.filter-text {
     font-size: 20px;
     font-style: italic;
     margin-bottom: 20px;
@@ -483,13 +494,13 @@ select {
 .button-style-3,
 .button-style-4,
 .button-style-5 {
+    text-decoration: none;
     color: white;
     margin: auto;
     padding-top: 20px;
     padding-bottom: 20px;
     border-radius: 5px;
     text-align: center;
-    text-decoration: none;
     display: inline-block;
     font-size: 16px;
     width: 100%;
@@ -572,7 +583,7 @@ form .text_field {
 }
 
 .container {
-    background-color: #1F1F1F;
+    background-color: #161A1C;
     padding: 20px 50px;
     min-height: 100vh;
 }
@@ -585,10 +596,25 @@ form .text_field {
     padding: 10px;
     border-radius: 5px;
     box-shadow: rgba(0, 0, 0, 0.4) 0 30px 90px;
+    min-height: 1000px;
 }
+
+.content-container-course {
+    color: white;
+    display: flex;
+    height: auto;
+    padding: 10px;
+    border-radius: 5px;
+}
+
 
 .fixed {
     background-color: #313131;
+    width: 400px;
+    min-width: 400px;
+}
+
+.course-fixed{
     width: 400px;
     min-width: 400px;
 }
@@ -598,7 +624,21 @@ form .text_field {
     flex-grow: 1;
 }
 
+.course-flex-item{
+    background-color: rgba(49, 49, 49, 0);
+    flex-grow: 1;
+}
+
+.course-content{
+    height: auto;
+    padding: 10px;
+    background-color: #403f3f;
+    border-radius: 5px;
+    margin-left: 10px;
+}
+
 .user-content {
+    height: auto;
     padding: 10px;
     background-color: #403f3f;
     border-radius: 5px;
@@ -627,7 +667,7 @@ form .text_field {
     margin-top: 10px;
     margin-left: 20px;
     margin-right: 20px;
-    outline: 1px solid #a8a8a8;
+    outline: 5px solid #3192f8;
     height: 340px;
     width: auto;
 }
@@ -666,6 +706,7 @@ form .text_field {
 }
 
 .display-result-box {
+    min-height: 700px;
     margin-top: 10px;
     background-color: #313131;
     padding: 10px 20px 20px;
@@ -678,6 +719,7 @@ form .text_field {
     margin-top: 5px;
     margin-bottom: 5px;
     border-radius: 5px;
+    min-height: 200px;
 }
 
 .startpage-flex-item {
@@ -786,15 +828,14 @@ form .text_field {
     box-sizing: border-box;
 }
 
-.text-area{
+.text-area {
     width: 100%;
     height: 150px;
 }
 
-.responsive-text{
+.responsive-text {
     direction: ltr;
     width: 100%;
-    margin: 10px;
     font-size: 15px;
     text-align: match-parent;
     white-space: pre-line;
@@ -811,6 +852,12 @@ form .text_field {
 }
 
 @media screen and (max-width: 1301px) {
+    .profile-side-information{
+        margin: 0;
+        box-shadow: none;
+        border-radius: 0;
+    }
+
     .content-card-info-buttons {
         flex-direction: row;
         width: auto;
@@ -846,13 +893,14 @@ form .text_field {
     }
 
     .container {
+        padding-top: 0;
         padding-left: 0;
         padding-right: 0;
     }
 }
 
 @media screen and (max-width: 984px) {
-    .course-side-information{
+    .course-side-information {
         margin-top: 10px;
         margin-left: 0;
     }
@@ -884,13 +932,18 @@ form .text_field {
         padding: 0;
     }
 
+    .content-container-course{
+        padding: 0;
+    }
+
     .user-content {
         margin: 0;
+        background-color: transparent;
     }
 
     .user-image {
         width: 50%;
-        margin: 0 auto;
+        margin: 20px auto;
     }
 
     .wrapper-grid {
@@ -898,6 +951,10 @@ form .text_field {
     }
 
     .fixed {
+        width: 100%;
+    }
+
+    .course-fixed{
         width: 100%;
     }
 
@@ -911,6 +968,10 @@ form .text_field {
     }
 
     .content-container {
+        flex-direction: column;
+    }
+
+    .content-container-course{
         flex-direction: column;
     }
 
@@ -983,6 +1044,10 @@ form .text_field {
 }
 
 @media screen and (max-width: 480px) {
+    .fixed{
+        min-width: 200px;
+    }
+
     .content-filter-box {
         padding-right: 0;
         padding-left: 0;

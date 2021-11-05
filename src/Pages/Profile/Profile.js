@@ -1,20 +1,18 @@
 import {useContext, useEffect, useMemo, useState} from "react";
 import SideHUD from "./HUD/SideHUD";
 import {Tab, TabList, TabPanel, Tabs} from 'react-tabs';
-import ShowcaseProjects from "./Projects/ShowcaseProjects";
 import ShowcaseComments from "./Comments/ShowcaseComments";
-import ShowcaseDegrees from "./Degrees/ShowcaseDegrees";
 import {ProfileContext} from "../Shared/Context/ProfileContext";
 import {UserContext} from "../Shared/Context/UserContext";
 import {Link} from "react-router-dom";
-import axios from "axios";
-import querystring from "querystring";
-import {API} from "../Shared/Constants";
 import {FriendList} from "../Friends/FriendList";
 import {Ratings} from "./Ratings/Ratings";
 import {Reviews} from "./Reviews/Reviews";
-import NotFound from "../Shared/Error/NotFound";
+import NotFound from "../../../../microlabscasefrontend/src/Components/Error/NotFound";
 import {Loading} from "../Shared/State/Loading";
+import {ProjectBox} from "./Projects/ProjectBox";
+import {DegreesBox} from "./Degrees/DegreesBox";
+import {AppendVisit, CanSeeEdits, FetchUser} from "../Service/UserService";
 
 function Profile(props) {
     const [profileID, setProfileID] = useState(props.match.params.profileID);
@@ -25,171 +23,120 @@ function Profile(props) {
     const [isLoaded, setIsLoaded] = useState(false);
 
     useEffect( () => {
-        checkIfProfileExists().then((response) =>{
+        FetchUser(profileID).then((response) =>{
             if(response){
                 setProfileExists(true);
-                console.log(response);
-                appendVisitData();
+                AppendVisit(profileID).then(() => null);
             }
             setIsLoaded(true);
         });
     }, []);
 
-    const checkIfProfileExists = async () => {
-        const promise =  axios.get(API + "/profile/get", {
-            params: {
-                profileID: profileID
-            }
-        });
-
-        return promise.then((response) => response.data).catch(() => null);
-    }
-
-    const appendVisitData =   () => {
-        const params = {
-            profileID: profileID
-        };
-        axios.post(API + "/profile/append/visits", querystring.stringify(params), {withCredentials: true}).then(response => {
-            console.log(response);
-        }).catch(error => {
-            console.log(error);
-        });
-    }
-
-    let canSeeProfileEdits = false;
-    if (user !== null) {
-        const currentLoggedIn = user['userID'];
-        if (currentLoggedIn === profileID) {
-            canSeeProfileEdits = true;
-        }
-    }
-
     return (
         <div className="container">
+            <ProfileContext.Provider value={value}>
             {isLoaded ? <div>
                     {
-                        profileExists ?
-                            <div>
-                                <div className="content-container">
-                                    <div className="fixed">
-                                        <ProfileContext.Provider value={value}>
-                                            <SideHUD/>
-                                        </ProfileContext.Provider>
-                                    </div>
+                    profileExists ?
+                        <div>
+                            <div className="content-container">
+                                <div className="fixed">
+                                    <SideHUD/>
+                                </div>
+                                <div className="flex-item">
+                                    <div className="user-content">
+                                        <Tabs>
+                                            <TabList>
+                                                <Tab>Projects</Tab>
+                                                <Tab>Degrees</Tab>
+                                                <Tab>Publications</Tab>
+                                                <Tab>Friends</Tab>
+                                                <Tab>Course Ratings</Tab>
+                                                <Tab>Course Reviews</Tab>
+                                            </TabList>
+                                            <TabPanel>
+                                                <h3 className="title-bar">
+                                                    Projects
+                                                </h3>
 
-                                    <div className="flex-item">
-                                        <div className="user-content">
-                                            <Tabs>
-
-                                                <TabList>
-                                                    <Tab>Projects</Tab>
-                                                    <Tab>Degrees</Tab>
-                                                    <Tab>Publications</Tab>
-                                                    <Tab>Friends</Tab>
-                                                    <Tab>Course Ratings</Tab>
-                                                    <Tab>Course Reviews</Tab>
-                                                </TabList>
-
-                                                <TabPanel>
-                                                    <h3 className="title-bar">
-                                                        Projects
-                                                    </h3>
-
-                                                    {canSeeProfileEdits ?
-                                                        <div>
-                                                            <div className="button-box">
-                                                                <Link to="/project/add" className="button-style-4">Add new
-                                                                    project</Link>
-                                                            </div>
-
-                                                            <hr/>
-
+                                                {CanSeeEdits(profileID, user) ?
+                                                    <div>
+                                                        <div className="button-box">
+                                                            <Link to="/project/add" className="button-style-4">Add new
+                                                                project</Link>
                                                         </div>
-                                                        : null
-                                                    }
-                                                    <ProfileContext.Provider value={value}>
-                                                        <ShowcaseProjects/>
-                                                    </ProfileContext.Provider>
-                                                </TabPanel>
 
-                                                <TabPanel>
-                                                    <h3 className="title-bar">
-                                                        Degrees
-                                                    </h3>
+                                                        <hr/>
 
-                                                    {canSeeProfileEdits ?
-                                                        <div>
-                                                            <div className="button-box">
-                                                                <Link to="/degree/add" className="button-style-4">Add new
-                                                                    degree</Link>
-                                                            </div>
-                                                            <hr/>
+                                                    </div>
+                                                    : null
+                                                }
+                                                <ProjectBox/>
+                                            </TabPanel>
+                                            <TabPanel>
+                                                <h3 className="title-bar">
+                                                    Degrees
+                                                </h3>
+                                                {CanSeeEdits(profileID, user) ?
+                                                    <div>
+                                                        <div className="button-box">
+                                                            <Link to="/degree/add" className="button-style-4">Add new
+                                                                degree</Link>
                                                         </div>
-                                                        : null
-                                                    }
+                                                        <hr/>
+                                                    </div>
+                                                    : null
+                                                }
+                                                <DegreesBox/>
+                                            </TabPanel>
+                                            <TabPanel>
+                                                <h3 className="title-bar">
+                                                    Publications
+                                                </h3>
 
-                                                    <ProfileContext.Provider value={value}>
-                                                        <ShowcaseDegrees/>
-                                                    </ProfileContext.Provider>
-                                                </TabPanel>
+                                                {CanSeeEdits(profileID, user) ?
+                                                    <div>
+                                                        <hr/>
 
-                                                <TabPanel>
-                                                    <h3 className="title-bar">
-                                                        Publications
-                                                    </h3>
-
-                                                    {canSeeProfileEdits ?
-                                                        <div>
-                                                            <hr/>
-
-                                                            <h1>~ Coming soon!</h1>
-
-                                                        </div>
-                                                        :
                                                         <h1>~ Coming soon!</h1>
-                                                    }
 
-                                                </TabPanel>
+                                                    </div>
+                                                    :
+                                                    <h1>~ Coming soon!</h1>
+                                                }
 
-                                                <TabPanel>
-                                                    <h3 className="title-bar">
-                                                        Friends
-                                                    </h3>
-                                                    <FriendList ID={props.match.params.profileID}/>
-                                                </TabPanel>
+                                            </TabPanel>
+                                            <TabPanel>
+                                                <h3 className="title-bar">
+                                                    Friends
+                                                </h3>
+                                                <FriendList ID={props.match.params.profileID}/>
+                                            </TabPanel>
+                                            <TabPanel>
+                                                <h3 className="title-bar">
+                                                    Ratings
+                                                </h3>
 
-                                                <TabPanel>
-                                                    <h3 className="title-bar">
-                                                        Ratings
-                                                    </h3>
-                                                    <ProfileContext.Provider value={value}>
-                                                        <Ratings/>
-                                                    </ProfileContext.Provider>
-                                                </TabPanel>
-
-                                                <TabPanel>
-                                                    <h3 className="title-bar">
-                                                        Reviews
-                                                    </h3>
-                                                    <ProfileContext.Provider value={value}>
-                                                        <Reviews/>
-                                                    </ProfileContext.Provider>
-                                                </TabPanel>
-                                            </Tabs>
-                                        </div>
+                                                <Ratings/>
+                                            </TabPanel>
+                                            <TabPanel>
+                                                <h3 className="title-bar">
+                                                    Reviews
+                                                </h3>
+                                                <Reviews/>
+                                            </TabPanel>
+                                        </Tabs>
                                     </div>
                                 </div>
-
-                                <hr/>
-
-                                <ProfileContext.Provider value={value}>
-                                    <ShowcaseComments/>
-                                </ProfileContext.Provider>
-                            </div> : <NotFound/>
+                            </div>
+                            <hr/>
+                            <ShowcaseComments/>
+                        </div> : <NotFound/>
                     }
                 </div> :
                 <Loading/>
             }
+            </ProfileContext.Provider>
         </div>
     );
 }

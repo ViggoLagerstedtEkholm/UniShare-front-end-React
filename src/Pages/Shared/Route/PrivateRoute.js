@@ -12,7 +12,7 @@ export function PrivateRoute ({component: Component, ...rest}) {
     return (
         <Route
             {...rest}
-            render={(props) =>  user['privilege'] === "Admin" ? <Component {...props} /> : <Redirect to="/" /> }
+            render={(props) =>  user.role === "Admin" ? <Component {...props} /> : <Redirect to="/" /> }
         />
     )
 }

@@ -8,24 +8,24 @@ export const Ratings = () => {
     const {profileID} = useContext(ProfileContext);
 
     const startFilter = {
-        page: 1,
-        filterOption: "added",
-        filterOrder: "DESC",
-        search: null,
-        results_per_page_count: 7,
-        ID: profileID
+        Page: 1,
+        Option: "Rating",
+        Order: "Descending",
+        Search: null,
+        ResultsPerPage: 7,
+        ProfileId: profileID
     }
 
     const selectOptions = new Map();
-    selectOptions.set('Name', 'name');
-    selectOptions.set('Course code', 'code');
-    selectOptions.set('Credits', 'credits');
-    selectOptions.set('University', 'university');
-    selectOptions.set('Rating', 'rating');
+    selectOptions.set('Name', 'Name');
+    selectOptions.set('Course code', 'Code');
+    selectOptions.set('Credits', 'Credits');
+    selectOptions.set('University', 'University');
+    selectOptions.set('Rating', 'Rating');
 
     return (
         <FilterContent
-            APIEndPoint={API + "/search/profile/ratings"}
+            APIEndPoint={API + "/api/Search/user/ratings"}
             startFilter={startFilter}
             options={selectOptions}
             displayBox={RatingsBox}

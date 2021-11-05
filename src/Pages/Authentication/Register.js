@@ -1,58 +1,73 @@
 import {Link} from "react-router-dom";
-import {useState} from "react";
-import axios from "axios";
-import {API} from "../Shared/Constants";
-import {validEmail, validFirstname, validLastname, validPassword, validUsername} from "../Shared/RegEx/User";
+import React, {useState} from "react";
+import {validAge, validEmail, validFirstname, validLastname, validPassword, validUsername} from "../Shared/RegEx/User";
+import {RegisterAccount} from "../Service/AuthenticationService";
+import Message from "../Shared/Files/Message";
+import { useHistory } from 'react-router-dom';
+import {Loading} from "../Shared/State/Loading";
 
 function Register() {
-    const [registered, setRegistered] = useState(false);
-    const [email, setEmail] = useState('');
-    const [firstName, setFirstName] = useState('');
-    const [lastName, setLastName] = useState('');
-    const [username, setUsername] = useState('');
-    const [password, setPassword] = useState('');
-    const [passwordRepeat, setPasswordRepeat] = useState('');
+    const [email, setEmail] = useState('viggo.lagerstedtekholm@gmail.com');
+    const [firstname, setFirstName] = useState('Viggo');
+    const [lastname, setLastName] = useState('Lagerstedt');
+    const [username, setUsername] = useState('horken');
+    const [password, setPassword] = useState('123!AbcdDA');
+    const [age, setAge] = useState(25);
+    const [isLoading, setIsLoading] = useState(false);
+    const [passwordRepeat, setPasswordRepeat] = useState('123!AbcdDA');
+    const [message, setMessage] = useState();
+    const history = useHistory();
 
     const validate = (e) =>{
         e.preventDefault();
 
-        const firstNameError = checkFirstName(firstName);
-        const lastNameError = checkLastName(lastName);
+        const firstNameError = checkFirstName(firstname);
+        const lastNameError = checkLastName(lastname);
         const emailError = checkEmail(email);
         const usernameError = checkUsername(username);
         const passwordError = checkPassword(password);
         const passwordRepeatError = checkPasswordRepeat(passwordRepeat);
+        const ageError = checkAge(age);
 
-        console.log("emailError: " + emailError);
-        console.log("firstNameError: " + firstNameError);
-        console.log("lastNameError: " + lastNameError);
-        console.log("usernameError: " + usernameError);
-        console.log("passwordError: " + passwordError);
-        console.log("passwordRepeatError: " + passwordRepeatError);
-
-        if(!emailError && !firstNameError && !lastNameError && !usernameError && !passwordError && !passwordRepeatError){
+        if(!ageError && !emailError && !firstNameError && !lastNameError && !usernameError && !passwordError && !passwordRepeatError){
             doRegister();
         }
     }
 
     const doRegister = () => {
-        const formData = new FormData();
-        formData.append('first_name', firstName);
-        formData.append('last_name', lastName);
-        formData.append('email', email);
-        formData.append('display_name', username);
-        formData.append('password', password);
-        formData.append('password_repeat', passwordRepeat);
+        setIsLoading(true);
 
-        axios.post(API + "/register", formData).then(response => {
-            console.log(response);
-            setRegistered(true);
-            alert('Go to your mail for verification.');
-            window.scrollTo(0, 0);
+        const registerPayload = {
+            username : username,
+            email : email,
+            password : password,
+            age : age,
+            firstname : firstname,
+            lastname : lastname,
+        }
+
+        RegisterAccount(registerPayload).then(() => {
+            alert('Successfully registered account. To login you need to confirm the email, go to : ' + email);
+            history.push("/login");
         }).catch(error => {
-            console.log(error.response);
-        })
+            setMessage(error);
+            alert(error);
+            setIsLoading(false);
+        });
     }
+
+    const checkAge = (age) =>{
+        let error;
+        if(!validAge.test(age)){
+            error = true;
+            document.getElementById("age").style.background="rgb(250,138,131)";
+        }else{
+            error = false;
+            document.getElementById("age").style.background="white";
+        }
+        return error;
+    }
+
 
     const checkLastName = (lastName) =>{
         let error;
@@ -129,15 +144,15 @@ function Register() {
     return (
         <div className="container">
             <div className="title-bar">
-
-                {registered ? <p>Check your mail: <b>{email}</b>. click the embedded the link to verify your email.</p> : null}
-
                 <h1>Register</h1>
+                {message ? <Message msg={message}/> : null}
+
                 <form onSubmit={validate}>
                     <div className="text_field">
                         <h2>First name</h2>
                         <h5 className="information"> (a-z and A-Z and 0-9) minimum 2 characters and maximum 30. Spaces and some special characters allowed.</h5>
-                        <input id="firstName" type="text" className="user-input-text" placeholder="First name" onChange={(e) => {
+                        <input id="firstName" type="text" className="user-input-text" placeholder="First name" value={firstname}
+                        onChange={(e) => {
                             setFirstName(e.target.value);
                             checkFirstName(e.target.value);
                         }}/>
@@ -145,7 +160,8 @@ function Register() {
                     <div className="text_field">
                         <h2>Last name</h2>
                         <h5 className="information"> (a-z and A-Z and 0-9) minimum 2 characters and maximum 30. Spaces and some special characters allowed.</h5>
-                        <input id="lastName" type="text" className="user-input-text" placeholder="Last name" onChange={(e) => {
+                        <input id="lastName" type="text" className="user-input-text" placeholder="Last name" value={lastname}
+                        onChange={(e) => {
                             setLastName(e.target.value);
                             checkLastName(e.target.value);
                         }}/>
@@ -154,7 +170,8 @@ function Register() {
                     <div className="text_field">
                         <h2>Email</h2>
                         <h5 className="information"> Example mail: user.example@mail.com</h5>
-                        <input id="email" type="text" className="user-input-text" placeholder="Email"  onChange={(e) => {
+                        <input id="email" type="text" className="user-input-text" placeholder="Email" value={email}
+                        onChange={(e) => {
                             setEmail(e.target.value);
                             checkEmail(e.target.value);
                         }}/>
@@ -163,28 +180,44 @@ function Register() {
                     <div className="text_field">
                         <h2>Username</h2>
                         <h5 className="information"> (a-z and A-Z and 0-9) minimum 8 characters and maximum 30. No spaces allowed.</h5>
-                        <input id="username" type="text" className="user-input-text" placeholder="Username" onChange={(e) => {
+                        <input id="username" type="text" className="user-input-text" placeholder="Username" value={username}
+                        onChange={(e) => {
                             setUsername(e.target.value);
                             checkUsername(e.target.value);
                         }}/>
                     </div>
+
+                    <div className="text_field">
+                        <h2>Age</h2>
+                        <h5 className="information">Age 13-120 allowed</h5>
+                        <input id="age" type="text" className="user-input-text" placeholder="Age" value={age}
+                        onChange={(e) => {
+                            setAge(e.target.value);
+                            checkAge(e.target.value);
+                        }}/>
+                    </div>
+
                     <div className="text_field">
                         <h2>Password</h2>
                         <h5 className="information">Minimum eight and maximum 80 characters, at least one uppercase letter (A-Z),
                             one lowercase letter (a-z), one number (0-9) and one special character (@$!%*?&).</h5>
-                       <input id="password" type="password" className="user-input-text" placeholder="Password" onChange={(e) => {
+                       <input id="password" type="password" className="user-input-text" placeholder="Password" value={password}
+                        onChange={(e) => {
                             setPassword(e.target.value);
                             checkPassword(e.target.value);
                         }}/>
                     </div>
                     <div className="text_field">
                         <h2>Repeat password</h2>
-                        <input id="passwordRepeat" type="password" className="user-input-text" placeholder="Repeat password" onChange={(e) => {
+                        <input id="passwordRepeat" type="password" className="user-input-text" placeholder="Repeat password" value={passwordRepeat}
+                        onChange={(e) => {
                             setPasswordRepeat(e.target.value);
                             checkPasswordRepeat(e.target.value);
                         }}/>
                     </div>
-                    <input type="submit" name="submit_register" className="button-style-4" value="Register"/>
+
+                    { isLoading ? <Loading/> : <input type="submit" name="submit_register" className="button-style-4" value="Register"/>}
+
                 </form>
                 <h4 class="form-authentication-text">Already have an account? <hr/><Link className="button-style-1" to="/login">Go to login page</Link> </h4>
             </div>

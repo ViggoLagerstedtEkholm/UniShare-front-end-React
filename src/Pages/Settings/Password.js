@@ -3,9 +3,9 @@ import Collapsible from "react-collapsible";
 import {
     validPassword,
 } from "../Shared/RegEx/User";
-import axios from "axios";
 import {API} from "../Shared/Constants";
 import Message from "../Shared/Files/Message";
+import api from "../Service/api";
 
 export function Password() {
     const [currentPassword, setCurrentPassword] = useState('');
@@ -27,15 +27,11 @@ export function Password() {
     }
 
     const doSubmit = () =>{
-        const formData = new FormData();
-        formData.append('current_password', currentPassword);
-        formData.append('new_password', newPassword);
-
-        axios.post(API + "/settings/update/password", formData, {withCredentials: true}).then(() => {
+        api.post(API + "/api/Settings/password/update", {CurrentPassword : currentPassword, NewPassword : newPassword} ).then(() => {
             alert('Updated password');
         }).catch(error => {
             console.log(error.response);
-            setMessage(error.response.data);
+            //setMessage(error.response.data);
         });
     }
 

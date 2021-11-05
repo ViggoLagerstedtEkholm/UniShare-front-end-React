@@ -1,13 +1,10 @@
-import axios from "axios";
+import api from "../../Service/api";
 
 export const Search = async (APIEndpoint, params) => {
     try {
-        return await axios.get(APIEndpoint, {
-            params,
-            withCredentials: true
-        });
+        return await api.post(APIEndpoint, params);
     } catch (error) {
-        return null;
+        return error;
     }
 }
 

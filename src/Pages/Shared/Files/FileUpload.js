@@ -2,6 +2,7 @@ import React, {Fragment, useState} from "react";
 import axios from "axios";
 import Message from "./Message";
 import {API} from "../Constants";
+import api from "../../Service/api";
 
 const FileUpload = ({URL}) => {
     const [file, setFile] = useState('');
@@ -10,6 +11,7 @@ const FileUpload = ({URL}) => {
     const onChange = e => {
         //Get first file.
         setFile(e.target.files[0]);
+        console.log("heaawd");
     }
 
     const onSubmit = async e => {
@@ -19,14 +21,15 @@ const FileUpload = ({URL}) => {
         formData.append('file', file);
 
         try {
-            await axios.post(API + URL, formData, {
+            await api.post(API + URL, formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data'
                 },
-                withCredentials: true
             }).then(response => {
                 console.log(response);
                 window.location.reload();
+            }).catch(error =>{
+                console.log(error);
             });
         } catch (err) {
             console.log(err);

@@ -9,19 +9,16 @@ function ShowcaseComments() {
     const {profileID} = useContext(ProfileContext);
 
     const startFilter = {
-        page: 1,
-        filterOption: "date",
-        filterOrder: "DESC",
-        search: null,
-        results_per_page_count: 7,
-        ID: profileID
+        Page: 1,
+        Option: "Date",
+        Order: "Descending",
+        Search: null,
+        ResultsPerPage: 7,
+        ProfileId : profileID
     }
 
     const selectOptions = new Map();
-    selectOptions.set('Text', 'text');
-    selectOptions.set('Date', 'date');
-    selectOptions.set('Username', 'userDisplayName');
-    selectOptions.set('Added', 'date');
+    selectOptions.set('Added', 'Date');
 
     return (
         <div >
@@ -31,7 +28,7 @@ function ShowcaseComments() {
             <hr/>
 
             <FilterContent
-                APIEndPoint={API + "/search/comments"}
+                APIEndPoint={API + "/api/Search/comments"}
                 startFilter={startFilter}
                 options={selectOptions}
                 displayBox={CommentBox}

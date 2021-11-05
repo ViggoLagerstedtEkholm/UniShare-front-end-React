@@ -1,22 +1,20 @@
 import '../../css/header.css';
-import React, {useState, useContext} from 'react';
+import React, {useState} from 'react';
 import {Link, Redirect} from 'react-router-dom';
-import {UserContext} from "../Shared/Context/UserContext";
-import axios from "axios";
-import {API} from "../Shared/Constants";
 import {validEmail} from "../Shared/RegEx/User";
 import Message from "../Shared/Files/Message";
+import {LogIn} from "../Service/AuthenticationService";
+import {Loading} from "../Shared/State/Loading";
 
 const Login = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [rememberMe, setRememberMe] = useState(false);
-
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [message, setMessage] = useState('');
-
-    const {user, setUser} = useContext(UserContext);
+    const [isLoading, setIsLoading] = useState(false);
 
     const validate = (e) =>{
+        setIsLoading(true);
         e.preventDefault();
 
         const emailError = checkEmail(email);
@@ -27,32 +25,24 @@ const Login = () => {
     }
 
     const doLogin = () => {
-        const data = new FormData();
-        data.append('email', email);
-        data.append('password', password);
-        data.append('rememberMe', rememberMe);
-
-        const options = {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json',
-            withCredentials: true
+        const loginPayload ={
+            email : email,
+            password : password
         }
 
-        axios.post(API + "/login", data, options).then(response => {
-            console.log(response);
+        LogIn(loginPayload).then(response => {
             localStorage.clear();
-            localStorage.setItem('USER', JSON.stringify(response['data']));
-            setUser(JSON.stringify(response['data']));
-            document.location.reload("/");
-        })
-        .catch((error) => {
-            if (error.response.status === 403) {
-                setMessage(error.response.data);
-            }
+            localStorage.setItem('token', JSON.stringify(response.data));
+            setIsLoggedIn(true);
+            setIsLoading(false);
+            window.location.reload();
+        }).catch(error => {
+            setIsLoading(false);
+            setMessage(error);
         });
     }
 
-    if(user != null){
+    if(isLoggedIn){
         return <Redirect to="/" />
     }
 
@@ -74,6 +64,7 @@ const Login = () => {
                 <h1>Login</h1>
 
                 {message ? <Message msg={message}/> : null}
+
                 <form onSubmit={validate}>
                     <div className="text_field">
                         <label>Email</label>
@@ -100,13 +91,8 @@ const Login = () => {
                         />
                     </div>
 
-                    Remember me:
-                    <input type="checkbox"
-                           defaultChecked={rememberMe}
-                           onChange={() => setRememberMe(!rememberMe)}/>
-                    <br/>
+                    {!isLoading ? <input type="submit" name="submit_login" className="button-style-4" value="Login"/> : <Loading/>}
 
-                    <input type="submit" name="submit_login" className="button-style-4" value="Login"/>
                 </form>
 
                 <h4 className="form-authentication-text">Create new account?

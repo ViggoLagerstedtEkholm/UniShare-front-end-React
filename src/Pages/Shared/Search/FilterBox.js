@@ -2,43 +2,42 @@ import {useState} from "react";
 import FilteringInfo from "./FilteringInfo";
 
 function FilterBox({options, onSetFilters, showFilterBox}) {
-    const[state, setState] = useState(showFilterBox);
-    const[showFilteringInfo, setShowInfoFiltering] = useState(!showFilterBox);
-    const[filterOrder, setFilterOrder] = useState("");
-    const[filterOption, setFilterOption] = useState("");
-    const[search, setSearch] = useState("");
-    const[results_per_page_count, setResults_per_page_count] = useState(7);
+    const [state, setState] = useState(showFilterBox);
+    const [showFilteringInfo, setShowInfoFiltering] = useState(!showFilterBox);
+    const [Order, setOrder] = useState("");
+    const [Option, setOption] = useState("");
+    const [search, setSearch] = useState("");
+    const [resultsPerPage, setResultsPerPage] = useState(7);
 
-    const toggle = () =>{
-        if(state){
+    const toggle = () => {
+        if (state) {
             setState(false);
             setShowInfoFiltering(true);
-        }else{
+        } else {
             setState(true);
             setShowInfoFiltering(false);
         }
     }
 
-    const onSubmit = e =>{
+    const onSubmit = e => {
         e.preventDefault();
-        const filterOption = e.target.filterOption.value;
-        const filterOrder = e.target.filterOrder.value;
-        const search = e.target.search.value;
-        const results_per_page_count = parseInt(e.target.results_per_page_count.value);
-        const page = 1;
+        const Option = e.target.Option.value;
+        const Order = e.target.Order.value;
+        const Search = e.target.Search.value;
+        const ResultsPerPage = parseInt(e.target.ResultsPerPage.value);
+        const Page = 1;
 
-        setFilterOption(filterOption);
-        setFilterOrder(filterOrder);
-        setSearch(search);
-        setResults_per_page_count(results_per_page_count);
+        setOption(Option);
+        setOrder(Order);
+        setSearch(Search);
+        setResultsPerPage(ResultsPerPage);
 
-        const filters = {page: page, filterOption: filterOption, filterOrder: filterOrder, search: search, results_per_page_count: results_per_page_count, ID: null};
-
+        const filters = {Page: Page, Option: Option, Order: Order, Search: search, ResultsPerPage: resultsPerPage};
         onSetFilters(filters);
         toggle();
     }
 
-    function renderOptions(){
+    function renderOptions() {
         return Array.from(options).map(([key, value]) => {
             return (
                 <option value={value}>{key}</option>
@@ -49,63 +48,86 @@ function FilterBox({options, onSetFilters, showFilterBox}) {
     return (
         <div>
             <button className="button-style-4" onClick={toggle}> Toggle filtering.</button>
-            {state ?  <form onSubmit={onSubmit}>
+            {state ? <form onSubmit={onSubmit}>
                 <div className="content-filter-box filter-background-box">
-                    <div className="row ">
-                        <div className="column filter-input-background">
-                            <div className="filter-text">
-                                Select filter option
+
+                    <div className="row">
+                        <div className="column">
+                            <div className="column filter-input-background">
+                                <div className="filter-text">
+                                    Select filter option
+                                </div>
+                                <select className="content-filter-select" name="Option" id="Option"
+                                        value={Option} onChange={(e) => {
+                                    setOption(e.target.value);
+                                }}>
+                                    {renderOptions()}
+                                </select>
                             </div>
-                            <select className="content-filter-select" name="filter_option" id="filterOption">
-                                {renderOptions()}
-                            </select>
                         </div>
 
-                        <div className="column filter-input-background">
-                            <div className="filter-text">
-                                Results per page
+                        <div className="column">
+                            <div className="column filter-input-background">
+                                <div className="filter-text">
+                                    Results per page
+                                </div>
+                                <select className="content-filter-select" name="ResultsPerPage" id="ResultsPerPage"
+                                        value={resultsPerPage}
+                                        onChange={(e) => {
+                                            setResultsPerPage(e.target.value);
+                                        }}>
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                    <option value="5">5</option>
+                                    <option value="6">6</option>
+                                    <option value="7" selected="selected">7</option>
+                                    <option value="8">8</option>
+                                    <option value="9">9</option>
+                                    <option value="10">10</option>
+                                </select>
                             </div>
-                            <select className="content-filter-select" name="results_per_page_count" id="results_per_page_count">
-                                <option value="1">1</option>
-                                <option value="2">2</option>
-                                <option value="3">3</option>
-                                <option value="4">4</option>
-                                <option value="5">5</option>
-                                <option value="6">6</option>
-                                <option value="7" selected="selected">7</option>
-                                <option value="8">8</option>
-                                <option value="9">9</option>
-                                <option value="10">10</option>
-                            </select>
+                        </div>
+
+                        <div className="column">
+                            <div className="column filter-input-background">
+                                <div className="filter-text">
+                                    Filter order
+                                </div>
+                                <select id="filterOrder" className="content-filter-select" name="Order" value={Order}
+                                        onChange={(e) => {
+                                            setOrder(e.target.value);
+                                        }}>
+                                    <option value="Ascending">Ascending</option>
+                                    <option value="Descending" selected>Descending</option>
+                                </select>
+                            </div>
                         </div>
                     </div>
+
                     <div className="row">
                         <div className="column filter-input-background">
                             <div className="filter-text">
                                 Search
                             </div>
-                            <input className="user-input-text" id="search" type="text" name="search"
-                                   placeholder="Search"/>
-                        </div>
-                    </div>
-                    <div className="row">
-                        <div className="column filter-input-background">
-                            <div className="filter-text">
-                                Filter order
-                            </div>
-                            <select id="filterOrder" className="content-filter-select" name="filterOrder">
-                                <option value="ASC">ASC</option>
-                                <option value="DESC">DESC</option>
-                            </select>
+                            <input className="user-input-text" id="search" type="text" name="Search"
+                                   placeholder="Search"
+                                   value={search}
+                                   onChange={(e) => {
+                                       setSearch(e.target.value);
+                                   }}
+                            />
                         </div>
                     </div>
 
-                    <button className="button-style-4" type="submit" name="filter_button" value="GO">Filter</button>
+                    <button className="button-style-1" type="submit" name="filter_button" value="GO">Filter</button>
                 </div>
-            </form>: null}
+            </form> : null}
 
             {
-                showFilteringInfo ? <FilteringInfo filterOrder={filterOrder} filterOption={filterOption} search={search} results_per_page_count={results_per_page_count}/> : null
+                showFilteringInfo ? <FilteringInfo filterOrder={Order} filterOption={Option} search={search}
+                                                   results_per_page_count={resultsPerPage}/> : null
             }
 
         </div>

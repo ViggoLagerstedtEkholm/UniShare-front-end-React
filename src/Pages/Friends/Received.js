@@ -1,20 +1,20 @@
-import {AcceptRequest, GetFriends, GetPendingReceived, RejectRequest} from "../Shared/Friends/FriendsFunctions";
-import userImage from '../../images/user.png'
+import userImage from '../../images/ProfileDefault.png';
 import {useEffect, useState} from "react";
+import {Loading} from "../Shared/State/Loading";
+import {AcceptReceivedRequest, GetPendingReceived} from "../Service/FriendService";
 
-export function Received({doUpdate}) {
+export function Received() {
     const [pending, setPendingReceived] = useState(null);
     const [isLoaded, setIsLoaded] = useState(false);
 
     useEffect(async () => {
-        await GetPendingReceived().then(response => {
-            setPendingReceived(response.data);
+        GetPendingReceived().then(response => {
+            setPendingReceived(response);
             setIsLoaded(true);
         });
     }, []);
 
     function renderReceived() {
-
         if(pending.length === 0){
             return (
                 <h4>
@@ -24,20 +24,12 @@ export function Received({doUpdate}) {
         }
 
         return pending.map(function (data) {
-            const username = data['userDisplayName'];
-            const userID = data['sender'];
+            const username = data['username'];
+            const userID = data['userId'];
 
-            let image = 'data:image/jpeg;base64,' + data['userImage'];
-            if (data['userImage'] === "") {
+            let image = 'data:image/jpeg;base64,' + data['image'];
+            if (!data['image']) {
                 image = userImage;
-            }
-
-            const rejectRequest = () => {
-                RejectRequest(userID).then(() => window.location.reload());
-            }
-
-            const acceptRequest = () => {
-                AcceptRequest(userID).then(() => window.location.reload());
             }
 
             return (
@@ -52,7 +44,7 @@ export function Received({doUpdate}) {
                     </div>
                     <div className="row">
                         <div className="column friend-columns">
-                            <form action={"/profile/" + userID}>
+                            <form action={"/profile/" + username}>
                                 <button className="button-style-4" type="submit" id="addComment"
                                         value="PostBox comment">Profile
                                 </button>
@@ -60,10 +52,12 @@ export function Received({doUpdate}) {
                         </div>
 
                         <div className="column friend-columns">
-                            <button className="button-style-2" type="submit" onClick={rejectRequest}>Decline</button>
+                            <button className="button-style-2" type="submit" onClick={() =>{}}>Decline</button>
                         </div>
                         <div className="column friend-columns">
-                            <button className="button-style-3" type="submit" onClick={acceptRequest}>Accept</button>
+                            <button className="button-style-3" type="submit" onClick={() => {
+                                AcceptReceivedRequest(userID).then(() => window.location.reload());
+                            }}>Accept</button>
                         </div>
                     </div>
                 </div>
@@ -76,7 +70,7 @@ export function Received({doUpdate}) {
             {isLoaded ?
                 <div>
                     {renderReceived()}
-                </div> : <h4>Loading received requests...</h4>
+                </div> : <Loading/>
             }
         </div>
     );

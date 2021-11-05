@@ -7,17 +7,21 @@ export const validPassword = new RegExp(
 );
 
 export const validFirstname = new RegExp(
-    '^(?=.{2,50}$)[a-zA-Z\u00C0-\u00ff]+(?:[-\'\\s][a-zA-Z\u00C0-\u00ff]+)*$'
+    '^(?=.{2,100}$)[a-zA-Z\u00C0-\u00ff]+(?:[-\'\\s][a-zA-Z\u00C0-\u00ff]+)*$'
 );
 
 export const validLastname = new RegExp(
-    '^(?=.{2,50}$)[a-zA-Z\u00C0-\u00ff]+(?:[-\'\\s][a-zA-Z\u00C0-\u00ff]+)*$'
+    '^(?=.{2,100}$)[a-zA-Z\u00C0-\u00ff]+(?:[-\'\\s][a-zA-Z\u00C0-\u00ff]+)*$'
 );
 
 export const validUsername = new RegExp(
-    '^(?=[a-zA-Z0-9._]{8,30}$)(?!.*[_.]{2})[^_.].*[^_.]$'
+    '^(?=[a-zA-Z0-9._]{2,50}$)(?!.*[_.]{2})[^_.].*[^_.]$'
 );
 
 export const validDescription = new RegExp(
     '^.{0,500}$'
 );
+
+export const validAge = new RegExp(
+    '^(?:1[01][0-9]|120|1[3-9]|[2-9][0-9])$'
+)

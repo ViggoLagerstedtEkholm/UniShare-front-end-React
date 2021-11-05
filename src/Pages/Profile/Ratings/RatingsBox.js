@@ -1,10 +1,10 @@
-import courseImage from '../../../images/books.png';
 import {getHighlightedText} from "../../Shared/HighLightText";
 import {NoResults} from "../../Shared/Search/NoResults";
+import courseImage from '../../../images/CourseDefault.png';
 
 export const RatingsBox = ({results, filter}) => {
-    const path = results['result'];
-    const searchWord = filter['search'] ?? "";
+    const path = results['ratings'];
+    const searchWord = filter['Search'] ?? "";
 
     if(path.length === 0){
         return (<NoResults/>)
@@ -16,7 +16,7 @@ export const RatingsBox = ({results, filter}) => {
         const credits = data['credits'];
         const university = data['university'];
         const rating = data['rating'];
-        const courseID = data['courseID'];
+        const courseID = data['courseId'];
         const city = data['city'];
 
         return (

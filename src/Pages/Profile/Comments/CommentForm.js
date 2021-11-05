@@ -1,47 +1,53 @@
-import axios from "axios";
 import React, {useContext, useState} from "react";
 import {ProfileContext} from "../../Shared/Context/ProfileContext";
-import * as querystring from "querystring";
-import {API} from "../../Shared/Constants";
-import { useHistory } from "react-router-dom";
-import Message from "../../Shared/Files/Message";
+import {CreateComment} from "../../Service/CommentService";
+import {validComment, validName} from "../../Shared/RegEx/Shared";
 
 function CommentForm() {
     const {profileID} = useContext(ProfileContext);
-    let history = useHistory();
-    const [message, setMessage] = useState(null);
+    const [text, setText] = useState(null);
 
-    const submit = (e) => {
+    const validate = (e) =>{
         e.preventDefault();
-        const text = e.target.commentText.value;
 
-        const params = {
-            profileID: profileID,
-            text: text
+        const commentError = checkComment(text);
+        if(!commentError){
+            submit();
+        }
+    }
+
+    const submit = () => {
+        const comment = {
+            ProfileId: profileID,
+            Text: text
         }
 
-        axios.post(API + "/profile/add/comment", querystring.stringify(params), {withCredentials: true}).then(() => {
-            window.location.reload();
-            alert('Added comment!');
-        }).catch((error) => {
-            const response = error.response['data'];
-            const message = response.join(' , ');
-            setMessage(message);
-
-            if (error.response) {
-                if(error.response.status === 403){
-                    history.push('/login');
-                }
-            }
-        });
+        CreateComment(comment).then(() => window.location.reload())
     }
+
+    const checkComment = (text) => {
+        let error;
+        if (!validComment.test(text)) {
+            error = true;
+            document.getElementById("commentText").style.background = "rgb(250,138,131)";
+        } else {
+            error = false;
+            document.getElementById("commentText").style.background = "white";
+        }
+        return error;
+    }
+
 
     return (
         <div className="profile-comment-form">
-            <form onSubmit={submit} id="addCommentForm">
+            <form onSubmit={validate} id="addCommentForm">
                 <h2>Post comment</h2>
-                {message ? <Message msg={message}/> : null}
-                <textarea id="commentText" name="text" required/>
+                <textarea id="commentText" name="text" required
+                  value={text}
+                  onChange={(e) =>{
+                    setText(e.target.value);
+                  }}
+                />
                 <button className="button-style-1" type="submit" id="addComment" value="PostBox comment">Add comment
                 </button>
             </form>

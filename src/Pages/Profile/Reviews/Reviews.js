@@ -8,23 +8,28 @@ export const Reviews = () => {
     const {profileID} = useContext(ProfileContext);
 
     const startFilter = {
-        page: 1,
-        filterOption: "added",
-        filterOrder: "DESC",
-        search: null,
-        results_per_page_count: 3,
-        ID: profileID
+        Page: 1,
+        Option: "Added",
+        Order: "Descending",
+        Search: null,
+        ResultsPerPage: 3,
+        Username: profileID
     }
 
     const selectOptions = new Map();
-    selectOptions.set('Added date', 'added');
-    selectOptions.set('Updated date', 'updated');
-    selectOptions.set('Course name', 'name');
-    selectOptions.set('University', 'university');
+    selectOptions.set('Added', 'Added');
+    selectOptions.set('Updated', 'Updated');
+    selectOptions.set('Course name', 'Name');
+    selectOptions.set('University', 'University');
+    selectOptions.set('Difficulty', 'Difficulty');
+    selectOptions.set('Environment', 'Environment');
+    selectOptions.set('Fulfilling', 'Fulfilling');
+    selectOptions.set('Grading', 'Grading');
+    selectOptions.set('Overall', 'Overall');
 
     return (
         <FilterContent
-            APIEndPoint={API + "/search/profile/reviews"}
+            APIEndPoint={API + "/api/Search/user/reviews"}
             startFilter={startFilter}
             options={selectOptions}
             displayBox={ReviewBox}

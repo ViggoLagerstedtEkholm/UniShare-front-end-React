@@ -1,91 +1,42 @@
 import {useContext, useEffect, useState} from "react";
 import {Link} from "react-router-dom";
-import axios from "axios";
-import querystring from "querystring";
 import {CourseContext} from "../../Shared/Context/CourseContext";
 import {UserContext} from "../../Shared/Context/UserContext";
-import {API} from "../../Shared/Constants";
-import { useHistory } from "react-router-dom";
 import {Loading} from "../../Shared/State/Loading";
+import {GetRating, SetRating} from "../../Service/CourseService";
 
 export const Rating = () => {
-    const {courseID} = useContext(CourseContext);
     const [currentRating, setCurrentRating] = useState(0);
     const [loading, setIsLoaded] = useState(false);
-    let history = useHistory();
-
     const {user} = useContext(UserContext);
-    let canRate = false;
-    if (user !== null) {
-        canRate = true;
-    }
+    const {courseID} = useContext(CourseContext);
 
     useEffect(() => {
-        getRate().then(() => setIsLoaded(true));
+        GetRating(courseID).then((response) => {
+            setCurrentRating(response);
+            setIsLoaded(true)
+        }).catch(() =>{
+            setIsLoaded(true)
+        });
     }, [])
 
-    const getRate = async () => {
-        const params = {
-            params: {
-                courseID: courseID
-            },
-            withCredentials: true
-        }
-
-        try {
-            if (canRate) {
-                await axios.get(API + "/course/get/rate", params).then(response => {
-                    console.log(response['data']['data']);
-                    setCurrentRating(response['data']['data']['rating']);
-                });
-            }
-
-        } catch (error) {
-            if (error.response) {
-                if(error.response.status === 403){
-                    history.push("/login");
-                }
-            }
-        }
-    }
-
-    const setRate = async (newRating) => {
-        const params = {
-            courseID: courseID,
-            rating: newRating
-        }
-
-        const config = {
-            headers: {
-                'Accept': 'application/json'
-            },
-            withCredentials: true
-        };
-
-        try {
-            if (canRate) {
-                await axios.post(API + "/course/set/rate", querystring.stringify(params), config);
-            }
-        } catch (error) {
-            console.log(error);
-        }
-    }
-
-    const handleNewRating = (e) => {
+    const setRate = (e) => {
         const newRating = e.target.value;
         setCurrentRating(newRating);
-        setRate(newRating).then(() => document.getElementById('rating'));
+        SetRating(courseID, newRating).then((response) =>{
+            console.log(response);
+        });
     }
 
     return (
         <div className="course-sections course-shadow">
             {loading ? <div>
-                {canRate ? <div>
+                {user ? <div>
                     <div className="course-info">
                         <p>Your rating {currentRating} </p>
                     </div>
                     <p>Enter a rating</p>
-                    <select onChange={handleNewRating} id="rating" name="rating" value={currentRating}>
+                    <select onChange={setRate} id="rating" name="rating" value={currentRating}>
                         <option value="0">0 (Default)</option>
                         <option value="1">1</option>
                         <option value="2">2</option>

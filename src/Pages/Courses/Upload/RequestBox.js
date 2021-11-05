@@ -1,37 +1,41 @@
-import axios from "axios";
-import {API} from "../../Shared/Constants";
-import courseImage from '../../../images/books.png';
 import {NoResults} from "../../Shared/Search/NoResults";
+import {DeleteRequest, GetRequests} from "../../Service/CourseRequestService";
+import {useEffect, useState} from "react";
+import {Loading} from "../../Shared/State/Loading";
+import courseImage from '../../../images/CourseDefault.png';
 
-export const RequestBox = (results) => {
-    const path = results.results['data'];
+export const RequestBox = () => {
+    const [data, setData] = useState([]);
+    const [isLoaded, setIsLoaded] = useState(false);
 
-    if (path.length === 0) {
-        return (<NoResults/>)
-    }
+    useEffect(() => {
+        GetRequests().then(response => {
+            setData(response);
+            setIsLoaded(true);
+        });
+    }, []);
 
-    return path.map(function (data) {
-        console.log(data);
-        const name = data['name'];
-        const credits = data['credits'];
-        const university = data['university'];
-        const country = data['country'];
-        const city = data['city'];
-        const requestID = data['requestID'];
+    return(
+      <div className="display-result-box">
+          <h2>Your requests</h2>
+          {isLoaded ? renderResults() : <Loading/>}
+      </div>
+    );
 
-        const removeRequest = async () => {
-            const formData = new FormData();
-            formData.append('requestID', requestID);
-
-            await axios.post(API + "/request/delete", formData, { withCredentials: true }).then(() => {
-                document.getElementById(requestID).remove();
-            }).catch(error => {
-                console.log(error);
-            });
+    function renderResults(){
+        if (data.length === 0) {
+            return (<NoResults/>)
         }
 
-        return (
-            <div>
+        return data.map(function (data) {
+            const name = data['name'];
+            const credits = data['credits'];
+            const university = data['university'];
+            const country = data['country'];
+            const city = data['city'];
+            const requestID = data['id'];
+
+            return (
                 <div id={requestID} className="content-card-body">
                     <div className="card-info">
                         <div className="content-card-image">
@@ -52,12 +56,15 @@ export const RequestBox = (results) => {
                         </div>
 
                         <div className="content-card-info-buttons">
-                            <button className="button-style-2" onClick={removeRequest}>Remove request </button>
+                            <button className="button-style-2" onClick={() => {
+                                DeleteRequest(requestID).then(() => {
+                                    window.location.reload();
+                                })
+                            }}>Remove request</button>
                         </div>
                     </div>
                 </div>
-            </div>
-
-        )
-    });
+            )
+        });
+    }
 }

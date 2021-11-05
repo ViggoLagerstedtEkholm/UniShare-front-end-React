@@ -1,75 +1,71 @@
 import {useEffect, useState} from "react";
 import Collapsible from "react-collapsible";
 import {
+    validAge,
     validDescription,
     validEmail,
     validFirstname,
     validLastname,
     validUsername
 } from "../Shared/RegEx/User";
-import axios from "axios";
-import {API} from "../Shared/Constants";
-import Message from "../Shared/Files/Message";
+import {Loading} from "../Shared/State/Loading";
+import {GetAccountSettings, UpdateAccount} from "../Service/SettingsService";
 
 export function Account() {
     const [username, setUsername] = useState('');
     const [firstName, setFistName] = useState('');
     const [lastName, setLastName] = useState('');
     const [email, setEmail] = useState('');
+    const [age, setAge] = useState();
     const [description, setDescription] = useState('');
-    const [message, setMessage] = useState('');
     const [updated, setUpdated] = useState('');
-
-    const [emailIsAvailable, setEmailIsAvailable] = useState(true);
-    const [usernameIsAvailable, setUsernameIsAvailable] = useState(true);
 
     const [isLoaded, setIsLoaded] = useState(false);
 
-    useEffect( () => {
-        getAccountSettings().then(() => setIsLoaded(true));
-    }, [isLoaded])
+    const [isSubmitLoading, setSubmitLoading] = useState(false);
 
-    const getAccountSettings = async () => {
-        await axios.get(API + "/settings/get", {withCredentials: true}).then(response => {
-            const settings = response.data;
-            setUsername(settings['display_name']);
-            setFistName(settings['first_name']);
-            setLastName(settings['last_name']);
-            setEmail(settings['email']);
-            setDescription(settings['description']);
-        }).catch(error => {
-            console.log(error);
+    useEffect( () => {
+        GetAccountSettings().then(response => {
+            setUsername(response['username']);
+            setFistName(response['firstname']);
+            setLastName(response['lastname']);
+            setEmail(response['email']);
+            setAge(response['age']);
+            setDescription(response['description']);
+            setIsLoaded(true);
         });
-    }
+    }, [isLoaded])
 
     const validate = (e) =>{
         e.preventDefault();
+        setSubmitLoading(true);
 
         const firstNameError = checkFirstName(firstName);
         const lastNameError = checkLastName(lastName);
-        checkEmail(email);
         const descriptionError = checkDescription(description);
-        checkUsername(username);
+        const ageError = checkAge(age);
+        const emailError = checkEmail(email);
+        const usernameError = checkUsername(username);
 
-        if(emailIsAvailable && !firstNameError && !lastNameError && usernameIsAvailable && !descriptionError)
+        if(!emailError && !usernameError && !ageError && !firstNameError && !lastNameError && !descriptionError)
         {
             doSubmit();
         }
     }
 
     const doSubmit = () =>{
-        const formData = new FormData();
-        formData.append('first_name', firstName);
-        formData.append('last_name', lastName);
-        formData.append('email', email);
-        formData.append('display_name', username);
-        formData.append('description', description);
+        const account = {
+            Firstname : firstName,
+            Lastname : lastName,
+            Email : email,
+            Username : username,
+            Description : description,
+            Age : age
+        }
 
-        axios.post(API + "/settings/update/account", formData, {withCredentials: true}).then(response => {
+        UpdateAccount(account).then(() => {
             setUpdated(true);
-            console.log(response);
-        }).catch(error => {
-            setMessage(error.response);
+            setSubmitLoading(false);
         });
     }
 
@@ -110,65 +106,51 @@ export function Account() {
     }
 
     const checkEmail = (email) =>{
+        let error;
         if(!validEmail.test(email)){
+            error = true;
             document.getElementById("email").style.background="rgb(250,138,131)";
         }else{
-            checkEmailAvailable(email);
+            error = false;
+            document.getElementById("email").style.background="white";
         }
-    }
-
-    const checkEmailAvailable = (email) => {
-        const formData = new FormData();
-        formData.append('email', email);
-
-        axios.post(API + "/settings/check/email/available", formData, {withCredentials: true}).then(response => {
-            setEmailIsAvailable(response.data);
-
-            //Available
-            if(response.data){
-                document.getElementById("email").style.background="white";
-            }else{
-                document.getElementById("email").style.background="rgb(250,138,131)";
-            }
-        });
+        return error;
     }
 
     const checkUsername = (username) =>{
+        let error;
         if(!validUsername.test(username)){
+            error = true;
             document.getElementById("username").style.background="rgb(250,138,131)";
         }else{
-            checkUsernameAvailable(username);
+            error = false;
+            document.getElementById("username").style.background="white";
         }
+        return error;
     }
 
-    const checkUsernameAvailable = (username) =>{
-        const formData = new FormData();
-        formData.append('display_name', username);
-
-        axios.post(API + "/settings/check/username/available", formData, {withCredentials: true}).then(response => {
-            setUsernameIsAvailable(response.data);
-            //Available
-            if(response.data){
-                document.getElementById("username").style.background="white";
-            }else{
-                document.getElementById("username").style.background="rgb(250,138,131)";
-            }
-        });
+    const checkAge = (age) =>{
+        let error;
+        if(!validAge.test(age)){
+            error = true;
+            document.getElementById("age").style.background="rgb(250,138,131)";
+        }else{
+            error = false;
+            document.getElementById("age").style.background="white";
+        }
+        return error;
     }
-
     return (
         <Collapsible open={true} trigger="General Settings">
-            {message ? <Message msg={message}/> : null}
-
             {updated ?<div className="information">
                 <h4 className="success">Updated</h4>
             </div> : null}
+            <hr/>
+
+            {isSubmitLoading ? <Loading/> : null}
 
             <form onSubmit={validate}>
                 <p>
-                    {
-                        usernameIsAvailable ? null : <h2>Username is not available!</h2>
-                    }
                     Username
                     <input id="username" className="user-input-text" type="text" placeholder="Display name" value={username}
                            onChange={(e) =>{
@@ -199,15 +181,22 @@ export function Account() {
                     />
                 </p>
                 <p>
-                    {
-                        emailIsAvailable ? null : <h2>Email is not available!</h2>
-                    }
                     Email
                     <input id="email" className="user-input-text" type="text" placeholder="Email" value={email} disabled
                            onChange={(e) =>{
                                setEmail(e.target.value);
                                setUpdated(false);
                                checkEmail(e.target.value);
+                           }}
+                    />
+                </p>
+                <p>
+                    Age
+                    <input id="age" className="user-input-text" type="text" placeholder="Age" value={age}
+                           onChange={(e) =>{
+                               setAge(e.target.value);
+                               setUpdated(false);
+                               checkAge(e.target.value);
                            }}
                     />
                 </p>

@@ -1,3 +1,5 @@
+Hello! This is the full React project for my social network platform called UniShare.
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).

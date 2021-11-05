@@ -1,79 +1,49 @@
-import {useContext} from "react";
-import {UserContext} from "../../Shared/Context/UserContext";
-import {AcceptRequest, FriendRemove, FriendRequestSend, RejectRequest} from "../../Shared/Friends/FriendsFunctions";
-import {enable, suspend} from "../../Service/Admin";
-import {Link} from "react-router-dom";
-import userImage from '../../../images/user.png';
 import {getHighlightedText} from "../../Shared/HighLightText";
 import {NoResults} from "../../Shared/Search/NoResults";
+import {Link} from "react-router-dom";
+import {AcceptReceivedRequest, CancelSentRequest, SendRequest, UnFriend} from "../../Service/FriendService";
+import {UserContext} from "../../Shared/Context/UserContext";
+import {useContext} from "react";
+import DefaultImage from "../../../images/ProfileDefault.png";
 
 export const PeopleBox = ({results, doUpdate, filter}) => {
-    const path = results['result'];
-    const searchWord = filter['search'] ?? "";
+    const searchWord = filter['Search'] ?? "";
+    const users = results['users'];
     const {user} = useContext(UserContext);
 
-    if (path.length === 0) {
+    console.log(results);
+
+    if (users.length === 0) {
         return (<NoResults/>)
     }
 
-    let canSeeLoggedInFeatures = true;
-    if (user == null) {
-        canSeeLoggedInFeatures = false;
-    }
-
-    let isAdmin = false;
-    if (user != null) {
-        if (user.privilege === 'Admin') {
-            isAdmin = true;
-        }
-    }
-
-    return path.map(function (data) {
+    return users.map(function (data) {
         console.log(data);
-        const firstname = data['userFirstName'];
-        const lastname = data['userLastName'];
-        const username = data['userDisplayName'];
+        const firstname = data['firstname'];
+        const lastname = data['lastname'];
+        const username = data['username'];
         const visits = data['visits'];
-        const joined = data['joined'];
-        let image = data['userImage'];
-        const usersID = data['usersID'];
-        const lastOnline = data['lastOnline'];
-        const isSuspended = data['isSuspended'];
 
-        const currentUserID = user != null ? user['userID'] : null;
-        const isFriend = user != null ? data['isFriend'] : null;
-        const isSent = user != null ? data['isSent'] : null;
-        const isReceived = user != null ? data['isReceived'] : null;
-        console.log(data);
+        const dateJoined = new Date(data['joined']);
+        const daysJoined = dateJoined.toDateString();
+        const timeJoined = dateJoined.toTimeString();
+        const joined = daysJoined + ", " + timeJoined;
 
-        if (image === "") {
-            image = userImage;
+        const lastSeenDate = new Date(data['lastSeenDate']);
+        const daysSeen = lastSeenDate.toDateString();
+        const timeSeen = lastSeenDate.toTimeString();
+        const lastSeen = daysSeen + ", " + timeSeen;
+
+        let image = data['image'];
+        const usersID = data['id'];
+        const isSent = data['isSent'];
+        const isReceived = data['isReceived'];
+        const isFriend = data['isFriend'];
+
+        if (!image) {
+            image = DefaultImage;
         } else {
             image = 'data:image/jpeg;base64,' + image;
-        }
-
-        function onSuspendUser() {
-            suspend(usersID).then(() => window.location.reload());
-        }
-
-        function onEnableUser() {
-            enable(usersID).then(() => window.location.reload());
-        }
-
-        function onFriendRemove() {
-            FriendRemove(usersID).then(() => doUpdate());
-        }
-
-        function onAcceptRequest() {
-            AcceptRequest(usersID).then(() => doUpdate());
-        }
-
-        function onFriendRequestSend() {
-            FriendRequestSend(usersID).then(() => doUpdate());
-        }
-
-        function onRejectRequest() {
-            RejectRequest(usersID).then(() => doUpdate());
         }
 
         return (
@@ -93,68 +63,32 @@ export const PeopleBox = ({results, doUpdate, filter}) => {
                     <div className="content-card-info responsive-text">
                         <h4><b>Personal information</b></h4>
                         <p><b>Visits:</b> {getHighlightedText(visits, searchWord)}</p>
-                        <p><b>Last online:</b> {getHighlightedText(lastOnline, searchWord)}</p>
+                        <p><b>Last online:</b> {getHighlightedText(lastSeen, searchWord)}</p>
                         <p><b>Joined:</b> {getHighlightedText(joined, searchWord)}</p>
                     </div>
 
-                    {
-                        isSuspended === 1 ? <div className="content-card-info-buttons">
-                                                <p className="warning"><b>Suspended</b></p>
-                                                <button id={usersID} className="button-style-3" onClick={onEnableUser}>Enable user
-                                                </button>
-                                            </div>
-                            :
-                            <div className="content-card-info-buttons">
+                    <div className="content-card-info-buttons">
+                        {user ? <div>
+                            { isSent ? <button className="button-style-5" onClick={ () =>{
+                                CancelSentRequest(usersID).then(() => doUpdate());
+                            }}>Cancel request</button> : null }
 
-                                <Link to={'/profile/' + usersID} className="button-style-1" type="submit">Profile</Link>
-                                <br/>
+                            { isReceived ? <button className="button-style-3" onClick={() =>{
+                                AcceptReceivedRequest(usersID).then(doUpdate());
+                            }}>Accept request</button> : null }
 
-                                {
-                                    isAdmin ?
-                                        <button className="button-style-2" onClick={onSuspendUser}>
-                                            Suspend
-                                            user</button>
-                                    : <br/>
-                                }
-                                <br/>
-                                {
-                                    canSeeLoggedInFeatures ?
-                                        <>
-                                            {usersID == currentUserID ? null :
-                                                <>
-                                                    {
-                                                        isFriend ? <button id={usersID} className="button-style-2"
-                                                                           onClick={onFriendRemove}>Remove
-                                                            friend</button> : null
-                                                    }
+                            { isFriend ? <button className="button-style-2" onClick={() =>{
+                                UnFriend(usersID).then(() => doUpdate());
+                            }}>Unfriend</button> : null }
 
-                                                    {
-                                                        isReceived && !isFriend ?
-                                                            <button id={usersID} className="button-style-3"
-                                                                    onClick={onAcceptRequest}>Accept
-                                                                request</button> : null
-                                                    }
+                            { !isSent && !isReceived && !isFriend && usersID !== user.Id ? <button className="button-style-1" onClick={() =>{
+                                SendRequest(usersID).then(() => doUpdate());
+                            }}>Send request</button> : null }
+                        </div> : null}
 
-                                                    {
-                                                        isSent && !isFriend ?
-                                                            <button id={usersID} className="button-style-5"
-                                                                    onClick={onRejectRequest}>Remove
-                                                                request</button> : null
-                                                    }
+                        <Link className="button-style-4" to={"/profile/" + username}>Profile</Link>
+                    </div>
 
-                                                    {!isFriend && !isReceived && !isSent ?
-                                                        <button className="button-style-4"
-                                                                onClick={onFriendRequestSend}>
-                                                            Send friend request
-                                                        </button> : null
-                                                    }
-
-                                                </>
-                                            }
-                                        </> : null
-                                }
-                            </div>
-                    }
                 </div>
             </div>
         )

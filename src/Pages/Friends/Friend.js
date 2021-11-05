@@ -1,8 +1,8 @@
 import {FriendList} from "./FriendList";
-import {Received} from "./Received";
 import {Sent} from "./Sent";
 import {useContext} from "react";
 import {UserContext} from "../Shared/Context/UserContext";
+import {Received} from "./Received";
 
 export function Friend() {
     const {user} = useContext(UserContext);
@@ -21,7 +21,7 @@ export function Friend() {
                     <h1>Friends</h1>
                     <hr/>
 
-                    <FriendList ID={user['userID']}/>
+                    <FriendList ID={user.Username}/>
 
                 </div>
                 <div className="column friend-columns">

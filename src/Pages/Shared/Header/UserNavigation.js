@@ -1,10 +1,14 @@
 import '../../../css/header.css';
 import {Link} from "react-router-dom";
-import {logout} from "../../Service/AuthService";
+import {useContext} from "react";
+import {UserContext} from "../Context/UserContext";
 
 function UserNavigation() {
+    const {user} = useContext(UserContext);
+
     const onLogout = () =>{
-        logout().then(() => {});
+        localStorage.clear();
+        window.location.refresh();
     }
 
     return (
@@ -16,7 +20,7 @@ function UserNavigation() {
                 <Link to="/friends">Friends</Link>
             </li>
             <li>
-                <a href={'/profile/' + JSON.parse(localStorage.getItem('USER'))['userID']}>Profile</a>
+                <a href={'/profile/' + user['Username']}>Profile</a>
             </li>
             <li>
                 <a href="/" onClick={onLogout}>Logout</a>

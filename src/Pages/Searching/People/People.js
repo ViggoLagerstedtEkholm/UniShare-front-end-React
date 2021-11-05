@@ -1,31 +1,35 @@
 import FilterContent from "../../Shared/Search/FilterContent";
 import {PeopleBox} from "./PeopleBox";
 import {API} from "../../Shared/Constants";
+import {useContext} from "react";
+import {UserContext} from "../../Shared/Context/UserContext";
 
 const People = () => {
+    const {user} = useContext(UserContext);
+
     const startFilter = {
-        page: 1,
-        filterOption: "visits",
-        filterOrder: "DESC",
-        search: null,
-        results_per_page_count: 7,
-        ID: null
+        Page: 1,
+        Option: "Visits",
+        Order: "Descending",
+        Search: "",
+        ResultsPerPage: 7,
+        CurrentUserId: user ? user.Id : null,
     }
 
     const selectOptions = new Map();
-    selectOptions.set('Username', 'userDisplayName');
-    selectOptions.set('Visits', 'visits');
-    selectOptions.set('Last online', 'lastOnline');
-    selectOptions.set('First name', 'userFirstName');
-    selectOptions.set('Last name', 'userLastName');
-    selectOptions.set('Joined', 'joined');
+    selectOptions.set('Username', 'Username');
+    selectOptions.set('Visits', 'Visits');
+    selectOptions.set('Last online', 'LastSeenDate');
+    selectOptions.set('First name', 'Firstname');
+    selectOptions.set('Last name', 'Lastname');
+    selectOptions.set('Joined', 'Joined');
 
     return (
         <div className="container">
-            <h2>People</h2>
+            <h2 className="logo">People</h2>
             <hr/>
             <FilterContent
-                APIEndPoint={API + "/search/people"}
+                APIEndPoint={API + "/api/Search/users"}
                 startFilter={startFilter}
                 options={selectOptions}
                 displayBox={PeopleBox}

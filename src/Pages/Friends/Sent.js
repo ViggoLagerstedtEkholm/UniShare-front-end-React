@@ -1,20 +1,31 @@
-import {GetPendingReceived, GetPendingSent, RejectRequest} from "../Shared/Friends/FriendsFunctions";
-import userImage from '../../images/user.png'
+import userImage from '../../images/ProfileDefault.png';
 import {useEffect, useState} from "react";
+import {CancelSentRequest, GetPendingSent} from "../Service/FriendService";
+import {Loading} from "../Shared/State/Loading";
 
 export function Sent () {
-    const [update, setUpdate] = useState(null);
-    const [sent, setSent] = useState(null);
+    const [sent, setSent] = useState([]);
     const [isLoaded, setIsLoaded] = useState(false);
 
-    useEffect(async () => {
-        await GetPendingSent().then(response => {
-            setSent(response.data);
+    useEffect( () => {
+         GetPendingSent().then(response => {
+            setSent(response);
             setIsLoaded(true);
         });
-    }, [update]);
+    }, []);
+
+    return (
+        <div>
+            {isLoaded ?
+                <div>
+                    {renderSent()}
+                </div> : <Loading/>
+            }
+        </div>
+    );
 
     function renderSent() {
+        console.log(sent);
 
         if(sent.length === 0){
             return (
@@ -25,16 +36,12 @@ export function Sent () {
         }
 
         return sent.map(function (data) {
-            const username = data['userDisplayName'];
-            const receiverID = data['receiver'];
+            const username = data['username'];
+            const usersId = data['userId'];
 
-            let image = 'data:image/jpeg;base64,' + data['userImage'];
-            if (data['userImage'] === "") {
+            let image = 'data:image/jpeg;base64,' + data['image'];
+            if (!data['image']) {
                 image = userImage;
-            }
-
-            const onRemoveRequest = () => {
-                RejectRequest(receiverID).then(() => setUpdate(update +1));
             }
 
             return (
@@ -51,7 +58,7 @@ export function Sent () {
                     </div>
                     <div className="row">
                         <div className="column friend-columns">
-                            <form action={"/profile/" + receiverID}>
+                            <form action={"/profile/" + username}>
                                 <button className="button-style-4" type="submit" id="addComment"
                                         value="PostBox comment">Profile
                                 </button>
@@ -59,21 +66,13 @@ export function Sent () {
                         </div>
 
                         <div className="column friend-columns">
-                            <button className="button-style-2" onClick={onRemoveRequest}>Remove</button>
+                            <button className="button-style-2" onClick={() => {
+                                CancelSentRequest(usersId).then(() => window.location.reload());
+                            }}>Remove</button>
                         </div>
                     </div>
                 </div>
             )
         });
     }
-
-    return (
-        <div>
-            {isLoaded ?
-                <div>
-                    {renderSent()}
-                </div> : <h4>Loading sent requests...</h4>
-            }
-        </div>
-    );
 }
