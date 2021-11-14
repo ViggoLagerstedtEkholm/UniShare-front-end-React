@@ -1,0 +1,22 @@
+{
+  "files": {
+    "main.css": "/ViggoLagerstedtEkholm/UniShare-front-end-React/static/css/main.01b09fd1.chunk.css",
+    "main.js": "/ViggoLagerstedtEkholm/UniShare-front-end-React/static/js/main.d6ecd745.chunk.js",
+    "main.js.map": "/ViggoLagerstedtEkholm/UniShare-front-end-React/static/js/main.d6ecd745.chunk.js.map",
+    "runtime-main.js": "/ViggoLagerstedtEkholm/UniShare-front-end-React/static/js/runtime-main.fefa51da.js",
+    "runtime-main.js.map": "/ViggoLagerstedtEkholm/UniShare-front-end-React/static/js/runtime-main.fefa51da.js.map",
+    "static/js/2.93997451.chunk.js": "/ViggoLagerstedtEkholm/UniShare-front-end-React/static/js/2.93997451.chunk.js",
+    "static/js/2.93997451.chunk.js.map": "/ViggoLagerstedtEkholm/UniShare-front-end-React/static/js/2.93997451.chunk.js.map",
+    "index.html": "/ViggoLagerstedtEkholm/UniShare-front-end-React/index.html",
+    "static/css/main.01b09fd1.chunk.css.map": "/ViggoLagerstedtEkholm/UniShare-front-end-React/static/css/main.01b09fd1.chunk.css.map",
+    "static/js/2.93997451.chunk.js.LICENSE.txt": "/ViggoLagerstedtEkholm/UniShare-front-end-React/static/js/2.93997451.chunk.js.LICENSE.txt",
+    "static/media/CourseDefault.7750bbbb.png": "/ViggoLagerstedtEkholm/UniShare-front-end-React/static/media/CourseDefault.7750bbbb.png",
+    "static/media/linkedin.115d3af0.svg": "/ViggoLagerstedtEkholm/UniShare-front-end-React/static/media/linkedin.115d3af0.svg"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.fefa51da.js",
+    "static/js/2.93997451.chunk.js",
+    "static/css/main.01b09fd1.chunk.css",
+    "static/js/main.d6ecd745.chunk.js"
+  ]
+}
