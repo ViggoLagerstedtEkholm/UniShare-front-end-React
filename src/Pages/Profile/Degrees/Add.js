@@ -6,13 +6,13 @@ import {useNavigate} from "react-router-dom";
 import {UserContext} from "../../Shared/Context/UserContext";
 
 export default function Add() {
-    const [name, setName] = useState('SYSTEMVETENSKAP');
-    const [fieldOfStudy, setFieldOfStudy] = useState('Informatik');
-    const [startDate, setStartDate] = useState('');
-    const [endDate, setEndDate] = useState('');
-    const [country, setCountry] = useState('Sweden');
-    const [city, setCity] = useState('City');
-    const [university, setUniversity] = useState('University');
+    const [name, setName] = useState();
+    const [fieldOfStudy, setFieldOfStudy] = useState();
+    const [startDate, setStartDate] = useState();
+    const [endDate, setEndDate] = useState();
+    const [country, setCountry] = useState();
+    const [city, setCity] = useState();
+    const [university, setUniversity] = useState();
 
     const navigate = useNavigate();
 

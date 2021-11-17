@@ -5,6 +5,7 @@ import {NoResults} from "../../Shared/Search/NoResults";
 import {CanSeeEdits} from "../../Service/UserService";
 import {DeleteReview} from "../../Service/ReviewService";
 import userImage from '../../../images/ProfileDefault.png';
+import {Link} from "react-router-dom";
 
 export const ReviewBox = ({results, filter}) => {
     const {user} = useContext(UserContext);
@@ -16,7 +17,7 @@ export const ReviewBox = ({results, filter}) => {
         return (<NoResults/>)
     }
 
-    return path.map(function (data) {
+    return path.map(function (data, index) {
         const username = data['username'];
         let image = data['image'];
         let courseID = data['courseId'];
@@ -44,7 +45,7 @@ export const ReviewBox = ({results, filter}) => {
         }
 
         return (
-            <div className="empty-response">
+            <div key={index} className="empty-response">
                 <div className="comment-image">
                     <img src={image} alt="USER IMG"/>
                 </div>
@@ -55,11 +56,8 @@ export const ReviewBox = ({results, filter}) => {
                 {CanSeeEdits(username, user) ?
                     <input className="button-style-2" type="button" value="Delete review" onClick={onDelete}/>
                     :
-                    <form action={"/profile/" + username} >
-                        <button className="button-style-1" type="submit">Visit</button>
-                    </form>
-                }
-
+                    <Link to={"/profile/" + username} className="button-style-1">Visit</Link>
+                    }
                 <hr/>
                 <br/>
 

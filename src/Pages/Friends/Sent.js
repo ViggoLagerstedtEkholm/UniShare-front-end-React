@@ -26,8 +26,6 @@ export function Sent () {
     );
 
     function renderSent() {
-        console.log(sent);
-
         if(sent.length === 0){
             return (
               <h4>

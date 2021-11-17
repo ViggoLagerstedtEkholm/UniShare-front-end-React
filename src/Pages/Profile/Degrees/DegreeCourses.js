@@ -32,7 +32,7 @@ export const DegreeCourse = (course) => {
 
                         <div className='project-button-box'>
 
-                        <Link style={{ textDecoration: 'none' }} className="button-style-1" to={"/courses/" + courseID}>Go to course page</Link>
+                        <Link style={{ textDecoration: 'none' }}  className="button-style-1" to={"/courses/" + courseID}>Go to course</Link>
 
                         {
                             CanSeeEdits(profileID, user) ?

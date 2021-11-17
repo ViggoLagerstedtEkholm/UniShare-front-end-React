@@ -6,14 +6,14 @@ import Message from "../Shared/Files/Message";
 import {Loading} from "../Shared/State/Loading";
 
 function Register() {
-    const [email, setEmail] = useState('viggo.lagerstedtekholm@gmail.com');
-    const [firstname, setFirstName] = useState('Viggo');
-    const [lastname, setLastName] = useState('Lagerstedt');
-    const [username, setUsername] = useState('horken');
-    const [password, setPassword] = useState('123!AbcdDA');
+    const [email, setEmail] = useState();
+    const [firstname, setFirstName] = useState();
+    const [lastname, setLastName] = useState();
+    const [username, setUsername] = useState();
+    const [password, setPassword] = useState();
     const [age, setAge] = useState(25);
     const [isLoading, setIsLoading] = useState(false);
-    const [passwordRepeat, setPasswordRepeat] = useState('123!AbcdDA');
+    const [passwordRepeat, setPasswordRepeat] = useState();
     const [message, setMessage] = useState();
 
     const navigate = useNavigate();

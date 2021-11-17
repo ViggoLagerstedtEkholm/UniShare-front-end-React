@@ -8,7 +8,7 @@ function UserNavigation() {
 
     const onLogout = () =>{
         localStorage.clear();
-        window.location.replace("https://viggolagerstedtekholm.github.io/UniShare-front-end-React/");
+        window.location.reload();
     }
 
     return (
@@ -23,7 +23,10 @@ function UserNavigation() {
                 <Link to={'/profile/' + user['Username']}>Profiles</Link>
             </li>
             <li>
-                <a href="/" onClick={onLogout}>Logout</a>
+                <Link to={"/"} onClick={() => {
+                    localStorage.clear();
+                    window.location.reload();
+                }}>Logout</Link>
             </li>
         </ul>
     );

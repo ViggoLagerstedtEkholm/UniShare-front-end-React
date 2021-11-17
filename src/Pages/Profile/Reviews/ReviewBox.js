@@ -11,7 +11,7 @@ export const ReviewBox = ({results, filter}) => {
         return (<NoResults/>)
     }
 
-    return path.map(function (data) {
+    return path.map(function (data, index) {
         let courseID = data['courseId'];
         const text = data['text'];
         const name = data['name'];
@@ -27,7 +27,7 @@ export const ReviewBox = ({results, filter}) => {
         const updated = data['updated'];
 
         return (
-            <div className="empty-response">
+            <div key={index} className="empty-response">
                 <div className="comment-image">
                     <img src={courseImage} alt="USER IMG"/>
                     <div className="content-card-info">
