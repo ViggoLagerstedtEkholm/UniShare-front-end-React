@@ -1,40 +1,27 @@
 import React, {Fragment, useState} from "react";
-import axios from "axios";
 import Message from "./Message";
-import {API} from "../Constants";
-import api from "../../Service/api";
+import {UploadImage} from "../../Service/UserService";
 
-const FileUpload = ({URL}) => {
+const FileUpload = () => {
     const [file, setFile] = useState('');
     const [message, setMessage] = useState('');
 
     const onChange = e => {
-        //Get first file.
         setFile(e.target.files[0]);
-        console.log("heaawd");
     }
 
     const onSubmit = async e => {
-        console.log("URL: " , URL);
         e.preventDefault();
         const formData = new FormData();
         formData.append('file', file);
 
-        try {
-            await api.post(API + URL, formData, {
-                headers: {
-                    'Content-Type': 'multipart/form-data'
-                },
-            }).then(response => {
-                console.log(response);
-                window.location.reload();
-            }).catch(error =>{
-                console.log(error);
-            });
-        } catch (err) {
-            console.log(err);
+        UploadImage(formData).then(response => {
+            console.log(response);
+            window.location.reload();
+        }).catch(error => {
+            console.log(error);
             setMessage("Could not upload file.");
-        }
+        });
     }
 
     return (

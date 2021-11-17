@@ -12,7 +12,7 @@ export function Verify(props) {
     const [isVerified, setIsVerified] = useState(false);
     const [isLoaded, setIsLoaded] = useState(false);
 
-    useEffect(async () => {
+    useEffect( () => {
         const credentials = {
             Id : Id,
             Token : Token
@@ -21,13 +21,12 @@ export function Verify(props) {
         VerifyEmail(credentials).then(() => {
             setIsVerified(true);
             setIsLoaded(true);
-
         }).catch(() =>{
             setIsVerified(false);
             setIsLoaded(true);
         });
 
-    },[]);
+    },[Id, Token]);
 
     return (
         <div className="container">

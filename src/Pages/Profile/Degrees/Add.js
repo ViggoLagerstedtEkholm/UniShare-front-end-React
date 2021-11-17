@@ -2,7 +2,7 @@ import React, {useContext, useState} from "react";
 import {validFieldOfStudy} from "../../Shared/RegEx/Degree";
 import {validCity, validCountry, validName, validUniversity} from "../../Shared/RegEx/Shared";
 import {UploadDegree} from "../../Service/DegreeService";
-import {useHistory} from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 import {UserContext} from "../../Shared/Context/UserContext";
 
 export default function Add() {
@@ -13,7 +13,9 @@ export default function Add() {
     const [country, setCountry] = useState('Sweden');
     const [city, setCity] = useState('City');
     const [university, setUniversity] = useState('University');
-    let history = useHistory();
+
+    const navigate = useNavigate();
+
     const {user} = useContext(UserContext);
 
     const validate = (e) => {
@@ -41,7 +43,7 @@ export default function Add() {
         formData.append('City', city);
         formData.append('University', university);
 
-        UploadDegree(formData).then(() => history.push('/profile/' + user.Username)).catch(() => alert('Something went wrong!'));
+        UploadDegree(formData).then(() => navigate('/profile/' + user['Username'])).catch(() => alert('Something went wrong!'));
     }
 
     const checkName = (name) => {

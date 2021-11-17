@@ -152,7 +152,7 @@ export function Account() {
             <form onSubmit={validate}>
                 <p>
                     Username
-                    <input id="username" className="user-input-text" type="text" placeholder="Display name" value={username}
+                    <input id="username" className="user-input-text" type="text" placeholder="Display name" value={username} disabled
                            onChange={(e) =>{
                                setUsername(e.target.value);
                                setUpdated(false);

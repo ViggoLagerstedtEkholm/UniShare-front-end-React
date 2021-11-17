@@ -5,6 +5,8 @@ import {getHighlightedText} from "../../Shared/HighLightText";
 import {NoResults} from "../../Shared/Search/NoResults";
 import {DeleteComment} from "../../Service/CommentService";
 import {CanSeeEdits} from "../../Service/UserService";
+import DefaultImage from '../../../images/ProfileDefault.png';
+import {Link} from "react-router-dom";
 
 export const CommentBox = ({results, filter}) => {
     const {profileID} = useContext(ProfileContext);
@@ -17,18 +19,24 @@ export const CommentBox = ({results, filter}) => {
         return (<NoResults/>)
     }
 
-    return comments.map(function (data) {
+    return comments.map(function (data, index) {
         const username = data['username'];
-        const image = data['image'];
+        let image = data['image'];
         const date = data['date'];
         const text = data['text'];
         const commentId = data['commentId'];
 
+        if (!image) {
+            image = DefaultImage;
+        } else {
+            image = 'data:image/jpeg;base64,' + image;
+        }
+
         return (
-            <div className="profile-comment">
+            <div key={index} className="profile-comment">
                 <br/>
                 <div className="comment-image">
-                    <img src={`data:image/jpeg;base64,${image}`} alt="USER IMAGE"/>
+                    <img src={image} alt="USER"/>
                 </div>
 
                 <p>Username: {getHighlightedText(username, searchWord)}</p>
@@ -45,9 +53,7 @@ export const CommentBox = ({results, filter}) => {
                         DeleteComment(commentId).then(() => window.location.reload())
                     }}/>
                     :
-                    <form action={"/profile/" + username} >
-                        <button className="button-style-4" type="submit">Visit author</button>
-                    </form>
+                    <Link className="button-style-4"  to={"/profile/" + username}>Visit author</Link>
                 }
             </div>
         )

@@ -1,11 +1,10 @@
 import {useContext, useEffect, useState} from "react";
 import {UserContext} from "../../Shared/Context/UserContext";
 import {ProfileContext} from "../../Shared/Context/ProfileContext";
-import {API} from "../../Shared/Constants";
 import {NoResults} from "../../Shared/Search/NoResults";
-import api from "../../Service/api";
 import {Loading} from "../../Shared/State/Loading";
 import {DeleteProject, GetProjects} from "../../Service/ProjectService";
+import {Link} from "react-router-dom";
 
 export function ProjectBox() {
     const {user} = useContext(UserContext);
@@ -19,7 +18,7 @@ export function ProjectBox() {
             setData(response);
             setIsLoaded(true);
         });
-    }, []);
+    }, [profileID]);
 
     return(
         <div>
@@ -32,7 +31,7 @@ export function ProjectBox() {
             return (<NoResults/>)
         }
 
-        return data.map(function (data) {
+        return data.map(function (data, index) {
             const added = new Date(data['added']).toDateString();
             const description = data['description'];
             const link = data['link'];
@@ -50,11 +49,11 @@ export function ProjectBox() {
             }
 
             return (
-                <div id={projectID} className="user-projects-box">
+                <div key={index} id={projectID} className="user-projects-box">
                     <div className="course-container">
                         <div className="project">
                             <div className="project-card">
-                                <img src={image} alt='profile image' className="project-image"/>
+                                <img src={image} alt='PROFILE' className="project-image"/>
 
                                 <div className="project-line"/>
 
@@ -79,9 +78,8 @@ export function ProjectBox() {
                             {
                                 canSeeProfileEdits ?
                                     <div className="project-button-box">
-                                        <form action={"/project/edit/" + projectID}>
-                                            <button type="submit" className="button-style-4">Edit</button>
-                                        </form>
+
+                                        <Link className="button-style-4" to={"/project/edit/" + projectID}>Edit</Link>
 
                                         <button onClick={() =>{
                                             if (window.confirm("Do you want to delete this project?")) {

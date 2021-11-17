@@ -16,7 +16,7 @@ export const SideHUD = () => {
             setAdded(addedDateTime);
             setIsLoaded(true);
         })
-    }, [])
+    }, [courseID])
 
     return (
         <div className="course-side-information">

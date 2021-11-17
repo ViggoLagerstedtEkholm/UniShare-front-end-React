@@ -2,6 +2,7 @@ import userImage from '../../images/ProfileDefault.png';
 import {useEffect, useState} from "react";
 import {CancelSentRequest, GetPendingSent} from "../Service/FriendService";
 import {Loading} from "../Shared/State/Loading";
+import {Link} from "react-router-dom";
 
 export function Sent () {
     const [sent, setSent] = useState([]);
@@ -58,11 +59,7 @@ export function Sent () {
                     </div>
                     <div className="row">
                         <div className="column friend-columns">
-                            <form action={"/profile/" + username}>
-                                <button className="button-style-4" type="submit" id="addComment"
-                                        value="PostBox comment">Profile
-                                </button>
-                            </form>
+                            <Link className="button-style-4" to={"/profile/" + username}>Profiles</Link>
                         </div>
 
                         <div className="column friend-columns">

@@ -27,7 +27,7 @@ export const RequestBox = () => {
             return (<NoResults/>)
         }
 
-        return data.map(function (data) {
+        return data.map(function (data, index) {
             const name = data['name'];
             const credits = data['credits'];
             const university = data['university'];
@@ -36,10 +36,10 @@ export const RequestBox = () => {
             const requestID = data['id'];
 
             return (
-                <div id={requestID} className="content-card-body">
+                <div key={index} id={requestID} className="content-card-body">
                     <div className="card-info">
                         <div className="content-card-image">
-                            <img src={courseImage} alt="USER IMAGE"/>
+                            <img src={courseImage} alt="USER"/>
                         </div>
 
                         <div className="content-card-info responsive-text">

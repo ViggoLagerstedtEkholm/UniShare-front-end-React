@@ -10,7 +10,7 @@ export const RatingsBox = ({results, filter}) => {
         return (<NoResults/>)
     }
 
-    return path.map(function (data) {
+    return path.map(function (data, index) {
         const name = data['name'];
         const code = data['code'];
         const credits = data['credits'];
@@ -20,10 +20,10 @@ export const RatingsBox = ({results, filter}) => {
         const city = data['city'];
 
         return (
-            <div className="content-card-body">
+            <div key={index} className="content-card-body">
                 <div className="card-info">
                     <div className="content-card-image">
-                        <img src={courseImage} alt="USER IMAGE"/>
+                        <img src={courseImage} alt="USER"/>
                     </div>
 
                     <div className="content-card-info">

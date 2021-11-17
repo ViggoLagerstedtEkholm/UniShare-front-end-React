@@ -16,10 +16,7 @@ import Fallback from "./Pages/Shared/Error/Fallback";
 import {Add} from "./Pages/Courses/Review/Add";
 import {Friend} from "./Pages/Friends/Friend";
 import Overview from "./Pages/Admin/Overview";
-import {PrivateRoute} from "./Pages/Shared/Route/PrivateRoute";
-import {LoggedInRoute} from "./Pages/Shared/Route/LoggedInRoute";
-import ScrollToTop from "./Pages/Shared/Route/ScrollToTop";
-import NotFound from "../../microlabscasefrontend/src/Components/Error/NotFound";
+import NotFound from "../../unishare/src/Pages/Shared/Error/NotFound";
 import ProjectAdd from "./Pages/Profile/Projects/Add";
 import CourseUpdate from "./Pages/Courses/Upload/Update";
 import ProjectUpdate from "./Pages/Profile/Projects/Update";
@@ -32,8 +29,8 @@ import {useEffect, useMemo, useState} from "react";
 import {ErrorBoundary} from 'react-error-boundary'
 import {UserContext} from "./Pages/Shared/Context/UserContext";
 import jwt from 'jwt-decode'
-import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
 import {Loading} from "./Pages/Shared/State/Loading";
+import {HashRouter, Route, Routes} from "react-router-dom";
 
 function App() {
     const [user, setUser] = useState(null);
@@ -42,63 +39,58 @@ function App() {
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
     useEffect(() => {
-        if(localStorage.getItem('token')){
+        if (localStorage.getItem('token')) {
             const storage = JSON.parse(localStorage.getItem('token'));
             const user = jwt(storage.token);
             setUser(user);
             setIsLoaded(true);
-        }else{
+        } else {
             setUser(null);
             setIsLoaded(true);
         }
     }, []);
 
     return (
-        <div>
+        <HashRouter>
             {isLoaded ?
-                <Router>
+                <UserContext.Provider value={value}>
                     <ErrorBoundary FallbackComponent={Fallback}>
-                        <UserContext.Provider value={value}>
-                            <Header/>
-                            <ScrollToTop />
-                            <Switch>
-                                <Route exact path="/" component={Home}/>
-                                <Route exact path="/login" component={Login}/>
-                                <Route exact path="/register" component={Register}/>
+                        <Header/>
+                        <Routes>
+                            <Route path="/" element={<Home/>}/>
+                            <Route path="/login" element={<Login/>}/>
+                            <Route path="/register" element={<Register/>}/>
 
-                                <Route exact path="/profile/:profileID" component={Profile}/>
-                                <Route exact path="/courses/:courseID" component={Course}/>
-                                <Route exact path="/search/people" component={People}/>
-                                <Route exact path="/search/courses" component={Courses}/>
+                            <Route path="/profile/:ID" element={<Profile/>}/>
+                            <Route path="/courses/:ID" element={<Course/>}/>
+                            <Route path="/search/people" element={<People/>}/>
+                            <Route path="/search/courses" element={<Courses/>}/>
 
-                                <Route exact path="/verify" component={Verify}/>
+                            <Route path="/verify" element={<Verify/>}/>
 
-                                <LoggedInRoute exact path="/friends" component={Friend}/>
+                            <Route path="/friends" element={<Friend/>}/>
 
-                                <LoggedInRoute exact path="/courses/request/add" component={Requests}/>
-                                <LoggedInRoute exact path="/courses/request/update/:courseID" component={CourseUpdate}/>
+                            <Route path="/courses/request/add" element={<Requests/>}/>
+                            <Route path="/courses/request/update/:ID" element={<CourseUpdate/>}/>
 
-                                <LoggedInRoute exact path="/project/add" component={ProjectAdd}/>
-                                <LoggedInRoute exact path="/project/edit/:projectID" component={ProjectUpdate}/>
+                            <Route path="/project/add" element={<ProjectAdd/>}/>
+                            <Route path="/project/edit/:ID" element={<ProjectUpdate/>}/>
 
-                                <LoggedInRoute exact path="/degree/add" component={DegreeAdd}/>
-                                <LoggedInRoute exact path="/degree/edit/:degreeID" component={DegreeUpdate}/>
+                            <Route path="/degree/add" element={<DegreeAdd/>}/>
+                            <Route path="/degree/edit/:ID" element={<DegreeUpdate/>}/>
 
-                                <LoggedInRoute exact path="/courses/review/add" component={Add}/>
-                                <LoggedInRoute exact path="/settings" component={Settings}/>
+                            <Route path="/courses/review/add" element={<Add/>}/>
+                            <Route path="/settings" element={<Settings/>}/>
 
-                                <PrivateRoute path='/admin' component={Overview} />
+                            <Route path='/admin' element={<Overview/>}/>
 
-                                <Route component={NotFound}/>
-                            </Switch>
-                        </UserContext.Provider>
+                            <Route component={NotFound}/>
+                        </Routes>
                     </ErrorBoundary>
                     <Footer/>
-                </Router>
-                :
-                <Loading/>
-            }
-        </div>
+                </UserContext.Provider>
+                : <Loading/>}
+        </HashRouter>
     );
 }
 

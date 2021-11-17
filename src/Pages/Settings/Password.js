@@ -4,13 +4,11 @@ import {
     validPassword,
 } from "../Shared/RegEx/User";
 import {API} from "../Shared/Constants";
-import Message from "../Shared/Files/Message";
 import api from "../Service/api";
 
 export function Password() {
     const [currentPassword, setCurrentPassword] = useState('');
     const [newPassword, setNewPassword] = useState('');
-    const [message, setMessage] = useState('');
     const [regexError, setRegexError] = useState('');
 
     const hint = "Minimum eight and maximum 80 characters, at least one uppercase letter, one lowercase letter, one number and one special character.";
@@ -31,7 +29,6 @@ export function Password() {
             alert('Updated password');
         }).catch(error => {
             console.log(error.response);
-            //setMessage(error.response.data);
         });
     }
 
@@ -51,7 +48,6 @@ export function Password() {
 
     return (
         <Collapsible trigger="Change Password">
-            {message ? <Message msg={message}/> : null}
 
             <form onSubmit={validate}>
                 <p>

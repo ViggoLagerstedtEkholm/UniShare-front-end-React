@@ -2,7 +2,7 @@ import React, {useContext, useState} from "react";
 import {Tabs} from "react-tabs";
 import {validDescription, validName, validURL} from "../../Shared/RegEx/Shared";
 import {AddProject} from "../../Service/ProjectService";
-import {useHistory} from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 import {UserContext} from "../../Shared/Context/UserContext";
 
 export default function Add() {
@@ -10,7 +10,7 @@ export default function Add() {
     const [link, setLink] = useState('');
     const [name, setName] = useState('');
     const [description, setDescription] = useState('');
-    const history = useHistory();
+    const navigate = useNavigate();
     const {user} = useContext(UserContext);
 
     const validate = (e) => {
@@ -41,7 +41,7 @@ export default function Add() {
         formData.append('Description', description);
 
         AddProject(formData).then(() => {
-            history.push('/profile/' + user.Username);
+            navigate('/profile/' + user.Username);
         });
     }
 

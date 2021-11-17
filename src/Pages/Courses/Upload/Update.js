@@ -8,12 +8,13 @@ import {
     validUniversity,
     validURL
 } from "../../Shared/RegEx/Shared";
-import NotFound from "../../../../../microlabscasefrontend/src/Components/Error/NotFound";
+import NotFound from "../../../../../unishare/src/Pages/Shared/Error/NotFound";
 import {Loading} from "../../Shared/State/Loading";
 import {CheckIfCourseExists, UpdateCourse} from "../../Service/CourseService";
 import Message from "../../Shared/Files/Message";
+import {useParams} from "react-router-dom";
 
-export default function Update(props) {
+export default function Update() {
     const [name, setName] = useState();
     const [credits, setCredits] = useState();
     const [country, setCountry] = useState();
@@ -27,11 +28,11 @@ export default function Update(props) {
     const [isLoaded, setIsLoaded] = useState(false);
     const [courseExists, setCourseExists] = useState(false);
 
-    let courseID = props.match.params.courseID;
+    const {ID} = useParams();
 
     useEffect(() => {
-        if(courseID){
-            CheckIfCourseExists(courseID).then((response) => {
+        if(ID){
+            CheckIfCourseExists(ID).then((response) => {
                 if (response) {
                     setName(response['name']);
                     setCredits(response['credits']);
@@ -49,7 +50,7 @@ export default function Update(props) {
         }else{
             setIsLoaded(true);
         }
-    }, []);
+    }, [ID]);
 
     const validate = (e) =>{
         e.preventDefault();
@@ -77,7 +78,7 @@ export default function Update(props) {
             Description : description,
             Code : code,
             Link : link,
-            CourseID : courseID
+            CourseID : ID
         }
 
         if(courseExists){
@@ -177,12 +178,12 @@ export default function Update(props) {
             {isLoaded ?
                 <div>
                     {
-                        courseExists || !courseID ?
+                        courseExists || !ID ?
                             <div className="title-bar">
                                 {message ? <Message msg={message}/> : null}
 
                                 {
-                                    courseID ? <h2>Update course</h2> : <h2>Add course</h2>
+                                    ID ? <h2>Update course</h2> : <h2>Add course</h2>
                                 }
 
                                 <hr/>

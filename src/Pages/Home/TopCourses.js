@@ -2,17 +2,17 @@ import {Link} from "react-router-dom";
 import courseImage from '../../images/CourseDefault.png';
 
 export const TopRankedCourse = ({data}) => {
-    return data.map(function (data) {
+    return data.map(function (data, index) {
         const name = data['name'];
         const university = data['university'];
         const average_rating = data['rating'];
         const courseID = data['id'];
 
         return (
-            <div className="content-card-body">
+            <div key={index} className="content-card-body">
                 <div className="card-info">
                     <div className="content-card-image">
-                        <img src={courseImage} alt="USER IMAGE"/>
+                        <img src={courseImage} alt="USER"/>
                     </div>
 
                     <div className="content-card-info responsive-text">

@@ -12,7 +12,7 @@ export const ShowcaseUser = () => {
     const [image, setImage] = useState(false);
     const [imageIsLoaded, setImageIsLoaded] = useState(false);
 
-    useEffect(async () => {
+    useEffect( () => {
         FetchUser(user.Username).then(response => {
             setProfile(response);
             setIsLoaded(true);
@@ -27,7 +27,7 @@ export const ShowcaseUser = () => {
             }
             setImageIsLoaded(true);
         });
-    }, [])
+    }, [user.Username])
 
     return (
         <div>
@@ -40,7 +40,7 @@ export const ShowcaseUser = () => {
                                {
                                    imageIsLoaded ?
                                        <img src={image}
-                                       alt="USER IMAGE"/> : null
+                                       alt="USER"/> : null
                                }
                            </div>
 

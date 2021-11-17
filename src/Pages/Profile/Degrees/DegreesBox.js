@@ -7,7 +7,7 @@ import {NoResults} from "../../Shared/Search/NoResults";
 import {Link} from "react-router-dom";
 import api from "../../Service/api";
 import {Loading} from "../../Shared/State/Loading";
-import {GetDegrees} from "../../Service/DegreeService";
+import {DeleteDegree, GetDegrees} from "../../Service/DegreeService";
 import {CanSeeEdits} from "../../Service/UserService";
 
 export const DegreesBox = () => {
@@ -16,16 +16,13 @@ export const DegreesBox = () => {
 
     const [data, setData] = useState([]);
     const [isLoaded, setIsLoaded] = useState(false);
-    const [totalCredits, setTotalCredits] = useState(0);
-
 
     useEffect(() => {
-        {}
         GetDegrees(profileID).then(response => {
             setData(response);
             setIsLoaded(true);
         });
-    }, []);
+    }, [profileID]);
 
     return(
         <div>
@@ -54,17 +51,13 @@ export const DegreesBox = () => {
             const courses = data['courses'];
             const isActive = data['isActiveDegree'];
 
-            const onDelete = async () => {
+            const onDelete = () => {
                 if (window.confirm("Do you want to delete this degree?")) {
-                    await api.post(API + "/api/Degree/delete/" + ID).then(response => {
-                            console.log(response);
-                            document.getElementById(ID).remove();
-                        }
-                    )
-                        .catch((error) => {
-                            console.log(error);
-                            alert('Error!');
-                        });
+                    DeleteDegree(ID).then(() =>{
+                        document.getElementById(ID).remove();
+                    }).catch(() =>{
+                        alert('Error!');
+                    });
                 }
             }
 
@@ -92,9 +85,7 @@ export const DegreesBox = () => {
 
                         {CanSeeEdits(profileID, user) ?
                             <div>
-                                <form action={"/degree/edit/" + ID}>
-                                    <button className="button-style-4">Edit degree</button>
-                                </form>
+                                <Link to={"/degree/edit/" + ID}>Edit degree</Link>
 
                                 <button className="button-style-2" onClick={onDelete}>Delete degree </button>
 

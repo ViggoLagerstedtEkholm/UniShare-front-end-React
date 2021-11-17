@@ -3,18 +3,19 @@ import {useContext, useEffect, useState} from "react";
 import {UserContext} from "../Shared/Context/UserContext";
 import {GetFriends, UnFriend} from "../Service/FriendService";
 import {Loading} from "../Shared/State/Loading";
+import {Link} from "react-router-dom";
 
 export function FriendList({ID}) {
     const {user} = useContext(UserContext);
     const [friends, setFriends] = useState(null);
     const [isLoaded, setIsLoaded] = useState(false);
 
-    useEffect(async () => {
+    useEffect( () => {
         GetFriends(ID).then(response => {
             setFriends(response);
             setIsLoaded(true);
         });
-    }, []);
+    }, [ID]);
 
     return (
         <div>
@@ -54,11 +55,7 @@ export function FriendList({ID}) {
                     </div>
                     <div className="row">
                         <div className="column friend-columns">
-                            <form action={"/profile/" + username}>
-                                <button className="button-style-4" type="submit" id="addComment"
-                                        value="PostBox comment">Profile
-                                </button>
-                            </form>
+                            <Link className="button-style-4" to={"/profile/" + username}>Profiles</Link>
                         </div>
                         {
                             user !== null ? <>

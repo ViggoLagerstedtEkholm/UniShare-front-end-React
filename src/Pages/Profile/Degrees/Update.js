@@ -1,12 +1,12 @@
-import React, {useContext, useEffect, useState} from "react";
-import {UserContext} from "../../Shared/Context/UserContext";
+import React, {useEffect, useState} from "react";
 import {validFieldOfStudy} from "../../Shared/RegEx/Degree";
 import {validCity, validCountry, validName, validUniversity} from "../../Shared/RegEx/Shared";
 import {Loading} from "../../Shared/State/Loading";
-import NotFound from "../../../../../microlabscasefrontend/src/Components/Error/NotFound";
+import NotFound from "../../../../../unishare/src/Pages/Shared/Error/NotFound";
 import {CheckIfDegreeExists, UpdateDegree} from "../../Service/DegreeService";
+import {useParams} from "react-router-dom";
 
-export default function Update(props) {
+export default function Update() {
     const [name, setName] = useState();
     const [fieldOfStudy, setFieldOfStudy] = useState();
     const [startDate, setStartDate] = useState();
@@ -18,12 +18,10 @@ export default function Update(props) {
     const [isLoaded, setIsLoaded] = useState(false);
     const [degreeExists, setDegreeExists] = useState(false);
 
-    const degreeID = props.match.params.degreeID;
-
-    const {user} = useContext(UserContext);
+    const {ID} = useParams();
 
     useEffect(() => {
-        CheckIfDegreeExists(degreeID).then((response) => {
+        CheckIfDegreeExists(ID).then((response) => {
             if (response) {
                 setDegreeExists(true);
                 setCity(response['city']);
@@ -36,7 +34,7 @@ export default function Update(props) {
             }
             setIsLoaded(true);
         });
-    }, []);
+    }, [ID]);
 
     const validate = (e) => {
         e.preventDefault();
@@ -62,11 +60,10 @@ export default function Update(props) {
         formData.append('Country', country);
         formData.append('City', city);
         formData.append('University', university);
-        formData.append('Id', degreeID);
+        formData.append('Id', ID);
 
         UpdateDegree(formData).then(() => {
-            const path = "/profile/" + user["Username"];
-            props.history.push(path);
+
         })
     }
 
@@ -148,11 +145,11 @@ export default function Update(props) {
             {isLoaded ?
                 <div>
                     {
-                        degreeExists || !degreeID ?
+                        degreeExists || !ID ?
                             <div className="title-bar">
 
                                 {
-                                    degreeID ? <h2>Update degree</h2> : <h2>Add degree</h2>
+                                    ID ? <h2>Update degree</h2> : <h2>Add degree</h2>
                                 }
                                 <hr/>
 

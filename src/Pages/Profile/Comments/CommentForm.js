@@ -1,11 +1,11 @@
 import React, {useContext, useState} from "react";
 import {ProfileContext} from "../../Shared/Context/ProfileContext";
 import {CreateComment} from "../../Service/CommentService";
-import {validComment, validName} from "../../Shared/RegEx/Shared";
+import {validComment} from "../../Shared/RegEx/Shared";
 
 function CommentForm() {
     const {profileID} = useContext(ProfileContext);
-    const [text, setText] = useState(null);
+    const [text, setText] = useState("");
 
     const validate = (e) =>{
         e.preventDefault();

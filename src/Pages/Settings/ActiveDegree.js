@@ -1,15 +1,12 @@
 import {useEffect, useState} from "react";
 import Collapsible from "react-collapsible";
-import axios from "axios";
 import {API} from "../Shared/Constants";
-import Message from "../Shared/Files/Message";
 import {Loading} from "../Shared/State/Loading";
 import api from "../Service/api";
 
 export function ActiveDegree() {
     const [activeDegreeID, setActiveDegreeID] = useState();
     const [degrees, setDegrees] = useState([]);
-    const [message, setMessage] = useState('');
     const [isLoaded, setIsLoaded] = useState(false);
 
     useEffect( () => {
@@ -72,8 +69,6 @@ export function ActiveDegree() {
 
     return (
         <Collapsible trigger="Change Active Degree">
-            {message ? <Message msg={message}/> : null}
-
             <p>
                 Select degree, if you don't have one go to Profile->Degrees->Upload new degree
             </p>

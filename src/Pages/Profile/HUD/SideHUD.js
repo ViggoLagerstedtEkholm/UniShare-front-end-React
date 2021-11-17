@@ -21,7 +21,7 @@ function SideHUD() {
     const {user} = useContext(UserContext);
     const {profileID} = useContext(ProfileContext);
 
-    useEffect(async () => {
+    useEffect( () => {
         FetchProfile(profileID).then(response => {
             setHUDInfo(response);
             setIsLoaded(true);
@@ -41,7 +41,7 @@ function SideHUD() {
             }
             setImageIsLoaded(true);
         });
-    }, [])
+    }, [profileID])
 
     const contactMe = () =>{
         window.open('mailto:' + HUDInfo['email'] +'?subject=Hello I would like to contact you.&body=Write your message here.');
@@ -92,7 +92,7 @@ function SideHUD() {
                         <div>
                             <hr/>
 
-                            <FileUpload URL={"/api/Profile/image/upload"}/>
+                            <FileUpload/>
 
                             <hr/>
 

@@ -1,9 +1,8 @@
-import {Link} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import React, {useState} from "react";
 import {validAge, validEmail, validFirstname, validLastname, validPassword, validUsername} from "../Shared/RegEx/User";
 import {RegisterAccount} from "../Service/AuthenticationService";
 import Message from "../Shared/Files/Message";
-import { useHistory } from 'react-router-dom';
 import {Loading} from "../Shared/State/Loading";
 
 function Register() {
@@ -16,7 +15,8 @@ function Register() {
     const [isLoading, setIsLoading] = useState(false);
     const [passwordRepeat, setPasswordRepeat] = useState('123!AbcdDA');
     const [message, setMessage] = useState();
-    const history = useHistory();
+
+    const navigate = useNavigate();
 
     const validate = (e) =>{
         e.preventDefault();
@@ -47,8 +47,8 @@ function Register() {
         }
 
         RegisterAccount(registerPayload).then(() => {
-            alert('Successfully registered account. To login you need to confirm the email, go to : ' + email);
-            history.push("/login");
+            alert('Successfully registered account.');
+            navigate('/login');
         }).catch(error => {
             setMessage(error);
             alert(error);

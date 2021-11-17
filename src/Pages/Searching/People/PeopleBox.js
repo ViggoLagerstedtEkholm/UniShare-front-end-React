@@ -11,14 +11,11 @@ export const PeopleBox = ({results, doUpdate, filter}) => {
     const users = results['users'];
     const {user} = useContext(UserContext);
 
-    console.log(results);
-
     if (users.length === 0) {
         return (<NoResults/>)
     }
 
-    return users.map(function (data) {
-        console.log(data);
+    return users.map(function (data, index) {
         const firstname = data['firstname'];
         const lastname = data['lastname'];
         const username = data['username'];
@@ -47,10 +44,10 @@ export const PeopleBox = ({results, doUpdate, filter}) => {
         }
 
         return (
-            <div id={usersID} className="content-card-body">
+            <div key={index} id={usersID} className="content-card-body">
                 <div className="card-info">
                     <div className="content-card-image">
-                        <img src={image} alt="USER IMAGE"/>
+                        <img src={image} alt="USER"/>
                     </div>
 
                     <div className="content-card-info responsive-text">
@@ -88,7 +85,6 @@ export const PeopleBox = ({results, doUpdate, filter}) => {
 
                         <Link className="button-style-4" to={"/profile/" + username}>Profile</Link>
                     </div>
-
                 </div>
             </div>
         )

@@ -390,6 +390,10 @@ li {
     border-radius: 5px;
 }
 
+.project:hover{
+    transform: scale(1.01);
+}
+
 .project-line {
     border-left: 1px solid white;
     height: auto;
@@ -647,14 +651,14 @@ form .text_field {
 
 .user-projects-box {
     background-color: #403f3f;
-    border-radius: 5px;
+    border-radius: 2px;
 }
 
 .project-button-box {
     display: flex;
     flex-direction: column;
     gap: 7px;
-
+    width: 100%;
 }
 
 .user-content input {
@@ -667,9 +671,16 @@ form .text_field {
     margin-top: 10px;
     margin-left: 20px;
     margin-right: 20px;
-    outline: 5px solid #3192f8;
     height: 340px;
     width: auto;
+}
+
+.user-image:hover{
+    transform: rotate(2deg);
+    -ms-transform: rotate(2deg);
+    -webkit-transform: rotate(2deg);
+
+    border: none;
 }
 
 .user-image img {

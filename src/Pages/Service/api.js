@@ -1,10 +1,8 @@
 import axios from "axios";
-import {useHistory} from "react-router-dom";
-import {useContext} from "react";
-import {UserContext} from "../Shared/Context/UserContext";
+import {API} from "../Shared/Constants";
 
 const instance = axios.create({
-    baseURL: "https://localhost:5001",
+    baseURL: API,
     headers: {
         "Content-Type": "application/json",
     },
@@ -30,12 +28,13 @@ instance.interceptors.request.use(
 
 instance.interceptors.response.use((res) => {return res;},
     async (err) => {
+
         const originalConfig = err.config;
+
         const token = JSON.parse(localStorage.getItem('token'));
+
         const AuthToken = token.token;
         const RefreshToken = token.refreshToken;
-        let history = useHistory();
-        const {setUser} = useContext(UserContext);
 
         if (originalConfig.url !== "/api/Authentication/login" && err.response) {
             // Access Token was expired
@@ -49,8 +48,6 @@ instance.interceptors.response.use((res) => {return res;},
                     return instance(originalConfig);
                 } catch (_error) {
                     localStorage.clear();
-                    history.push('/login');
-                    setUser(null);
                     return Promise.reject(_error);
                 }
             }

@@ -6,6 +6,11 @@ export const UploadDegree = async (degree) =>{
     return promise.then(() => null).catch(() => Promise.reject());
 }
 
+export const DeleteDegree = async (ID) =>{
+    const promise = api.post(API + "/api/Degree/delete/" + ID);
+    return promise.then(() => null).catch(() => Promise.reject());
+}
+
 export const UpdateDegree = async (degree) =>{
     const promise = api.post(API + "/api/Degree/update", degree);
     return promise.then(() => null).catch(() => Promise.reject());

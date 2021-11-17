@@ -1,11 +1,8 @@
-import axios from "axios";
-import {API} from "../Shared/Constants";
 import {useEffect, useState} from "react";
 import Collapsible from "react-collapsible";
 import {Loading} from "../Shared/State/Loading";
 import {validURL} from "../Shared/RegEx/Shared";
 import Message from "../Shared/Files/Message";
-import api from "../Service/api";
 import {DeleteGithub, DeleteLinkedIn, GetHandles, UpdateHandles} from "../Service/SettingsService";
 
 export const Handles = () =>{
@@ -16,8 +13,11 @@ export const Handles = () =>{
 
     useEffect( () => {
         GetHandles().then((response) => {
-            setLinkedIn(response.linkedIn);
-            setGitHub(response.gitHub);
+            const {linkedIn, gitHub} = response;
+
+            setLinkedIn(linkedIn);
+            setGitHub(gitHub);
+
             setIsLoaded(true);
         });
     }, [])

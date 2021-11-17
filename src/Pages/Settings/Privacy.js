@@ -1,21 +1,20 @@
 import Collapsible from "react-collapsible";
 import {DeleteUser} from "../Service/AuthenticationService";
-import { useHistory } from "react-router-dom";
 import {useContext} from "react";
 import {UserContext} from "../Shared/Context/UserContext";
+import {useNavigate} from "react-router-dom";
 
 export function Privacy() {
-    let history = useHistory();
-
     const {setUser} = useContext(UserContext);
+    const navigate = useNavigate();
 
     async function onDelete(e) {
         e.preventDefault();
         if (window.confirm("Are you sure you want to delete your account?")) {
             DeleteUser().then(() =>{
                 localStorage.clear();
-                history.push("/");
                 setUser(null);
+                navigate('/');
             }).catch(() =>{
                 alert('Something went wrong!');
             })

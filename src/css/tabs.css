@@ -28,6 +28,10 @@
     border-radius: 2px;
 }
 
+.react-tabs__tab:hover{
+    transform: scale(1.04);
+}
+
 .react-tabs__tab--selected {
     box-shadow: rgba(137, 204, 255, 0.13) 0 22px 70px 4px;
     background: #1f89a2;

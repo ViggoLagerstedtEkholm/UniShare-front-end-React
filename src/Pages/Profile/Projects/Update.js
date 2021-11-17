@@ -2,10 +2,11 @@ import React, {useEffect, useState} from "react";
 import {Tabs} from "react-tabs";
 import {validDescription, validName, validURL} from "../../Shared/RegEx/Shared";
 import {Loading} from "../../Shared/State/Loading";
-import NotFound from "../../../../../microlabscasefrontend/src/Components/Error/NotFound";
+import NotFound from "../../../../../unishare/src/Pages/Shared/Error/NotFound";
 import {CheckIfProjectExists, UpdateProject} from "../../Service/ProjectService";
+import {useParams} from "react-router-dom";
 
-export default function Update(props) {
+export default function Update() {
     const [file, setFile] = useState(null);
 
     const [link, setLink] = useState('');
@@ -15,10 +16,11 @@ export default function Update(props) {
 
     const [projectExists, setProjectExists] = useState(false);
 
-    let projectID = props.match.params.projectID;
+    const {ID} = useParams();
+    console.log(ID);
 
     useEffect(() => {
-        CheckIfProjectExists(projectID).then((response) => {
+        CheckIfProjectExists(ID).then((response) => {
             if (response) {
                 setName(response.data['name']);
                 setLink(response.data['link']);
@@ -27,7 +29,7 @@ export default function Update(props) {
             }
             setIsLoaded(true);
         });
-    }, []);
+    }, [ID]);
 
     const validate = (e) => {
         e.preventDefault();
@@ -55,9 +57,9 @@ export default function Update(props) {
         formData.append('Link', link);
         formData.append('Name', name);
         formData.append('Description', description);
-        formData.append("id", projectID);
+        formData.append("id", ID);
 
-        if(projectID){
+        if(ID){
             UpdateProject(formData).then(() => {
                 window.location.reload();
             })
@@ -105,10 +107,10 @@ export default function Update(props) {
             {isLoaded ?
                 <div>
                     {
-                        projectExists || !projectID ?
+                        projectExists || !ID ?
                             <div className="title-bar">
                                 {
-                                    projectID ? <h2>Update project</h2> : <h2>Add project</h2>
+                                    ID ? <h2>Update project</h2> : <h2>Add project</h2>
                                 }
                                 <hr/>
 
@@ -147,15 +149,13 @@ export default function Update(props) {
 
                                     <Tabs>
                                         <div id="imagePicker">
-                                            <p>
-                                                <h2>File</h2>
-                                                <h4 className="information">GIF, JPEG, PNG are allowed file formats.
-                                                    Don't upload copyright material.</h4>
-                                                <input id="file" className="form-text" type='file' required
-                                                       onChange={(e) => {
-                                                           setFile(e.target.files[0]);
-                                                       }}/>
-                                            </p>
+                                            <h2>File</h2>
+                                            <h4 className="information">GIF, JPEG, PNG are allowed file formats.
+                                                Don't upload copyright material.</h4>
+                                            <input id="file" className="form-text" type='file' required
+                                                   onChange={(e) => {
+                                                       setFile(e.target.files[0]);
+                                                   }}/>
                                         </div>
 
                                         <p>

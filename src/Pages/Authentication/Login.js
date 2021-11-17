@@ -1,6 +1,6 @@
 import '../../css/header.css';
 import React, {useState} from 'react';
-import {Link, Redirect} from 'react-router-dom';
+import {Link, useNavigate} from 'react-router-dom';
 import {validEmail} from "../Shared/RegEx/User";
 import Message from "../Shared/Files/Message";
 import {LogIn} from "../Service/AuthenticationService";
@@ -9,9 +9,10 @@ import {Loading} from "../Shared/State/Loading";
 const Login = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [message, setMessage] = useState('');
     const [isLoading, setIsLoading] = useState(false);
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const navigate = useNavigate();
 
     const validate = (e) =>{
         setIsLoading(true);
@@ -33,8 +34,8 @@ const Login = () => {
         LogIn(loginPayload).then(response => {
             localStorage.clear();
             localStorage.setItem('token', JSON.stringify(response.data));
-            setIsLoggedIn(true);
             setIsLoading(false);
+            setIsLoggedIn(true);
             window.location.reload();
         }).catch(error => {
             setIsLoading(false);
@@ -43,7 +44,7 @@ const Login = () => {
     }
 
     if(isLoggedIn){
-        return <Redirect to="/" />
+        navigate("/");
     }
 
     const checkEmail = (email) =>{

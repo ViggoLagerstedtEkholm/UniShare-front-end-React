@@ -18,7 +18,7 @@ export const Rating = () => {
         }).catch(() =>{
             setIsLoaded(true)
         });
-    }, [])
+    }, [courseID])
 
     const setRate = (e) => {
         const newRating = e.target.value;

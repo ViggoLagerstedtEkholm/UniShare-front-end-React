@@ -1,5 +1,6 @@
 import axios from "axios";
 import {API} from "../Shared/Constants";
+import api from "./api";
 
 export const FetchUser = async (username) => {
     const promise =  axios.get(API + "/api/user/" + username);
@@ -13,6 +14,16 @@ export const FetchProfile = async (username) => {
 
 export const FetchImage = async username => {
     const promise = axios.get(API + "/api/Profile/image/get/" + username);
+    return promise.then((response) => response).catch(() => Promise.reject());
+}
+
+export const UploadImage = async image =>{
+    const promise = api.post(API + "/api/Profile/image/upload", image,
+        {
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
+        });
     return promise.then((response) => response).catch(() => Promise.reject());
 }
 

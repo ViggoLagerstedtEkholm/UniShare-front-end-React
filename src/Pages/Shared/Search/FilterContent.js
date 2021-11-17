@@ -11,10 +11,15 @@ const FilterContent = ({APIEndPoint, startFilter, options, displayBox, showFilte
     const [hasLoaded, setHasLoaded] = useState(false);
     const [update, setUpdate] = useState(1);
     const [numberOfPages, setNumberOfPages] = useState();
-    const [resultsPerPage, setResultsPerPage] = useState();
     const [pageFirstResultIndex, setPageFirstResultIndex] = useState();
     const [total, setTotal] = useState(0);
     const [result, setResult] = useState([]);
+
+    const [page, setPage] = useState(startFilter.Page);
+    const [resultsPerPage, setResultsPerPage] = useState(startFilter.ResultsPerPage);
+    const [option, setOption] = useState(startFilter.Option);
+    const [order, setOrder] = useState(startFilter.Order);
+    const [search, setSearch] = useState(startFilter.Search);
 
     const [paginationLoading, setPaginationLoading] = useState(false);
 
@@ -22,16 +27,19 @@ const FilterContent = ({APIEndPoint, startFilter, options, displayBox, showFilte
 
     useEffect(() => {
         doSearch();
-    }, [startFilter.Page, startFilter.ResultsPerPage, startFilter.Option, startFilter.Order, result.data, update])
+    }, [page, resultsPerPage, order, result.data, update])
 
     const onSetFilters = (filter) => {
+        const {Page, ResultsPerPage, Option, Order, Search} = filter;
+
         setHasLoaded(false);
-        startFilter.Page = filter.Page;
-        startFilter.ResultsPerPage = filter.ResultsPerPage;
-        startFilter.Option = filter.Option;
-        startFilter.Order = filter.Order;
-        startFilter.Search = filter.Search;
-        doSearch();
+
+        setPage(Page);
+        setResultsPerPage(ResultsPerPage);
+        setOption(Option);
+        setOrder(Order);
+        setSearch(Search);
+
         doUpdate();
     }
 
@@ -41,35 +49,41 @@ const FilterContent = ({APIEndPoint, startFilter, options, displayBox, showFilte
 
     const onGoToPage = (page) => {
         if(page > numberOfPages || page < 1){
-            startFilter.Page = 1;
+            setPage(1);
         }else{
-            startFilter.Page = parseInt(page, 10);;
+            setPage(parseInt(page, 10));
         }
         setPaginationLoading(true);
-        doSearch();
     }
 
     const onNextPage = () =>{
-        startFilter.Page = startFilter.Page + 1;
+        setPage(page + 1);
         setPaginationLoading(true);
-        doSearch();
     }
 
     const onPreviousPage = () =>{
-        startFilter.Page = startFilter.Page - 1;
+        setPage(page - 1);
         setPaginationLoading(true);
-        doSearch();
     }
 
     const doSearch = () => {
+        startFilter.Page = page;
+        startFilter.Search = search;
+        startFilter.Order = order;
+        startFilter.Option = option;
+        startFilter.ResultsPerPage = resultsPerPage;
+
         Search(APIEndPoint, startFilter).then(response => {
             const result = response.data;
-            const pagination = result['pagination']
-            setNumberOfPages(pagination['totalPages']);
-            setPageFirstResultIndex(pagination['pageFirstResultIndex']);
-            setResultsPerPage(pagination['resultsPerPage']);
-            setTotal(result['totalMatches']);
+            const pagination = result['pagination'];
+            const {totalPages, pageFirstResultIndex, resultsPerPage, totalMatches} = pagination;
+
+            setNumberOfPages(totalPages);
+            setPageFirstResultIndex(pageFirstResultIndex);
+            setResultsPerPage(resultsPerPage);
+            setTotal(totalMatches);
             setResult(result);
+
             setHasLoaded(true);
             setPaginationLoading(false);
         }).catch(error => {
@@ -80,12 +94,16 @@ const FilterContent = ({APIEndPoint, startFilter, options, displayBox, showFilte
     return (
         <div>
             <FilterBox options={options} onSetFilters={onSetFilters} showFilterBox={showFilterBox} doUpdate={doUpdate}/>
-
-            {hasLoaded ? (message ? <Message msg={message}/> :
+            {hasLoaded ?
+                (message ?
+                        <div className="display-result-box">
+                            <Message msg={message}/>
+                        </div>
+                :
                     <div className="display-result-box">
 
                         <Info totalPages={numberOfPages}
-                              page={startFilter.Page}
+                              page={page}
                               resultsPerPage={resultsPerPage}
                               pageFirstResultIndex={pageFirstResultIndex}
                               total={total}
@@ -101,8 +119,8 @@ const FilterContent = ({APIEndPoint, startFilter, options, displayBox, showFilte
             {paginationLoading ? <div>
                     <hr/>
                     <Loading/>
-                </div>:
-                <PaginationBox totalPages={numberOfPages} onGoToPage={onGoToPage} onNextPage={onNextPage} onPreviousPage={onPreviousPage} page={startFilter.Page}/>
+                </div> :
+                <PaginationBox totalPages={numberOfPages} onGoToPage={onGoToPage} onNextPage={onNextPage} onPreviousPage={onPreviousPage} page={page}/>
             }
         </div>
     );

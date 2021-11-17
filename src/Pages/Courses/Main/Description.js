@@ -13,7 +13,7 @@ export const Description = () => {
             setDescription(response.description);
             setIsLoaded(true);
         })
-    }, [])
+    }, [courseID])
 
     return (
         <div className="course-sections course-shadow">

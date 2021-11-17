@@ -1,6 +1,4 @@
 import {Bar} from 'react-chartjs-2';
-import axios from "axios";
-import {API} from "../Constants";
 import {CourseContext} from "../Context/CourseContext";
 import {useContext, useEffect, useState} from "react";
 import {GetGraphData} from "../../Service/CourseService";
@@ -12,7 +10,7 @@ export const Graph = () => {
     const {courseID} = useContext(CourseContext);
     const [isLoaded, setHasLoaded] = useState(false);
 
-    useEffect( async () => {
+    useEffect(  () => {
         GetGraphData(courseID).then(response =>{
             console.log(response);
             let count = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
@@ -25,7 +23,7 @@ export const Graph = () => {
             setData(count);
             setHasLoaded(true);
         })
-    }, []);
+    }, [courseID]);
 
 
     const dataset = {

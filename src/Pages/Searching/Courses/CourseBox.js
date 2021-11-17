@@ -1,4 +1,4 @@
-import {Link, useHistory} from "react-router-dom";
+import {Link} from "react-router-dom";
 import {getHighlightedText} from "../../Shared/HighLightText";
 import {NoResults} from "../../Shared/Search/NoResults";
 import DefaultImage from "../../../images/CourseDefault.png";
@@ -9,7 +9,6 @@ import {ToggleCourseToDegree} from "../../Service/CourseService";
 export const CourseBox = ({results, filter}) => {
     const path = results['courses'];
     let searchWord = filter['Search'] ?? "";
-    let history = useHistory();
 
     const {user} = useContext(UserContext);
 
@@ -17,12 +16,12 @@ export const CourseBox = ({results, filter}) => {
         return (<NoResults/>)
     }
 
-    return path.map(function (data) {
+    return path.map(function (data, index) {
         const name = data['name'];
         const credits = data['credits'];
         const university = data['university'];
         const country = data['country'];
-        const rating = data['rating'] == 0 ? 'Not set!' : data['rating'];
+        const rating = data['rating'] === 0 ? 'Not set!' : data['rating'];
         const city = data['city'];
 
         const addedDate = new Date(data['added']);
@@ -50,16 +49,16 @@ export const CourseBox = ({results, filter}) => {
                 }
             }).catch(() =>{
                 if (window.confirm("You do not have an active degree, do you want to add a new degree?")) {
-                    history.push('/degree/add');
+
                 }
             });
         }
 
         return (
-            <div className="content-card-body">
+            <div key={index} className="content-card-body">
                 <div className="card-info">
                     <div className="content-card-image">
-                        <img src={DefaultImage} alt="USER IMAGE"/>
+                        <img src={DefaultImage} alt="USER"/>
                     </div>
 
                     <div className="content-card-info responsive-text">

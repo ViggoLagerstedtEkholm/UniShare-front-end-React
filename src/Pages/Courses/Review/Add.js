@@ -16,7 +16,7 @@ export const Add = () => {
         }).catch(() =>{
             console.log('No written review.');
         });
-    }, []);
+    }, [courseID]);
 
     return (
         <div>

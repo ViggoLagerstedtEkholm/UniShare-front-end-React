@@ -8,14 +8,14 @@ export const Statistics = () => {
     const {courseID} = useContext(CourseContext);
     const [isLoaded, setIsLoaded] = useState(false);
 
-    useEffect(async () => {
+    useEffect( () => {
         GetStatistics(courseID).then(response => {
             setCourseStatistics(response);
             setIsLoaded(true);
         }).catch(() =>{
             setIsLoaded(true);
         });
-    }, [])
+    }, [courseID])
 
     return (
         <div className="course-sections-statistics course-shadow">
