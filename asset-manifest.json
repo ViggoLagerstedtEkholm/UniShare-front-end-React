@@ -1,8 +1,8 @@
 {
   "files": {
     "main.css": "/UniShare-front-end-React/static/css/main.65ba4dd7.chunk.css",
-    "main.js": "/UniShare-front-end-React/static/js/main.efae1b40.chunk.js",
-    "main.js.map": "/UniShare-front-end-React/static/js/main.efae1b40.chunk.js.map",
+    "main.js": "/UniShare-front-end-React/static/js/main.a2d32343.chunk.js",
+    "main.js.map": "/UniShare-front-end-React/static/js/main.a2d32343.chunk.js.map",
     "runtime-main.js": "/UniShare-front-end-React/static/js/runtime-main.63942ae6.js",
     "runtime-main.js.map": "/UniShare-front-end-React/static/js/runtime-main.63942ae6.js.map",
     "static/js/2.f4a90e1e.chunk.js": "/UniShare-front-end-React/static/js/2.f4a90e1e.chunk.js",
@@ -17,6 +17,6 @@
     "static/js/runtime-main.63942ae6.js",
     "static/js/2.f4a90e1e.chunk.js",
     "static/css/main.65ba4dd7.chunk.css",
-    "static/js/main.efae1b40.chunk.js"
+    "static/js/main.a2d32343.chunk.js"
   ]
 }
