@@ -34,7 +34,7 @@ export function FriendList({ID}) {
             );
         }
 
-        return friends.map(function (data) {
+        return friends.map(function (data, index) {
             const username = data['username'];
             const userID = data['userId'];
 
@@ -44,7 +44,7 @@ export function FriendList({ID}) {
             }
 
             return (
-                <div className="friend-pending">
+                <div key={index} className="friend-pending">
                     <div className="row">
                         <div className="content-card-image">
                             <img src={image} alt="User"/>
@@ -55,7 +55,7 @@ export function FriendList({ID}) {
                     </div>
                     <div className="row">
                         <div className="column friend-columns">
-                            <Link className="button-style-4" to={"/profile/" + username}>Profiles</Link>
+                            <Link className="button-style-4" to={"/profile/" + username}>Profile</Link>
                         </div>
                         {
                             user !== null ? <>

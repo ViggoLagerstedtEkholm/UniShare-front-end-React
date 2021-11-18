@@ -75,7 +75,7 @@ li {
 }
 
 .warning {
-    color: red;
+    color: #560101;
 }
 
 .not-found-animation {
@@ -809,14 +809,8 @@ form .text_field {
     display: flex;
     font-size: 15px;
     flex-direction: column;
-    text-align: left;
-    justify-content: space-around;
     width: 100%;
-    padding: 5px;
-}
-
-.content-card-info-buttons button {
-    width: 100%;
+    padding: 35px;
 }
 
 .content-card-info h4 {
@@ -863,6 +857,11 @@ form .text_field {
 }
 
 @media screen and (max-width: 1301px) {
+    .content-card-info-buttons {
+        flex-direction: row;
+        padding: 0;
+    }
+
     .profile-side-information{
         margin: 0;
         box-shadow: none;
@@ -876,7 +875,6 @@ form .text_field {
 
     .content-card-info-buttons button {
         margin-right: 10px;
-        margin-left: 10px;
     }
 
     .row {

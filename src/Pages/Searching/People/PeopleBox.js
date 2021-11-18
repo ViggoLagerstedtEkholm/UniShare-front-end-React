@@ -65,7 +65,7 @@ export const PeopleBox = ({results, doUpdate, filter}) => {
                     </div>
 
                     <div className="content-card-info-buttons">
-                        {user ? <div>
+                        {user ? <>
                             { isSent ? <button className="button-style-5" onClick={ () =>{
                                 CancelSentRequest(usersID).then(() => doUpdate());
                             }}>Cancel request</button> : null }
@@ -81,8 +81,7 @@ export const PeopleBox = ({results, doUpdate, filter}) => {
                             { !isSent && !isReceived && !isFriend && usersID !== user.Id ? <button className="button-style-1" onClick={() =>{
                                 SendRequest(usersID).then(() => doUpdate());
                             }}>Send request</button> : null }
-                        </div> : null}
-
+                        </> : null}
                         <Link className="button-style-4" to={"/profile/" + username}>Profile</Link>
                     </div>
                 </div>

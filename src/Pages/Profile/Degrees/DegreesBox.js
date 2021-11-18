@@ -2,10 +2,8 @@ import {DegreeCourse} from "./DegreeCourses";
 import {useContext, useEffect, useState} from "react";
 import {UserContext} from "../../Shared/Context/UserContext";
 import {ProfileContext} from "../../Shared/Context/ProfileContext";
-import {API} from "../../Shared/Constants";
 import {NoResults} from "../../Shared/Search/NoResults";
 import {Link} from "react-router-dom";
-import api from "../../Service/api";
 import {Loading} from "../../Shared/State/Loading";
 import {DeleteDegree, GetDegrees} from "../../Service/DegreeService";
 import {CanSeeEdits} from "../../Service/UserService";
@@ -22,7 +20,7 @@ export const DegreesBox = () => {
             setData(response);
             setIsLoaded(true);
         });
-    }, [profileID]);
+    }, []);
 
     return(
         <div>

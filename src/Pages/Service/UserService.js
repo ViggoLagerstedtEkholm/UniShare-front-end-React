@@ -29,14 +29,25 @@ export const UploadImage = async image =>{
 
 export const AppendVisit = async (profileID) => {
     const promise = axios.post(API + "/api/Profile/append/" + profileID);
-    return promise.then(() => null).catch(() => Promise.reject());
+    return promise.catch(() => Promise.reject());
 }
 
-export const CanSeeEdits = (currentPageUsername, user) =>{
+export const CanSeeEdits = (username, user) =>{
     let canSeeProfileEdits = false;
     if (user !== null) {
-        const currentLoggedIn = user.Username;
-        if (currentLoggedIn === currentPageUsername) {
+        const currentLoggedInUsername = user.Username;
+        if (currentLoggedInUsername === username) {
+            canSeeProfileEdits = true;
+        }
+    }
+    return canSeeProfileEdits;
+}
+
+export const CanRemoveCommentProfile = (authorId, user) =>{
+    let canSeeProfileEdits = false;
+    if (user !== null) {
+        const userId = user.Id;
+        if (userId === authorId) {
             canSeeProfileEdits = true;
         }
     }

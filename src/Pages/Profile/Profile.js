@@ -24,14 +24,20 @@ function Profile() {
     const [isLoaded, setIsLoaded] = useState(false);
 
     useEffect( () => {
-        FetchUser(profileID).then((response) =>{
+        setIsLoaded(false);
+
+        FetchUser(ID).then((response) =>{
             if(response){
+                setProfileID(ID);
                 setProfileExists(true);
-                AppendVisit(profileID).then(() => null);
+                AppendVisit(ID).catch(() => console.log('Could not append!'));
             }
             setIsLoaded(true);
+        }).catch(() =>{
+            setProfileExists(false);
+            setIsLoaded(true);
         });
-    }, [profileID]);
+    }, [ID]);
 
     return (
         <div className="container">
@@ -60,7 +66,7 @@ function Profile() {
                                             Projects
                                         </h3>
 
-                                        {CanSeeEdits(profileID, user) ?
+                                        {CanSeeEdits(ID, user) ?
                                             <div>
                                                 <div className="button-box">
                                                     <Link to="/project/add" className="button-style-4">Add new
@@ -78,7 +84,7 @@ function Profile() {
                                         <h3 className="title-bar">
                                             Degrees
                                         </h3>
-                                        {CanSeeEdits(profileID, user) ?
+                                        {CanSeeEdits(ID, user) ?
                                             <div>
                                                 <div className="button-box">
                                                     <Link to="/degree/add" className="button-style-4">Add new
@@ -95,7 +101,7 @@ function Profile() {
                                             Publications
                                         </h3>
 
-                                        {CanSeeEdits(profileID, user) ?
+                                        {CanSeeEdits(ID, user) ?
                                             <div>
                                                 <hr/>
 
@@ -131,7 +137,7 @@ function Profile() {
                         </div>
                     </div>
                     <hr/>
-                    <ShowcaseComments/>
+                    <ShowcaseComments key={ID}/>
                 </div> : <NotFound/>
             }
         </div> :

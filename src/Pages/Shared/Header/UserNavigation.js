@@ -6,11 +6,6 @@ import {UserContext} from "../Context/UserContext";
 function UserNavigation() {
     const {user} = useContext(UserContext);
 
-    const onLogout = () =>{
-        localStorage.clear();
-        window.location.reload();
-    }
-
     return (
         <ul className="nav-links">
             <li>
@@ -20,7 +15,7 @@ function UserNavigation() {
                 <Link to="/friends">Friends</Link>
             </li>
             <li>
-                <Link to={'/profile/' + user['Username']}>Profiles</Link>
+                <Link to={'/profile/' + user['Username']}>Profile</Link>
             </li>
             <li>
                 <Link to={"/"} onClick={() => {

@@ -1,9 +1,9 @@
 import CommentForm from "./CommentForm";
 import FilterContent from "../../Shared/Search/FilterContent";
 import {CommentBox} from "./CommentBox";
+import {API} from "../../Shared/Constants";
 import {useContext} from "react";
 import {ProfileContext} from "../../Shared/Context/ProfileContext";
-import {API} from "../../Shared/Constants";
 
 function ShowcaseComments() {
     const {profileID} = useContext(ProfileContext);

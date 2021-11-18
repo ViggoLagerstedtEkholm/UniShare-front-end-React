@@ -1,15 +1,13 @@
 import {useContext} from "react";
-import {ProfileContext} from "../../Shared/Context/ProfileContext";
 import {UserContext} from "../../Shared/Context/UserContext";
 import {getHighlightedText} from "../../Shared/HighLightText";
 import {NoResults} from "../../Shared/Search/NoResults";
 import {DeleteComment} from "../../Service/CommentService";
-import {CanSeeEdits} from "../../Service/UserService";
+import {CanRemoveCommentProfile, CanSeeEdits} from "../../Service/UserService";
 import DefaultImage from '../../../images/ProfileDefault.png';
 import {Link} from "react-router-dom";
 
 export const CommentBox = ({results, filter}) => {
-    const {profileID} = useContext(ProfileContext);
     const {user} = useContext(UserContext);
 
     const comments = results['comments'];
@@ -20,11 +18,14 @@ export const CommentBox = ({results, filter}) => {
     }
 
     return comments.map(function (data, index) {
+        const authorId = data['authorId'];
         const username = data['username'];
         let image = data['image'];
         const date = data['date'];
         const text = data['text'];
         const commentId = data['commentId'];
+
+        const addedDateTime = new Date(date).toDateString() + " , " + new Date(date).toTimeString();
 
         if (!image) {
             image = DefaultImage;
@@ -39,16 +40,15 @@ export const CommentBox = ({results, filter}) => {
                     <img src={image} alt="USER"/>
                 </div>
 
-                <p>Username: {getHighlightedText(username, searchWord)}</p>
                 <div className="comment-content">
                     <div className="user-description">
                         {getHighlightedText(text, searchWord)}
                     </div>
                 </div>
                 <hr/>
-                <p><b>Comment date: {getHighlightedText(date, searchWord)}</b></p>
+                <p><b>{getHighlightedText(addedDateTime, searchWord)}</b></p>
 
-                {CanSeeEdits(username, user) || username === profileID ?
+                {CanRemoveCommentProfile(authorId, user) || CanSeeEdits(username, user) ?
                     <input className="button-style-2" type="button" value="Delete comment" onClick={() => {
                         DeleteComment(commentId).then(() => window.location.reload())
                     }}/>

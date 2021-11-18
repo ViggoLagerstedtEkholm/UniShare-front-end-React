@@ -41,7 +41,7 @@ function SideHUD() {
             }
             setImageIsLoaded(true);
         });
-    }, [profileID])
+    }, [])
 
     const contactMe = () =>{
         window.open('mailto:' + HUDInfo['email'] +'?subject=Hello I would like to contact you.&body=Write your message here.');

@@ -18,7 +18,7 @@ export function ProjectBox() {
             setData(response);
             setIsLoaded(true);
         });
-    }, [profileID]);
+    }, []);
 
     return(
         <div>

@@ -75,8 +75,11 @@ const FilterContent = ({APIEndPoint, startFilter, options, displayBox, showFilte
 
         Search(APIEndPoint, startFilter).then(response => {
             const result = response.data;
+
+            const totalMatches = result['totalMatches'];
             const pagination = result['pagination'];
-            const {totalPages, pageFirstResultIndex, resultsPerPage, totalMatches} = pagination;
+
+            const {totalPages, pageFirstResultIndex, resultsPerPage} = pagination;
 
             setNumberOfPages(totalPages);
             setPageFirstResultIndex(pageFirstResultIndex);
@@ -98,17 +101,14 @@ const FilterContent = ({APIEndPoint, startFilter, options, displayBox, showFilte
                 (message ?
                         <div className="display-result-box">
                             <Message msg={message}/>
-                        </div>
-                :
+                        </div> :
                     <div className="display-result-box">
-
                         <Info totalPages={numberOfPages}
                               page={page}
                               resultsPerPage={resultsPerPage}
                               pageFirstResultIndex={pageFirstResultIndex}
                               total={total}
                         />
-
                         <DisplayBox results={result} doUpdate={doUpdate} filter={startFilter}/>
                     </div>
             ) : <div className="display-result-box">

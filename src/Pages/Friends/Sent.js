@@ -57,7 +57,7 @@ export function Sent () {
                     </div>
                     <div className="row">
                         <div className="column friend-columns">
-                            <Link className="button-style-4" to={"/profile/" + username}>Profiles</Link>
+                            <Link className="button-style-4" to={"/profile/" + username}>Profile</Link>
                         </div>
 
                         <div className="column friend-columns">

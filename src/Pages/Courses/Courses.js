@@ -5,8 +5,8 @@ import {Main} from "./Main/Main";
 import NotFound from "../Shared/Error/NotFound";
 import {Loading} from "../Shared/State/Loading";
 import {CheckIfCourseExists} from "../Service/CourseService";
-import {Review} from "./Review/Review";
 import {useParams} from "react-router-dom";
+import {Review} from "./Review/Review";
 
 function Courses() {
     const {ID} = useParams();
@@ -17,25 +17,32 @@ function Courses() {
     const [header, setHeader] = useState(false);
 
     useEffect( () => {
+        setIsLoaded(false);
+        setCourseExists(false);
+        setCourseID(ID);
+
         CheckIfCourseExists(courseID).then((response) =>{
             if(response){
                 setHeader(response.name);
                 setCourseExists(true);
             }
             setIsLoaded(true);
+        }).catch(() =>{
+            setCourseExists(false);
+            setIsLoaded(true);
         });
-    }, [courseID]);
+    }, [ID]);
 
     return (
         <div class="container">
             <CourseContext.Provider value={value}>
             <div className="course-header-text">{header}</div>
-            <hr/>
             {isLoaded ?
                 <div>
                     {
                     courseExists ?
                         <div>
+                            <hr/>
                             <div className="content-container-course">
                                 <div className="course-flex-item">
                                     <Main/>
@@ -46,6 +53,7 @@ function Courses() {
                             </div>
 
                             <Review/>
+
                         </div> : <NotFound/>
                     }
                 </div> :

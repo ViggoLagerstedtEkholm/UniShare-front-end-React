@@ -4,9 +4,11 @@ import FilterContent from "../../Shared/Search/FilterContent";
 import {API} from "../../Shared/Constants";
 import {ReviewBox} from "./ReviewBox";
 import {useContext} from "react";
+import {UserContext} from "../../Shared/Context/UserContext";
 
 export const Review = () =>{
     const {courseID} = useContext(CourseContext);
+    const {user} = useContext(UserContext);
 
     const startFilter = {
         Page: 1,
@@ -24,10 +26,14 @@ export const Review = () =>{
 
     return(
       <div>
-          <h2>Write a review</h2>
-          <hr/>
 
-          <Add/>
+
+          {user ?
+          <div>
+              <h2>Write a review</h2>
+              <hr/>
+              <Add/>
+          </div>: null}
 
           <h2>Reviews</h2>
           <hr/>
